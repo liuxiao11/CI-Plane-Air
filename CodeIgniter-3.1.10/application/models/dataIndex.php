@@ -20,7 +20,7 @@ class dataIndex extends CI_Model {
 
         $query = $this->db->get('plane');
         return $query->result_array();
-//        $query = $this->db->get_where('plane', array('id' => 1));
+
 //        return $query->row_array();
     }
 
@@ -47,5 +47,22 @@ class dataIndex extends CI_Model {
         }else{
             return false;
         }
+    }
+
+    /**
+     * 历史无人机数据查询
+     * @param $where
+     * @return string
+     */
+    public function hisPlane($where){
+        $query = $this->db->get_where('plane', $where);
+//        return $this->db->last_query();
+        return $query->result_array();
+//        if($query){
+//            return $query->result_array();
+//        }else{
+//            return false;
+//        }
+
     }
 }

@@ -86,19 +86,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     //选择
     $('.plane-form .button').click(function () {
         $(this).addClass('active').siblings().removeClass('active');
-    })
-    //提交
+    });
+    //搜索
     $('#submit').click(function () {
-        //var url="<?php //echo base_url() ?>//index/personSet";
+        var url="<?php echo base_url() ?>index/planeHis";
         var startTime=$("#startTime").val();
         var endTime=$("#endTime").val();
         var planeId=$('.plane-form .active').data('id');
         var urlData={startTime:startTime,endTime:endTime,planeId:planeId};
         $.post(url,urlData,function(result){
-            console.log(result.status);
             if(result.status == 'true'){
                 alert(result.tips);
-                window.location.reload();
             }else if(result.status == 'false'){
                 alert(result.tips);
             }

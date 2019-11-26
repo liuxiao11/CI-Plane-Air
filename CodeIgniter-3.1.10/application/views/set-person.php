@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .plane-person .person2{margin-left: 48px}
         .plane-person .person img{width: 207px;height: 253px;border: 1px solid #00679c;margin-bottom: 20px}
         .plane-person .person p{line-height: 30px}
-
+        .plane-person .person .close-btn{width: 20px;height: 20px;background:url(<?php echo STATIC_IMG?>dataIndex/close-btn.png) center no-repeat;background-size: 20px 20px;float: right;margin-left: 5px;}
         .air-bottom {width: 1442px;margin-top: 102px}
         .air-bottom .air-title{width: 699px;height: 37px;margin: 20px 0 0 30px;display: inline-block;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff }
         .air-bottom .plane-form{width: 1207px;margin: 50px 0 0 110px;display: inline-block;font-size: 22px; }
@@ -69,12 +69,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <div class="plane-person">
             <div class="person">
+                <a class="close-btn" href="#"></a>
                 <img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">
                 <p>姓名：<span class="choseName">张三</span></p>
                 <p>负责内容：无人机清点</p>
                 <p>联系方式：<span class="closeIphone">18611631111</span></p>
             </div>
             <div class="person person2">
+                <a class="close-btn" href="#"></a>
                 <img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">
                 <p>姓名：<span class="choseName">李四</span></p>
                 <p>负责内容：无人机清点</p>

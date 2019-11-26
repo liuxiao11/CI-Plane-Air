@@ -1,23 +1,24 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Index extends CI_Controller {
+class Index extends CI_Controller
+{
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+    /**
+     * Index Page for this controller.
+     *
+     * Maps to the following URL
+     *        http://example.com/index.php/welcome
+     *    - or -
+     *        http://example.com/index.php/welcome/index
+     *    - or -
+     * Since this controller is set as the default controller in
+     * config/routes.php, it's displayed at http://example.com/
+     *
+     * So any other public methods not prefixed with an underscore will
+     * map to /index.php/welcome/<method_name>
+     * @see https://codeigniter.com/user_guide/general/urls.html
+     */
     public function __construct()
     {
         parent::__construct();
@@ -29,27 +30,28 @@ class Index extends CI_Controller {
     /**
      * 首页数据
      */
-	public function indexPage()
-	{
+    public function indexPage()
+    {
         $data['plane'] = $this->dataIndex->indexPage();
-		$this->load->view('index');
-	}
+        $this->load->view('index');
+    }
+
     /**
      * 数据设置(无人机设置)
      */
     public function dataSet()
     {
-        if($this->input->is_ajax_request()){
-            if($this->input->post('name') && $this->input->post('number')){
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post('name') && $this->input->post('number')) {
                 $data['name'] = $this->input->post('name');
-                $data['number'] = $this->input->post('number');
-                if ($this->dataIndex->planeSet($data)){
-                    $this->show_message('true','数据添加成功');
-                }else{
-                    $this->show_message('false','数据添加失败');
+                $data['planeId'] = $this->input->post('number');
+                if ($this->dataIndex->planeSet($data)) {
+                    $this->show_message('true', '数据添加成功');
+                } else {
+                    $this->show_message('false', '数据添加失败');
                 }
-            }else{
-                $this->show_message('false','数据不能留空');
+            } else {
+                $this->show_message('false', '数据不能留空');
             }
         }
         $this->load->view('set');
@@ -60,30 +62,53 @@ class Index extends CI_Controller {
      */
     public function personSet()
     {
-        if($this->input->is_ajax_request()){
-            if($this->input->post('username') && $this->input->post('iphone')){
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post('username') && $this->input->post('iphone') && $this->input->post('week') && $this->input->post('time')) {
                 $data['username'] = $this->input->post('username');
                 $data['iphone'] = $this->input->post('iphone');
                 $data['week'] = $this->input->post('week');
                 $data['time'] = $this->input->post('time');
-                if ($this->dataIndex->personSet($data)){
-                    $this->show_message('true','数据添加成功');
-                }else{
-                    $this->show_message('false','数据添加失败');
+                if ($this->dataIndex->personSet($data)) {
+                    $this->show_message('true', '数据添加成功');
+                } else {
+                    $this->show_message('false', '数据添加失败');
                 }
-            }else{
-                $this->show_message('false','数据不能留空');
+            } else {
+                $this->show_message('false', '数据不能留空');
             }
         }
         $this->load->view('set-person');
     }
+
     /**
      * 历史记录(无人机)
      */
     public function planeHis()
     {
+        if ($this->input->is_ajax_request()) {
+            $startTime = $this->input->post('startTime');
+            $endTime = $this->input->post('endTime');
+            $planeId = $this->input->post('planeId');
+            var_dump($startTime);
+            if ($startTime && $endTime && $planeId) {
+                $where = array(
+                    "startTime >= " => $startTime,
+                    "endTime <= " => $endTime,
+                    "planeId = " => $planeId,
+                );
+                $data = $this->dataIndex->hisPlane($where);
+                if ($data) {
+                    $this->show_message('true', '数据查询成功', $data);
+                } else {
+                    $this->show_message('true', '未查到相应数据', '');
+                }
+            } else {
+                $this->show_message('false', '搜索数据为空');
+            }
+        }
         $this->load->view('history-plane');
     }
+
     /**
      * 历史记录(气体)
      */
@@ -91,6 +116,7 @@ class Index extends CI_Controller {
     {
         $this->load->view('history-air');
     }
+
     /**
      * @param $status
      * @param $tips
@@ -102,9 +128,9 @@ class Index extends CI_Controller {
      */
     function show_message($status, $tips, $data = '', $ms = 2000, $dialog = '', $returnjs = false)
     {
-        $data = is_array($data) ? $data : array();
-        $res = array("status" => $status, "tips" => $tips, "ms" => $ms) + $data;
-        $json = json_encode($res,JSON_UNESCAPED_UNICODE);
+        $data = $data ? $data : array();
+        $res = array("status" => $status, "tips" => $tips, "ms" => $ms ,'data' => $data) ;
+        $json = json_encode($res, JSON_UNESCAPED_UNICODE);
         exit($json);
     }
 }

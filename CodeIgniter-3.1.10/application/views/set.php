@@ -31,6 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .plane-data>ul>li:nth-child(1){margin-left: 0;}
         .air-center .plane-data>ul>li:nth-child(4){margin-left: 0}
         .air-center .plane-data>ul>li img{width: 63px;height: 29px;margin-left: 35px;vertical-align: top;margin-top: 20px;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
+        .air-center .plane-data>ul>li .close-btn{width: 20px;height: 20px;background:url(<?php echo STATIC_IMG?>dataIndex/close-btn.png) center no-repeat;background-size: 20px 20px;float: right;margin-top: 15px;margin-right: 10px}
         .air-center .plane-data .plane-title{margin-top:40px;margin-left: 35px}
         .air-center .plane-data .plane-content{margin-top:10px;display: inline-block;}
         .air-center .plane-data .plane-content .plane-text{display: inline-block;margin-left: 70px}
@@ -59,6 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="plane-data roll-wrap roll_row" id="plane-data">
             <ul class="roll__list">
                 <li>
+                    <a class="close-btn" href="#"></a>
                     <div class="plane-title">无人机一号</div>
                     <div class="plane-content">
                         <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
@@ -70,6 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </li>
                 <li>
+                    <a class="close-btn" href="#"></a>
                     <div class="plane-title">无人机二号</div>
                     <div class="plane-content">
                         <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
@@ -81,6 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </li>
                 <li>
+                    <a class="close-btn" href="#"></a>
                     <div class="plane-title">无人机三号</div>
                     <div class="plane-content">
                         <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
@@ -92,6 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </li>
                 <li>
+                    <a class="close-btn" href="#"></a>
                     <div class="plane-title">无人机四号</div>
                     <div class="plane-content">
                         <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
@@ -103,6 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </li>
                 <li>
+                    <a class="close-btn" href="#"></a>
                     <div class="plane-title">无人机五号</div>
                     <div class="plane-content">
                         <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
@@ -114,6 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </li>
                 <li>
+                    <a class="close-btn" href="#"></a>
                     <div class="plane-title">无人机七号</div>
                     <div class="plane-content">
                         <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
@@ -125,6 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </li>
                 <li>
+                    <a class="close-btn" href="#"></a>
                     <div class="plane-title">无人机八号</div>
                     <div class="plane-content">
                         <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">

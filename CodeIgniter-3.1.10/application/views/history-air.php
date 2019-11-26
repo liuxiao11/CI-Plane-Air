@@ -84,6 +84,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </form>
         </div>
         <div class="air-bottom">
+            <select name="area" id="area">
+                <option value="1">未央区</option>
+                <option value="2">雁塔区</option>
+                <option value="3">碑林区</option>
+                <option value="4">长安区</option>
+            </select>
             <div class="air air-SO2">
                 <p class="air-title">SO2</p>
                 <div class="air-chart" id="SO2" style="width: 95%;height: 88%"></div>
