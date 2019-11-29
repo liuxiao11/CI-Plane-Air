@@ -62,6 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right .plane-person .person2{margin-left: 20px}
         .air-right .plane-person .person img{width: 160px;height: 200px;border: 1px solid #00679c}
         .air-right .plane-stock .stock{width: 153px;height: 62px;background:url(<?php echo STATIC_IMG?>dataIndex/plane1-border.png) left top no-repeat;background-size: contain;display: inline-block;float: left;overflow: hidden;margin-left: 45px;margin-bottom: 20px}
+        .air-right .plane-stock {height: 162px;overflow: hidden;}
         .air-right .plane-stock>li:nth-of-type(odd){margin-left: 33px}
         .air-right .plane-stock .stock img{width: 37px;height: 37px;float: left;margin: 10px 12px}
         .air-right .plane-stock .stock p{float: left;margin: 10px 0 2px 15px}
@@ -101,61 +102,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="air-center">
         <div class="plane-data roll-wrap roll_row" id="plane-data">
             <ul class="roll__list">
+                <?php foreach ($plane as $k => $v){?>
                 <li>
-                    <div class="plane-title">无人机一号</div>
+                    <div class="plane-title">无人机<?php echo $v['productId']?></div>
                     <div class="plane-content">
                         <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
                         <div class="plane-text">
                             <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
+                            <p>飞行速度：<?php echo $v['speed']?>m/s</p>
+                            <p>飞行高度：<?php echo $v['alt']?>m</p>
                         </div>
                     </div>
                 </li>
-                <li>
-                    <div class="plane-title">无人机二号</div>
-                    <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
-                        <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="plane-title">无人机三号</div>
-                    <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
-                        <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="plane-title">无人机四号</div>
-                    <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
-                        <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="plane-title">无人机五号</div>
-                    <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
-                        <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
-                        </div>
-                    </div>
-                </li>
+                <?php }?>
             </ul>
         </div>
         <div class="plane-map"><i class="map-border"></i><div id="plane-map" class="map" tabindex="0"></div></div>
@@ -200,22 +159,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="air">
             <p class="air-title">无人机库存</p>
             <ul class="plane-stock">
+                <?php foreach ($planeStock as $k => $v){?>
                 <li class="stock">
                     <img src="<?php echo STATIC_IMG?>dataIndex/plane1.png" alt="">
                     <i class="shu"></i>
-                    <p>无人机8号<br>
-                        1988</p>
+                    <p><?php echo $v['productId'] ?><br>
+                        <?php if($v['status'] == 1){ echo '状态正常';}else{ echo '状态异常';} ?></p>
                 </li>
-                <li class="stock stock2">
-                    <img src="<?php echo STATIC_IMG?>dataIndex/plane1.png" alt="">
-                    <p>无人机8号<br>
-                        1988</p>
-                </li>
-                <li class="stock stock2">
-                    <img src="<?php echo STATIC_IMG?>dataIndex/plane1.png" alt="">
-                    <p>无人机8号<br>
-                        1988</p>
-                </li>
+                <?php }?>
             </ul>
         </div>
     </div>
@@ -234,169 +185,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </script>
 <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
 <script>
-    /* 获取当前日期 */
-    function showTime(){
-        var show_day=new Array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
-        var time=new Date();
-        var year=time.getFullYear();
-        var month=time.getMonth()+1;
-        var date=time.getDate();
-        var day=time.getDay();
-        var hour=time.getHours();
-        var minutes=time.getMinutes();
-        var second=time.getSeconds();
-        /*  month<10?month='0'+month:month;  */
-        hour<10?hour='0'+hour:hour;
-        minutes<10?minutes='0'+minutes:minutes;
-        second<10?second='0'+second:second;
-        var now_time=year+'年'+month+'月'+date+'日'+' '+show_day[day]+'';
-        document.getElementById('date').innerHTML=now_time;
-        /* setTimeout("showTime();",1000);  */
-    }
-    showTime();
-    // 随机生成车辆行驶轨迹坐标
-    var startLng = 108.9531326294;
-    var startLat = 34.2935302306;
-
-    function GetPoints(length) {
-        var points = [];
-        for (i = 0; i < length; i++) {
-            var Lng;
-            var Lat;
-            if (i % 2 == 0) {
-                Lng = parseFloat(startLng) + 0.00005;
-                startLng = Lng;
-                Lat = startLat;
-            } else if (i % 3 == 0) {
-                Lng = startLng;
-                Lat = parseFloat(startLat) + 0.00003;
-                startLat = Lat;
-            } else if (i % 5 == 0) {
-                Lng = parseFloat(startLng) + 0.00006;
-                startLng = Lng;
-                Lat = parseFloat(startLat) + 0.0003;
-                startLat = Lat;
-            } else if (i % 7 == 0) {
-                Lng = parseFloat(startLng) + 0.00002;
-                startLng = Lng;
-                Lat = startLat;
-            } else if (i % 9 == 0) {
-                Lng = startLng;
-                Lat = parseFloat(startLat) + 0.0003;
-                startLat = Lat;
-            } else {
-                Lng = parseFloat(startLng) + 0.00004;
-                startLng = Lng;
-                Lat = parseFloat(startLat) + 0.00002;
-                startLat = Lat;
-            }
-            var data = [];
-            data[0] = Lng;
-            data[1] = Lat;
-            points.push(data);
-        }
-        return points;
-    }
-
-</script>
-<script type="text/javascript">
-    // 初始化地图
-    var map = new AMap.Map('plane-map', {
-        zoom: 18,
-        center: [119, 30],
-        layers: [
-            // 添加交通图层
-            new AMap.TileLayer.Traffic({
-                zIndex: 10,
-                autoRefresh: true,
-                interval: 180
-            }),
-            new AMap.TileLayer()
-        ]
-    });
-
-    // 获取所有的marker对象
-    function GetMarkers(count) {
-        var markerList = [];
-        var points = GetPoints(count);
-        for (i = 0; i < points.length; i++) {
-            var marker = new AMap.Marker({
-                position: new AMap.LngLat(points[i][0], points[i][1]),
-                icon: new AMap.Icon({
-                    size: new AMap.Size(32, 32),
-                    image: "../user_guide/_static/images/dataIndex/planeS.png"
-                }),
-                offset: new AMap.Pixel(0, -20)
-            });
-            markerList.push(marker);
-        }
-        return markerList;
-    }
-
-    // marker数组对象
-    var markerList = GetMarkers(100);
-
-    // 根据markerList生成折线节点坐标
-    function GetPath(markerList) {
-        var path = [];
-        for (i = 0; i < markerList.length; i++) {
-            path.push(markerList[i].getPosition());
-        }
-        console.log(path);
-        return path;
-    }
-
-    // 创建折线实例
-    var polyline = new AMap.Polyline({
-        path: GetPath(markerList),
-        borderWeight: 4,
-        strokeColor: '#f60179',
-        lineJoin: 'round', // 折线拐点样式 round -> 圆形 bevel -> 斜角
-        lineCap: 'round', // 折线两端样式，默认值butt -> 无头  round -> 圆头 square -> 方头
-        isOutline: true, // 是否带描边
-        outlineColor: '#f60179',
-        strokeOpacity: 0.5,
-        draggable: false, // 设置折线可以拖拽
-        showDir: true
-    });
-
-    // 添加到map对象
-    map.add(polyline);
-
-    // 定时函数
-    var marker = null;
-
-    function AddMarkerToMap(markerObj) {
-        if (markerObj == undefined) {
-            // 清除定时函数
-            window.clearInterval(timer);
-            return false;
-        }
-        // 清除之前的maker
-        if (marker != null) {
-            map.remove(marker);
-        }
-        // 暂存
-        marker = markerObj;
-        // 设置地图中心为当前的marker坐标
-        map.setCenter(markerObj.getPosition());
-        // 添加maker
-        map.add(markerObj);
-    }
-
-    // 每隔500毫秒执行
-    var index = 0;
-    var timer = window.setInterval("AddMarkerToMap(markerList[index++])", 200);
-
-
-    // var timer = window.setInterval("AddMarkerToMap();", 500);
-
-    // 定义折线节点坐标，每个对象为AMap.LngLat
-    // var path = [
-    //   new AMap.LngLat(121.0001, 32),
-    //   new AMap.LngLat(121.02190000000073, 32)
-    // ]
-
 
 </script>
 </body>

@@ -32,8 +32,16 @@ class Index extends CI_Controller
      */
     public function indexPage()
     {
-        $data['plane'] = $this->dataIndex->indexPage();
-        $this->load->view('index');
+        $data = $this->dataIndex->indexPage();
+        if ($this->input->is_ajax_request()) {
+            if($data){
+                $this->show_message('true', '数据查询成功',$data);
+            }else{
+                $data='';
+                $this->show_message('false', '暂无数据',$data);
+            }
+        }
+        $this->load->view('index',$data);
     }
 
     /**
@@ -42,9 +50,11 @@ class Index extends CI_Controller
     public function dataSet()
     {
         if ($this->input->is_ajax_request()) {
-            if ($this->input->post('name') && $this->input->post('number')) {
-                $data['name'] = $this->input->post('name');
-                $data['planeId'] = $this->input->post('number');
+            if ($this->input->post('productId') && $this->input->post('status') && $this->input->post('alt') && $this->input->post('speed')) {
+                $data['productId'] = $this->input->post('productId');
+                $data['status'] = $this->input->post('status');
+                $data['alt'] = $this->input->post('alt');
+                $data['speed'] = $this->input->post('speed');
                 if ($this->dataIndex->planeSet($data)) {
                     $this->show_message('true', '数据添加成功');
                 } else {
@@ -54,30 +64,63 @@ class Index extends CI_Controller
                 $this->show_message('false', '数据不能留空');
             }
         }
-        $this->load->view('set');
+        $data['plane'] = $this->dataIndex->planeSelect();
+        $this->load->view('set',$data);
     }
 
+    /**
+     * 数据设置(无人机删除)
+     */
+    public function delPlane()
+    {
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post('id')) {
+                $data = $this->input->post('id');
+                if ($this->dataIndex->delplane($data)) {
+                    $this->show_message('true', '数据删除成功');
+                } else {
+                    $this->show_message('false', '数据删除失败');
+                }
+            } else {
+                $this->show_message('false', '数据异常');
+            }
+        }
+    }
     /**
      * 数据设置(操作人员设置)
      */
     public function personSet()
     {
         if ($this->input->is_ajax_request()) {
+            $where = $this->input->post('week1');
+            if(!empty($where)){
+                $week = $this->dataIndex->personSelect($where);
+                if($week){
+                    $this->show_message('true', '数据查询成功',$week);
+                }else{
+                    $this->show_message('true', '暂无数据','');
+                }
+            }
             if ($this->input->post('username') && $this->input->post('iphone') && $this->input->post('week') && $this->input->post('time')) {
                 $data['username'] = $this->input->post('username');
                 $data['iphone'] = $this->input->post('iphone');
+                $data['charge'] = $this->input->post('charge');
                 $data['week'] = $this->input->post('week');
                 $data['time'] = $this->input->post('time');
                 if ($this->dataIndex->personSet($data)) {
-                    $this->show_message('true', '数据添加成功');
+                    $this->show_message('true', '操作成功');
                 } else {
-                    $this->show_message('false', '数据添加失败');
+                    $this->show_message('false', '操作失败');
                 }
             } else {
                 $this->show_message('false', '数据不能留空');
             }
         }
-        $this->load->view('set-person');
+        $data['week'] = $this->dataIndex->get_week();
+        $weekarray=array("日","一","二","三","四","五","六");
+        $where = "星期".$weekarray[date("w")];
+        $data['user'] = $this->dataIndex->personSelect($where);
+        $this->load->view('set-person',$data);
     }
 
     /**
@@ -114,6 +157,25 @@ class Index extends CI_Controller
      */
     public function airHis()
     {
+        if ($this->input->is_ajax_request()) {
+            $startTime = $this->input->post('startTime');
+            $endTime = $this->input->post('endTime');
+            $field = $this->input->post('air');
+            if ($startTime && $endTime && $field) {
+                $where = array(
+                    "startTime" => $startTime,
+                    "endTime" => $endTime,
+                );
+                $data = $this->dataIndex->hisAir($where, "`".join("`,`", $field)."`");
+                if ($data) {
+                    $this->show_message('true', '数据查询成功', $data);
+                } else {
+                    $this->show_message('true', '未查到相应数据', '');
+                }
+            } else {
+                $this->show_message('false', '搜索数据为空');
+            }
+        }
         $this->load->view('history-air');
     }
 

@@ -39,11 +39,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .roll_row .roll__list::after {clear: both;}
         .roll_row .roll__list{width: 9999px;}
         .roll_col .roll__list{width: 100%;}
-        .air-bottom {width: 1442px;margin-top: 102px}
+        .air-bottom {width: 1442px;position: absolute;top: 812px;}
         .air-bottom .air-title{width: 699px;height: 37px;margin: 20px 0 0 30px;display: inline-block;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff }
-        .air-bottom .plane-form{width: 1207px;height: 167px;margin: 50px 0 0 110px;display: inline-block;font-size: 22px; }
-        .air-bottom .plane-form input{width: 360px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px}
-        .air-bottom .plane-form .submit{width: 180px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 24px;display: block;float: right;padding: 0;color: #d9d9d9}
+        .air-bottom .plane-form{margin: 0 0 0 110px;display: inline-block;font-size: 22px; }
+        .air-bottom .plane-form ul li{display: inline-block;margin-right: 50px;margin-top: 10px}
+        .air-bottom .plane-form input,select{width: 280px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
+        .air-bottom .plane-form ul select{width: 300px}
+        .air-bottom .plane-form .submit{width: 180px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 24px;display: block;float: right;padding: 0;color: #d9d9d9;margin-left: 50px}
+        .form-error{color: red;font-size: 16px;display: table-cell;}
     </style>
 </head>
 <body>
@@ -59,90 +62,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="air-center">
         <div class="plane-data roll-wrap roll_row" id="plane-data">
             <ul class="roll__list">
+                <?php foreach ($plane as $k => $v){?>
                 <li>
-                    <a class="close-btn" href="#"></a>
-                    <div class="plane-title">无人机一号</div>
+                    <a class="close-btn" id="<?php echo $v['id']?>" href="javascript:void (0)"></a>
+                    <div class="plane-title">无人机<?php echo $v['productId']?></div>
                     <div class="plane-content">
                         <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
                         <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
+                            <p>飞行状态：<?php if($v['status'] == 1){ echo '正常';}else{ echo '异常';} ?></p>
+                            <p>飞行速度：<?php echo $v['speed']?>m/s</p>
+                            <p>飞行高度：<?php echo $v['alt']?>m</p>
                         </div>
                     </div>
                 </li>
-                <li>
-                    <a class="close-btn" href="#"></a>
-                    <div class="plane-title">无人机二号</div>
-                    <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
-                        <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <a class="close-btn" href="#"></a>
-                    <div class="plane-title">无人机三号</div>
-                    <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
-                        <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <a class="close-btn" href="#"></a>
-                    <div class="plane-title">无人机四号</div>
-                    <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
-                        <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <a class="close-btn" href="#"></a>
-                    <div class="plane-title">无人机五号</div>
-                    <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
-                        <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <a class="close-btn" href="#"></a>
-                    <div class="plane-title">无人机七号</div>
-                    <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
-                        <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <a class="close-btn" href="#"></a>
-                    <div class="plane-title">无人机八号</div>
-                    <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
-                        <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：6m/s</p>
-                            <p>飞行高度：500m</p>
-                        </div>
-                    </div>
-                </li>
+                <?php }?>
             </ul>
         </div>
         <div class="air-bottom">
@@ -150,23 +83,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 无人机信息添加
             </p>
 <!--            --><?php //echo form_open('index/dataSet', 'class="plane-form"');?>
-            <form class="plane-form" method="post">
-                <span style="margin-right: 80px">名称：<input type="text" class="plane-name" name="name" id="name"></span>
-                <span>编号：<input type="text" class="plane-number" name="number" id="number"></span>
-                <button class="submit" id="submit" type="button" >提交</button>
+            <form class="plane-form" method="post" id="userForm" onsubmit="return false;">
+                <ul>
+                    <li>产品编号：<input type="text" class="plane-number" name="productId" id="productId" data-validation="length" data-validation-length="2-10" data-validation-error-msg="产品编号须为2至10个字符"></li>
+                    <li>产品状态：<select name="status" id="status">
+                        <option value="1">正常</option>
+                        <option value="0">异常</option></select>
+                    </li>
+                    <li>平均速度：<input type="text" class="plane-number" name="speed" id="speed"  data-validation="number" data-validation-allowing="float"  data-validation-error-msg="速度须为数字"></li>
+                    <li>平均高度：<input type="text" class="plane-number" name="alt" id="alt"  data-validation="number" data-validation-allowing="float"  data-validation-error-msg="高度须为数字">
+                        <input class="submit" id="submit" type="submit" value="提交"></li>
+                </ul>
             </form>
         </div>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
+<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.form-validator.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <script>
+    $.validate({form: '#userForm'});
     $('#submit').click(function () {
         var url="<?php echo base_url() ?>index/dataSet";
-        var name=$("#name").val();
-        var number=$("#number").val();
-        var urlData={name:name,number:number};
+        var productId=$("#productId").val();
+        var status=$("#status").val();
+        var speed=$("#speed").val();
+        var alt=$("#alt").val();
+        var urlData={productId:productId,status:status,speed:speed,alt:alt};
         $.post(url,urlData,function(result){
            console.log(result.status);
            if(result.status == 'true'){
@@ -176,6 +120,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                alert(result.tips);
            }
         },"json");
+    });
+    $('.close-btn').click(function () {
+        var r = confirm("确认删除嘛?");
+        if(r == true){
+            var url="<?php echo base_url() ?>index/delPlane";
+            var id = $(this).attr('id');
+            var urlData={id:id};
+            $.post(url,urlData,function(result){
+                console.log(result.status);
+                if(result.status == 'true'){
+                    alert(result.tips);
+                    window.location.reload();
+                }else if(result.status == 'false'){
+                    alert(result.tips);
+                }
+            },"json");
+        }
+
     });
     $('#plane-data').rollSlide({
         orientation: 'left',

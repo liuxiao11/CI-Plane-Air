@@ -30,19 +30,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .date>ul>li{width: 130px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg.png) left top no-repeat;background-size: 130px 48px;float: left;margin-left: 60px;text-align: center;line-height: 45px;color: #b8c5c8}
         .air-center .date>ul>.active{background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg-active.png) left top no-repeat;background-size: 130px 48px;color: #fff363}
         .air-center .date>ul>li:nth-child(1){margin-left: 0;}
-        .plane-person{width: 1177px;margin:70px 0 0 120px ;font-size: 18px}
-        .plane-person .person{display: inline-block;}
+        .plane-person{width: 1177px;height:370px;margin:50px 0 0 120px ;font-size: 18px;}
+        .plane-person .person{display: inline-block;margin-right: 48px}
         .plane-person .active{background:url(<?php echo STATIC_IMG?>dataIndex/person-check.png) no-repeat;background-size: 62px 34px;background-position: 148px 220px }
         .plane-person .active img{ box-shadow: 0 0 10px #fcea00 }
-        .plane-person .person2{margin-left: 48px}
         .plane-person .person img{width: 207px;height: 253px;border: 1px solid #00679c;margin-bottom: 20px}
         .plane-person .person p{line-height: 30px}
         .plane-person .person .close-btn{width: 20px;height: 20px;background:url(<?php echo STATIC_IMG?>dataIndex/close-btn.png) center no-repeat;background-size: 20px 20px;float: right;margin-left: 5px;}
-        .air-bottom {width: 1442px;margin-top: 102px}
+        .air-bottom {width: 1442px;position: absolute;top: 812px;}
         .air-bottom .air-title{width: 699px;height: 37px;margin: 20px 0 0 30px;display: inline-block;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff }
-        .air-bottom .plane-form{width: 1207px;margin: 50px 0 0 110px;display: inline-block;font-size: 22px; }
-        .air-bottom .plane-form input{width: 360px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px}
-        .air-bottom .plane-form .submit{width: 180px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 24px;display: block;float: right;padding: 0;color: #d9d9d9}
+        .air-bottom .plane-form{margin: 0 0 0 110px;display: inline-block;font-size: 22px; }
+        .air-bottom .plane-form ul li{display: inline-block;margin-right: 50px;margin-top: 10px}
+        .air-bottom .plane-form input,select{width: 320px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
+        .air-bottom .plane-form .submit{width: 180px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 24px;display: block;padding: 0;color: #d9d9d9;margin-left: 107px}
+        .form-error{color: red;font-size: 16px;display: table-cell;}
     </style>
 </head>
 <body>
@@ -58,54 +59,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="air-center">
         <div class="date week" >
             <ul>
-                <li class="active" data-id="1">星期一</li>
-                <li data-id="2">星期二</li>
-                <li data-id="3">星期三</li>
-                <li data-id="4">星期四</li>
-                <li data-id="5">星期五</li>
-                <li data-id="6">星期六</li>
-                <li data-id="7">星期日</li>
+                <?php foreach ($week as $k => $v){?>
+                    <li data-id="<?php echo $k?>" data-date="<?php echo $v?>"><?php if($k == 1){echo '星期一';}elseif($k == 2){echo '星期二';}elseif($k == 3){echo '星期三';}elseif($k == 4){echo '星期四';}elseif($k == 5){echo '星期五';}elseif($k == 6){echo '星期六';}elseif($k == 7){echo '星期日';}else{echo "未知";} ?></li>
+                <?php }?>
             </ul>
         </div>
-        <div class="plane-person">
-            <div class="person">
-                <a class="close-btn" href="#"></a>
-                <img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">
-                <p>姓名：<span class="choseName">张三</span></p>
-                <p>负责内容：无人机清点</p>
-                <p>联系方式：<span class="closeIphone">18611631111</span></p>
-            </div>
-            <div class="person person2">
-                <a class="close-btn" href="#"></a>
-                <img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">
-                <p>姓名：<span class="choseName">李四</span></p>
-                <p>负责内容：无人机清点</p>
-                <p>联系方式：<span class="closeIphone">18611632222</span></p>
-            </div>
+
+        <div class="plane-person" id="plane-person">
+            <?php if($user) foreach ($user as $key => $value){?>
+                <div class="person" >
+                    <a class="close-btn" href="#"></a>
+                    <img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">
+                    <p>姓名：<span class="choseName"><?php echo $value['username']?></span></p>
+                    <p>负责内容：<span class="choseCharge"><?php echo $value['charge']?></span></p>
+                    <p>联系方式：<span class="closeIphone"><?php echo $value['iphone']?></span></p>
+                </div>
+            <?php }?>
         </div>
+
         <div class="air-bottom">
             <p class="air-title">
                 操作人员信息添加
             </p>
-            <form class="plane-form" method="post">
-                <span style="margin-right: 0.8rem">姓名：<input type="text" class="plane-name" name="username" id="username" readonly></span>
-                <span>电话：<input type="text" class="plane-number" name="iphone" id="iphone" readonly></span>
-                <button class="submit" id="submit" type="button" >提交</button>
+            <form class="plane-form" method="post" id="userForm" onsubmit="return false;">
+                <ul>
+                    <li>
+                        姓名：<input type="text" class="plane-name"name="username" id="username" data-validation="length" data-validation-length="2-4" data-validation-error-msg="姓名须为2至4个字符"></li>
+                    <li>负责内容：<input type="text" class="plane-number" name="charge" id="charge" data-validation="length" data-validation-length="2-8" data-validation-error-msg="负责内容须为2至8个字符"></li>
+                    <li>电话：<input type="text" class="plane-number" name="iphone" id="iphone" data-validation="custom" data-validation-regexp="^1[345789]\d{9}$" data-validation-error-msg="手机号格式不正确"></li>
+                    <li><input class="submit" id="submit" type="submit" value="提交"></li>
+                </ul>
             </form>
         </div>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
+<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.form-validator.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <script>
+    $.validate({form: '#userForm'});
     //默认当天的星期选中
-    var show_day=new Array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
     var time=new Date();
     var day=time.getDay();
-    var week=show_day[day];
     $('.week>ul>li').each(function (index,value) {
-        if($(this).text() == week){
+        if($(this).data('id') == day){
             $(this).addClass('active').siblings().removeClass('active');
         }
         if($(this).data('id') < day){
@@ -118,26 +116,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             alert('不可选择已过期的星期');
         }else{
             $(this).addClass('active').siblings().removeClass('active');
+            var url="<?php echo base_url() ?>index/personSet";
+            var week = $('.week ul .active').text();
+            console.log(week)
+            var urlData={week1:week};
+            $.post(url,urlData,function(result){
+                $('#plane-person').html('');
+                if(result.status == 'true'){
+                    for (var i=0;i<result.data.length;i++) {
+                        var html= '<div class="person" >' +
+                            '<a class="close-btn" href="javascript:void(0)"></a>' +
+                            '<img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">' +
+                            '<p>姓名：<span class="choseName">'+result.data[i].username+'</span></p>' +
+                            '<p>负责内容：<span class="choseCharge">'+result.data[i].charge+'</span></p>' +
+                            '<p>联系方式：<span class="closeIphone">'+result.data[i].iphone+'</span></p>' +
+                            '</div>';
+                        $('#plane-person').append(html);
+                    }
+                }else if(result.status == 'false'){
+                    alert(result.tips);
+                }
+            },"json");
         }
     });
-    $('.person').click(function () {
+    $(document).on('click','.person',function () {
         $(this).addClass('active').siblings().removeClass('active');
         var username = $(this).find('.choseName').text();
+        var charge = $(this).find('.choseCharge').text();
         var iphone = $(this).find('.closeIphone').text();
         $('#username').val(username);
         $('#iphone').val(iphone);
+        $('#charge').val(charge);
+        $('#username').attr('readonly','readonly');
     });
+
     //提交
     $('#submit').click(function () {
-        var week = $('.week>ul>.active').text();
         var url="<?php echo base_url() ?>index/personSet";
         var username=$("#username").val();
+        var charge=$("#charge").val();
         var iphone=$("#iphone").val();
-        var time=new Date();
-        var year=time.getFullYear();
-        var month=time.getMonth()+1;
-        var date=time.getDate();
-        var urlData={username:username,iphone:iphone,week:week,time:year+'-'+month+'-'+date};
+        var time=$('.week ul .active').data('date');
+        var week = $('.week ul .active').text();
+        console.log(week);
+        var urlData={username:username,iphone:iphone,week:week,time:time,charge:charge};
         $.post(url,urlData,function(result){
             console.log(result.status);
             if(result.status == 'true'){

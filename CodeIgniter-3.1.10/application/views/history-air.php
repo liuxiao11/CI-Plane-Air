@@ -32,14 +32,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .center-top .plane-form{width: 1250px;height: 230px;margin-left:110px;display: inline-block;font-size: 22px; }
         .air-center .center-top .plane-form ul li{float: left;margin-right: 40px;margin-top: 30px}
         .air-center .center-top .plane-form input,select{width: 250px;height: 40px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;border-radius: 40px}
+        .air-center .center-top .plane-form option{font-size: 20px;}
         .air-center .center-top .plane-form ul li button{width: 113px;height: 40px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;font-size: 16px;border-radius: 40px;margin-right: 20px;margin-bottom: 20px}
         .air-center .center-top .plane-form ul li button:focus{outline:none}
         .air-center .center-top .plane-form ul li .active{box-shadow: 0 0 8px #fcea00;color: #fff363;}
         .air-center .center-top .plane-form .submit{width: 120px;height: 40px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 22px;display: block;float: right;padding: 0;color: #d9d9d9}
-        .air-bottom{padding-left: 75px}
-        .air{width: 420px;height: 231px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border.png) left top no-repeat;background-size: contain;margin-top: 30px;display: inline-block; margin-right: 15px}
+        .air-bottom{padding-left: 75px;height: 555px;overflow-y: auto;margin-right: 52px;margin-top: 10px;}
+        .air{width: 420px;height: 231px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border.png) left top no-repeat;background-size: contain;margin-top: 15px;display: inline-block; margin-right: 10px}
         .air-chart{margin: 0 auto}
         .air .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
+        .date-chose{margin-top: 15px;font-size: 18px}
     </style>
 </head>
 <body>
@@ -78,41 +80,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <button class="button" type="button" data-id="SF6">SF6</button>
                         <button class="button" type="button" data-id="H2O2">H2O2</button>
                         <button class="button" type="button" data-id="COCL2">COCL2</button>
-                        <button class="submit" id="submit" type="button" >提交</button>
+                        <button class="submit" id="submit" type="button" >搜索</button>
                     </li>
                 </ul>
             </form>
         </div>
         <div class="air-bottom">
-            <select name="area" id="area">
-                <option value="1">未央区</option>
-                <option value="2">雁塔区</option>
-                <option value="3">碑林区</option>
-                <option value="4">长安区</option>
-            </select>
-            <div class="air air-SO2">
-                <p class="air-title">SO2</p>
-                <div class="air-chart" id="SO2" style="width: 95%;height: 88%"></div>
-            </div>
-            <div class="air air-NO2">
-                <p class="air-title">NO2</p>
-                <div class="air-chart" id="NO2" style="width: 95%;height: 88%"></div>
-            </div>
-            <div class="air air-PM10">
-                <p class="air-title">PM10</p>
-                <div class="air-chart"  id="PM" style="width: 95%;height: 88%"></div>
-            </div>
-            <div class="air air-SO2">
-                <p class="air-title">SO2</p>
-                <div class="air-chart" id="SO21" style="width: 95%;height: 88%"></div>
-            </div>
-            <div class="air air-NO2">
-                <p class="air-title">NO2</p>
-                <div class="air-chart" id="NO21" style="width: 95%;height: 88%"></div>
-            </div>
-            <div class="air air-PM10">
-                <p class="air-title">PM10</p>
-                <div class="air-chart"  id="PM1" style="width: 95%;height: 88%"></div>
+            <div id="airList">
+                <div class="date-chose" id="date">2019-11-02</div>
+                <div id="airData">
+                </div>
             </div>
         </div>
     </div>
@@ -139,23 +116,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 alert('一次最多可选6项')
             }
         }
-    })
+    });
     //提交
     $('#submit').click(function () {
-        //var url="<?php //echo base_url() ?>//index/personSet";
-        var username=$("#startTime").val();
-        var iphone=$("#endTime").val();
+        var url="<?php echo base_url() ?>index/airHis";
+        var startTime=$("#startTime").val();
+        var endTime=$("#endTime").val();
         var area=$("#area").val();
-        var planeId = [];
+        var air = [];
         $('.plane-form .active').each(function () {
-            planeId.push($(this).data('id'));
+            air.push($(this).data('id'));
         });
-        var urlData={username:username,iphone:iphone,area:area,planeId:planeId};
+        var urlData={startTime:startTime,endTime:endTime,area:area,air:air};
         $.post(url,urlData,function(result){
-            console.log(result.status);
+            console.log(result);
             if(result.status == 'true'){
-                alert(result.tips);
-                window.location.reload();
+                for (var i=0;i<result.data.time.length;i++){
+                    $('#airList #date').eq(i).text(result.data.time[i])
+                }
+                for (var i=0;i<result.data.air.length;i++){
+                    var html ='<div class="air air-SO2">' +
+                        '<p class="air-title">SO2</p>' +
+                        '<div class="air-chart" id="SO2" style="width: 95%;height: 88%"></div>' +
+                        '</div>';
+                    $('#airData').append(html)
+                }
             }else if(result.status == 'false'){
                 alert(result.tips);
             }
