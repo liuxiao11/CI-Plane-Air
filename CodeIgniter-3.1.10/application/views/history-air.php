@@ -41,7 +41,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air{width: 420px;height: 231px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border.png) left top no-repeat;background-size: contain;margin-top: 15px;display: inline-block; margin-right: 10px}
         .air-chart{margin: 0 auto}
         .air .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
-        .date-chose{margin-top: 15px;font-size: 18px}
+        .date-chose{margin-top: 15px;font-size: 18px;color: khaki;}
+        .air-list{height: 111px;overflow-y: auto;padding-top: 5px;}
     </style>
 </head>
 <body>
@@ -69,17 +70,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <option value="3">碑林区</option>
                             <option value="4">长安区</option>
                         </select></li>
-                    <li>气体：
-                        <button type="button" class="button active" data-id="SO2">SO2</button>
-                        <button type="button" class="button active" data-id="NO2">NO2</button>
-                        <button type="button" class="button active" data-id="PM10">PM10</button>
-                        <button type="button" class="button active" data-id="PM2.5">PM2.5</button>
-                        <button type="button" class="button active" data-id="CO">CO</button>
-                        <button type="button" class="button active" data-id="O3">O3</button>
-                        <button class="button" type="button" data-id="CH4">CH4</button>
-                        <button class="button" type="button" data-id="SF6">SF6</button>
-                        <button class="button" type="button" data-id="H2O2">H2O2</button>
-                        <button class="button" type="button" data-id="COCL2">COCL2</button>
+                    <li class="air-list">气体：
+                        <?php if($airList) foreach ($airList as $k => $v){?>
+                        <button type="button" class="button" data-id="<?php echo $v?>"><?php echo $v?></button>
+                        <?php }?>
                         <button class="submit" id="submit" type="button" >搜索</button>
                     </li>
                 </ul>
@@ -87,9 +81,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <div class="air-bottom">
             <div id="airList">
-                <div class="date-chose" id="date">2019-11-02</div>
-                <div id="airData">
-                </div>
             </div>
         </div>
     </div>
@@ -130,16 +121,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var urlData={startTime:startTime,endTime:endTime,area:area,air:air};
         $.post(url,urlData,function(result){
             console.log(result);
+            $('#airList').html('');
             if(result.status == 'true'){
-                for (var i=0;i<result.data.time.length;i++){
-                    $('#airList #date').eq(i).text(result.data.time[i])
-                }
-                for (var i=0;i<result.data.air.length;i++){
-                    var html ='<div class="air air-SO2">' +
-                        '<p class="air-title">SO2</p>' +
-                        '<div class="air-chart" id="SO2" style="width: 95%;height: 88%"></div>' +
-                        '</div>';
-                    $('#airData').append(html)
+                for (var i=0;i<result.data.length;i++){
+                    var str = '<div class="date-chose" id="date">'+result.data[i].time+'</div>';
+                    $('#airList').append(str);
+                    for (var j=0;j<air.length;j++){
+                        var html ='<div class="air air-'+air[j]+'">' +
+                            '<p class="air-title">'+air[j]+'</p>' +
+                            '<div class="air-chart" id="'+air[j]+'-'+[i]+'" style="width: 95%;height: 88%"></div>' +
+                            '</div>';
+                        $('#airList').append(html);
+                        var airData = [];
+                        for (var x=0;x<result.data[i].air.air.length;x++){
+                            airData.push(result.data[i].air.air[x][air[j]]);
+                            bluetable(air[j]+'-'+[i],air[j],result.data[i].air.Time,airData);
+                        }
+                    }
                 }
             }else if(result.status == 'false'){
                 alert(result.tips);
@@ -187,264 +185,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     })();
     modal.initDate("startTime","endTime");
 
-    //柱状图SO2/NO2
-    var myChartSO2 = echarts.init(document.getElementById("SO2"));
-    var myChartNO2 = echarts.init(document.getElementById("NO2"));
-    var myChartPM = echarts.init(document.getElementById("PM"));
-    var myChartSO21 = echarts.init(document.getElementById("SO21"));
-    var myChartNO21 = echarts.init(document.getElementById("NO21"));
-    var myChartPM1 = echarts.init(document.getElementById("PM1"));
-    var optionPM = {
-        textStyle: {
-            color: '#f9fbfb',
-        },
-        tooltip : {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'cross',
-                label: {
-                    backgroundColor: '#6a7985'
-                }
-            }
-        },
-        legend: {
-            itemWidth: 13,
-            itemHeight: 10,
-            top: 10,
-            textStyle:{
-                fontSize:10,
-                color: '#ffffff'
-            },
-            data:['PM10']
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        xAxis : [
-            {
-                type : 'category',
-                data : ['0:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00'],
-                axisLine:{
-                    lineStyle: {
-                        color: '#041530',
-                        width: 1,
-                    }
-                }
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value',
-                axisLine:{
-                    lineStyle: {
-                        color: '#041530',
-                        width: 1,
-                    }
-                },
-                splitLine: {
-                    show: true,
-                    lineStyle:{
-                        color: ['#041530'],
-                        width: 1,
-                        type: 'solid'
-                    }
-                }
-            }
-        ],
-        series : [
-            {
-                name:'PM10',
-                type:'line',
-                stack: '总量',
-                areaStyle: {
-                    normal:{
-                        color : 'rgba(118,234,255,0.5)'
-                    }
-                },
-                itemStyle:{
-                    color : '#76eaff'
-                },
-                lineStyle:{
-                    color : new echarts.graphic.LinearGradient(
-                        0, 0, 0, 1,
-                        [
-                            {offset: 0, color: '#12c0bc'},
-                            {offset: 1, color: '#76eaff'},
-                        ])
-                },
-                data:[120, 132, 101, 134, 90, 230, 210]
-            }
-        ]
-    };
-    var optionSO2 = {
-        textStyle: {
-            color: '#f9fbfb',
-        },
-        color: new echarts.graphic.LinearGradient(
-            0, 0, 0, 1,
-            [
-                {offset: 0, color: '#00e3fc'},
-                {offset: 1, color: 'rgba(0,105,255,0.1)'}
-            ]),
-        tooltip : {
-            trigger: 'axis',
-            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-            },
-        },
-        legend: {
-            itemWidth: 13,
-            itemHeight: 10,
-            left: 210,
-            top: 25,
-            textStyle:{
-                fontSize:10,
-                color: '#ffffff'
-            },
-            data:['SO2']
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        xAxis : [
-            {
-                type : 'category',
-                data : ['0:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00'],
-                axisTick: {
-                    alignWithLabel: true,
-                },
-                axisLine:{
-                    lineStyle: {
-                        color: ['#041530'],
-                        width: 1,
-                    }
-                }
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value',
-                axisLine:{
-                    lineStyle: {
-                        color: ['#041530'],
-                        width: 1,
-                    }
-                },
-                splitLine: {
-                    show: true,
-                    lineStyle:{
-                        color: ['#041530'],
-                        width: 1,
-                        type: 'solid'
-                    }
-                }
-            }
-        ],
-        series : [
-            {
-                name:'SO2',
-                type:'bar',
-                barWidth: '40%',
-                data:[60, 300, 12, 200, 309, 390, 220]
-            }
-        ]
-    };
-    var optionNO2 = {
-        textStyle: {
-            color: '#f9fbfb',
-        },
-        color: new echarts.graphic.LinearGradient(
-            0, 0, 0, 1,
-            [
-                {offset: 0, color: '#ffdf81'},
-                {offset: 1, color: 'rgba(255,223,129,0.1)'}
-            ]),
-        tooltip : {
-            trigger: 'axis',
-            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-            },
-        },
-        legend: {
-            itemWidth: 13,
-            itemHeight: 10,
-            left: 210,
-            top: 25,
-            textStyle:{
-                fontSize:10,
-                color: '#FFFFFF'
-            },
-            data:['NO2']
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        xAxis : [
-            {
-                type : 'category',
-                data : ['0:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00'],
-                axisTick: {
-                    alignWithLabel: true,
-                },
-                axisLine:{
-                    lineStyle: {
-                        color: ['#041530'],
-                        width: 1,
-                    }
-                }
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value',
-                axisLine:{
-                    lineStyle: {
-                        color: ['#041530'],
-                        width: 1,
-                    }
-                },
-                splitLine: {
-                    show: true,
-                    lineStyle:{
-                        color: ['#041530'],
-                        width: 1,
-                        type: 'solid'
-                    }
-                }
-            }
-        ],
-        series : [
-            {
-                name:'NO2',
-                type:'bar',
-                barWidth: '40%',
-                data:[10, 52, 200, 334, 390, 330, 220]
-            }
-        ]
-    };
-    myChartSO2.setOption(optionSO2, true);
-    myChartNO2.setOption(optionNO2, true);
-    myChartPM.setOption(optionPM, true);
-    myChartSO21.setOption(optionSO2, true);
-    myChartNO21.setOption(optionNO2, true);
-    myChartPM1.setOption(optionPM, true);
-    window.onresize = function(){
-        myChartSO2.resize();
-        myChartNO2.resize();
-        myChartPM.resize();
-        myChartSO21.resize();
-        myChartNO21.resize();
-        myChartPM1.resize();
-    };
+
 </script>
 </body>
 </html>

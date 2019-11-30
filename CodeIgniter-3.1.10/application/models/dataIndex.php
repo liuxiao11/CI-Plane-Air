@@ -10,6 +10,7 @@ class dataIndex extends CI_Model {
     public $productStock = 'plane';
     public $airTable = 'air';
     public $userTable = 'user';
+    public $field = '`CO`,`SO2`,`NO2`,`O3`,`PM2.5`,`PM10`,`VOC`,`CO2`,`H2S`,`NO`,`CH2O`,`NH3`,`PH3`,`HCN`,`C2H4`,`H2O2`,`CH4`,`F2`,`HCL`,`C2H4O`,`SF6`';
     public function __construct()
     {
 
@@ -27,8 +28,8 @@ class dataIndex extends CI_Model {
 //        var_dump($this->db->last_query());die;
         $data['plane'] = $plane_query->result_array();
         $air_query = $this->db->from($this->airTable)->join($this->productTable,$this->productTable.'.id = '.$this->airTable.'.productId')->where('Day',$where)->order_by('serialNum','ASC')->get();
-        $air_querylist = $this->db->query('select `CO`,`SO2`,`NO2`,`O3`,`PM2.5`,`PM10`,`VOC`,`CO2`,`H2S`,`NO`,`CH2O`,`NH3`,`PH3`,`HCN`,`C2H4`,`H2O2`,`CH4`,`F2`,`HCL`,`C2H4O`,`SF6` from '.$this->airTable.' join '.$this->productTable.' on '.$this->productTable.'.id = '.$this->airTable.'.productId where Day = '.'"'.$where.'"'.' order by serialNum DESC');
         $air = $air_query->result_array();
+        $air_querylist = $this->db->query('select '.$this->field.' from '.$this->airTable.' join '.$this->productTable.' on '.$this->productTable.'.id = '.$this->airTable.'.productId where Day = '.'"'.$where.'"'.' order by serialNum DESC');
         $airlist = $air_querylist->row_array();
         if(!empty($airlist)){
             foreach ($airlist as $key => $val){
@@ -129,6 +130,18 @@ class dataIndex extends CI_Model {
         }
     }
     /**
+     * 操作人员数据删除
+     * @param $data
+     * @return bool
+     */
+    public function delperson($data){
+        if($this->db->where('id',$data)->delete($this->userTable)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
      * 获取本周所有日期
      */
     public function get_week($time = '', $format='Y-m-d'){
@@ -148,14 +161,12 @@ class dataIndex extends CI_Model {
      * @return string
      */
     public function hisPlane($where){
-        $query = $this->db->get_where($this->productTable, $where);
-//        return $this->db->last_query();
-        return $query->result_array();
-//        if($query){
-//            return $query->result_array();
-//        }else{
-//            return false;
-//        }
+        $plane = $this->db->where($where)->order_by('serialNum','DESC')->get($this->productTable)->result_array();
+        if($plane){
+            return $plane;
+        }else{
+            return false;
+        }
 
     }
     /**
@@ -164,18 +175,41 @@ class dataIndex extends CI_Model {
      * @return string
      */
     public function hisAir($where,$field){
-//        $air = $this->db->select($field)->from($this->airTable)->join($this->productTable,$this->productTable.'.id = '.$this->airTable.'.productId')->where($where)->order_by('serialNum','ASC')->get()->result_array();
-        $air = $this->db->query('select '.$field.',`Day` from '.$this->airTable.' join '.$this->productTable.' on '.$this->productTable.'.id = '.$this->airTable.'.productId where Day >='.'"'.$where['startTime'].'"'.' and Day <= '.'"'.$where['endTime'].'"'.' order by serialNum DESC')->result_array();
+        $joinField =  "`".join("`,`", $field)."`";
+        $air = $this->db->query('select '. $joinField .',`Day` from '.$this->airTable.' join '.$this->productTable.' on '.$this->productTable.'.id = '.$this->airTable.'.productId where Day >='.'"'.$where['startTime'].'"'.' and Day <= '.'"'.$where['endTime'].'"'.' order by serialNum DESC')->result_array();
+//        var_dump($air);die;
         if($air){
             foreach ($air as $k => $v){
                 $time[$k] = $v['Day'];
             }
-            $data['time'] = array_unique($time);
-            $data['air'] = $air;
+            $time = array_unique($time);
+            foreach ($time as $key => $val){
+                $data[$key]['time'] = $val;
+                $air1 = $this->db->query('select '. $joinField .',Time from '.$this->airTable.' join '.$this->productTable.' on '.$this->productTable.'.id = '.$this->airTable.'.productId where Day = '.'"'.$val.'"'.' order by serialNum ASC')->result_array();
+                if(!empty($air1)){
+                    foreach ($air1 as $kk =>$vv){
+                        $Time[$kk] = substr($vv['Time'],0,5);
+                        $air2[$kk] = $vv;
+                    }
+                    $data[$key]['air']['Time'] = $Time;
+                    $data[$key]['air']['air'] = $air2;
+                }
+            }
             return $data;
         }else{
             return false;
         }
 
     }
+    public function airList(){
+        $air_querylist = $this->db->query('select '.$this->field.' from '.$this->airTable);
+        $airlist = $air_querylist->row_array();
+        if(!empty($airlist)){
+            foreach ($airlist as $key => $val){
+                $airList[] = $key;
+            }
+            return  $airList;
+        }
+    }
+
 }

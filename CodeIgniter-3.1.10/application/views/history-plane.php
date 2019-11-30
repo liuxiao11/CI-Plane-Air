@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .center-top .plane-form .submit{width: 120px !important;height: 40px !important;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 22px;display: block;float: right;padding: 0 !important;color: #d9d9d9}
         .air-center #plane-map{width: 1218px;height: 551px;margin:20px auto 0;border-radius: 25px;}
         .air-center .map-border{width: 1248px;height: 553px;position: absolute;z-index:1;background:url(<?php echo STATIC_IMG?>dataIndex/map-border.png) left top no-repeat;    background-size: 1248px 553px;left: 503px;}
-
+        .plane-list{height: 111px;overflow-y: auto;padding-top: 5px;}
     </style>
 </head>
 <body>
@@ -61,14 +61,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <ul>
                     <li>开始时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="2019-11-02"></li>
                     <li>结束时间：<input type="text" class="plane-name" name="time" id="endTime" readonly value="2019-11-08"></li>
-                    <li>无人机：
-                        <button class="button active" type="button" data-id="1">无人机1号</button>
-                        <button class="button" type="button" data-id="2">无人机2号</button>
-                        <button class="button" type="button" data-id="3">无人机3号</button>
-                        <button class="button" type="button" data-id="4">无人机4号</button>
-                        <button class="button" type="button" data-id="5">无人机5号</button>
-                        <button class="button" type="button" data-id="6">无人机6号</button>
-                        <button class="button" type="button" data-id="7">无人机7号</button>
+                    <li class="plane-list">无人机：
+                        <?php if($planeList) foreach ($planeList as $k => $v){?>
+                            <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['productId']?></button>
+                        <?php }?>
                         <button class="submit" id="submit" type="button" >搜索</button>
                     </li>
                 </ul>

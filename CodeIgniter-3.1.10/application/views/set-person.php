@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="plane-person" id="plane-person">
             <?php if($user) foreach ($user as $key => $value){?>
                 <div class="person" >
-                    <a class="close-btn" href="#"></a>
+                    <a class="close-btn" id="<?php echo $value['id']?>" href="javascript:void (0)"></a>
                     <img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">
                     <p>姓名：<span class="choseName"><?php echo $value['username']?></span></p>
                     <p>负责内容：<span class="choseCharge"><?php echo $value['charge']?></span></p>
@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 if(result.status == 'true'){
                     for (var i=0;i<result.data.length;i++) {
                         var html= '<div class="person" >' +
-                            '<a class="close-btn" href="javascript:void(0)"></a>' +
+                            '<a class="close-btn" id="'+result.data[i].id+'" href="javascript:void (0)"></a>' +
                             '<img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">' +
                             '<p>姓名：<span class="choseName">'+result.data[i].username+'</span></p>' +
                             '<p>负责内容：<span class="choseCharge">'+result.data[i].charge+'</span></p>' +
@@ -138,6 +138,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             },"json");
         }
+    });
+    $('.close-btn').click(function () {
+        var r = confirm("确认删除嘛?");
+        if(r == true){
+            var url="<?php echo base_url() ?>index/delPerson";
+            var id = $(this).attr('id');
+            var urlData={id:id};
+            $.post(url,urlData,function(result){
+                console.log(result.status);
+                if(result.status == 'true'){
+                    alert(result.tips);
+                    window.location.reload();
+                }else if(result.status == 'false'){
+                    alert(result.tips);
+                }
+            },"json");
+        }
+
     });
     $(document).on('click','.person',function () {
         $(this).addClass('active').siblings().removeClass('active');

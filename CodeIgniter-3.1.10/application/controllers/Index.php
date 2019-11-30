@@ -124,6 +124,25 @@ class Index extends CI_Controller
     }
 
     /**
+     * 数据设置(操作人员删除)
+     */
+    public function delPerson()
+    {
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post('id')) {
+                $data = $this->input->post('id');
+                if ($this->dataIndex->delperson($data)) {
+                    $this->show_message('true', '数据删除成功');
+                } else {
+                    $this->show_message('false', '数据删除失败');
+                }
+            } else {
+                $this->show_message('false', '数据异常');
+            }
+        }
+    }
+
+    /**
      * 历史记录(无人机)
      */
     public function planeHis()
@@ -135,9 +154,9 @@ class Index extends CI_Controller
             var_dump($startTime);
             if ($startTime && $endTime && $planeId) {
                 $where = array(
-                    "startTime >= " => $startTime,
-                    "endTime <= " => $endTime,
-                    "planeId = " => $planeId,
+                    "Day >= " => $startTime,
+                    "Day <= " => $endTime,
+                    "productId = " => $planeId,
                 );
                 $data = $this->dataIndex->hisPlane($where);
                 if ($data) {
@@ -149,7 +168,8 @@ class Index extends CI_Controller
                 $this->show_message('false', '搜索数据为空');
             }
         }
-        $this->load->view('history-plane');
+        $data['planeList'] = $this->dataIndex->planeSelect();
+        $this->load->view('history-plane',$data);
     }
 
     /**
@@ -166,7 +186,7 @@ class Index extends CI_Controller
                     "startTime" => $startTime,
                     "endTime" => $endTime,
                 );
-                $data = $this->dataIndex->hisAir($where, "`".join("`,`", $field)."`");
+                $data = $this->dataIndex->hisAir($where,$field);
                 if ($data) {
                     $this->show_message('true', '数据查询成功', $data);
                 } else {
@@ -176,7 +196,8 @@ class Index extends CI_Controller
                 $this->show_message('false', '搜索数据为空');
             }
         }
-        $this->load->view('history-air');
+        $data['airList'] = $this->dataIndex->airList();
+        $this->load->view('history-air',$data);
     }
 
     /**

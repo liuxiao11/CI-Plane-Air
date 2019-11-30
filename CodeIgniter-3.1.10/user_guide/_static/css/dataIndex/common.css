@@ -32,3 +32,24 @@ p{margin: 0;}
     /*50%{-webkit-transform: rotate(15deg);-moz-transform: rotate(15deg);-ms-transform: rotate(15deg);-o-transform: rotate(15deg);transform: rotate(15deg);}*/
     /*100%{-webkit-transform: rotate(-15deg);-moz-transform: rotate(-15deg);-ms-transform: rotate(-15deg);-o-transform: rotate(-15deg);transform: rotate(-15deg);}*/
 /*}*/
+
+/* 定义滚动条样式 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: rgb(28, 91, 240);
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0px rgba(240, 240, 240, .5);
+    border-radius: 8px;
+    background-color: rgba(240, 240, 240, .5);
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    box-shadow: inset 0 0 0px rgba(240, 240, 240, .5);
+    background-color: rgba(240, 240, 240, .5);
+}
