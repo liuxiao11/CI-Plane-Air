@@ -151,7 +151,6 @@ class Index extends CI_Controller
             $startTime = $this->input->post('startTime');
             $endTime = $this->input->post('endTime');
             $planeId = $this->input->post('planeId');
-            var_dump($startTime);
             if ($startTime && $endTime && $planeId) {
                 $where = array(
                     "Day >= " => $startTime,

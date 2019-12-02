@@ -110,6 +110,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $(this).css('color','#2c2f2f')
         }
     });
+    var url="<?php echo base_url() ?>index/personSet";
+    var week = $('.week ul .active').data('date');
+    console.log(week)
+    var urlData={week1:week};
+    $.post(url,urlData,function(result){
+        $('#plane-person').html('');
+        if(result.status == 'true'){
+            for (var i=0;i<result.data.length;i++) {
+                var html= '<div class="person" >' +
+                    '<a class="close-btn" id="'+result.data[i].id+'" href="javascript:void (0)"></a>' +
+                    '<img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">' +
+                    '<p>姓名：<span class="choseName">'+result.data[i].username+'</span></p>' +
+                    '<p>负责内容：<span class="choseCharge">'+result.data[i].charge+'</span></p>' +
+                    '<p>联系方式：<span class="closeIphone">'+result.data[i].iphone+'</span></p>' +
+                    '</div>';
+                $('#plane-person').append(html);
+            }
+        }else if(result.status == 'false'){
+            alert(result.tips);
+        }
+    },"json");
     //选择
     $('.week>ul>li').click(function () {
         if($(this).data('id') < day){
@@ -117,7 +138,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }else{
             $(this).addClass('active').siblings().removeClass('active');
             var url="<?php echo base_url() ?>index/personSet";
-            var week = $('.week ul .active').text();
+            var week = $('.week ul .active').data('date');
             console.log(week)
             var urlData={week1:week};
             $.post(url,urlData,function(result){
@@ -158,14 +179,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     });
     $(document).on('click','.person',function () {
-        $(this).addClass('active').siblings().removeClass('active');
         var username = $(this).find('.choseName').text();
         var charge = $(this).find('.choseCharge').text();
         var iphone = $(this).find('.closeIphone').text();
-        $('#username').val(username);
-        $('#iphone').val(iphone);
-        $('#charge').val(charge);
-        $('#username').attr('readonly','readonly');
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+            $('#username').val('');
+            $('#iphone').val('');
+            $('#charge').val('');
+            $('#username').removeAttr('readonly');
+        }else{
+            $(this).addClass('active').siblings().removeClass('active');
+            $('#username').val(username);
+            $('#iphone').val(iphone);
+            $('#charge').val(charge);
+            $('#username').attr('readonly','readonly');
+        }
+
     });
 
     //提交

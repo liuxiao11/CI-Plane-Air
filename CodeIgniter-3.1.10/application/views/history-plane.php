@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>空气质量监控系统-历史数据（无人机）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet">
     <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
 <!--    <script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/px2rem.js"></script>-->
@@ -37,7 +37,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .center-top .plane-form ul li button:focus{outline:none}
         .air-center .center-top .plane-form ul li .active{box-shadow: 0 0 8px #fcea00;color: #fff363;}
         .air-center .center-top .plane-form .submit{width: 120px !important;height: 40px !important;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 22px;display: block;float: right;padding: 0 !important;color: #d9d9d9}
-        .air-center #plane-map{width: 1218px;height: 551px;margin:20px auto 0;border-radius: 25px;}
+        .air-center .plane-map{width: 1218px;height: 551px;margin:20px auto 0;border-radius: 25px;}
+        .air-center .plane-map .fleft{color: #13227a;font-size: 14px;font-weight: bold}
+        .air-center .plane-map .playcss{width: 32px;height: 32px;background:url(<?php echo STATIC_IMG?>dataIndex/action.png) left top no-repeat;background-size: contain}
         .air-center .map-border{width: 1248px;height: 553px;position: absolute;z-index:1;background:url(<?php echo STATIC_IMG?>dataIndex/map-border.png) left top no-repeat;    background-size: 1248px 553px;left: 503px;}
         .plane-list{height: 111px;overflow-y: auto;padding-top: 5px;}
     </style>
@@ -59,8 +61,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </p>
             <form class="plane-form">
                 <ul>
-                    <li>开始时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="2019-11-02"></li>
-                    <li>结束时间：<input type="text" class="plane-name" name="time" id="endTime" readonly value="2019-11-08"></li>
+                    <li>开始时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="<?php echo date('Y-m-d')?>"></li>
+                    <li>结束时间：<input type="text" class="plane-name" name="time" id="endTime" readonly ></li>
                     <li class="plane-list">无人机：
                         <?php if($planeList) foreach ($planeList as $k => $v){?>
                             <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['productId']?></button>
@@ -70,33 +72,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </ul>
             </form>
         </div>
-        <div class="plane-map"><i class="map-border"></i><div id="plane-map" class="map" tabindex="0"></div></div>
+        <div><div id="allmap" class="plane-map"></div></div>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
-<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.10&key=3ce518392b5361b83ad0abb560b4c3b1"></script>
+<script src="https://cdn.bootcss.com/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZY3NXS5MWZXGlHaTQikPK3BuxnxQF0hB"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
+<!--<script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/planeMap.js"></script>-->
 <script>
     //选择
     $('.plane-form .button').click(function () {
         $(this).addClass('active').siblings().removeClass('active');
-    });
-    //搜索
-    $('#submit').click(function () {
-        var url="<?php echo base_url() ?>index/planeHis";
-        var startTime=$("#startTime").val();
-        var endTime=$("#endTime").val();
-        var planeId=$('.plane-form .active').data('id');
-        var urlData={startTime:startTime,endTime:endTime,planeId:planeId};
-        $.post(url,urlData,function(result){
-            if(result.status == 'true'){
-                alert(result.tips);
-            }else if(result.status == 'false'){
-                alert(result.tips);
-            }
-        },"json");
     });
 </script>
 <script>
@@ -139,153 +127,190 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         };
     })();
     modal.initDate("startTime","endTime");
-
-
-
-    // 随机生成车辆行驶轨迹坐标
-    var startLng = 108.9531326294;
-    var startLat = 34.2935302306;
-
-    function GetPoints(length) {
-        var points = [];
-        for (i = 0; i < length; i++) {
-            var Lng;
-            var Lat;
-            if (i % 2 == 0) {
-                Lng = parseFloat(startLng) + 0.00005;
-                startLng = Lng;
-                Lat = startLat;
-            } else if (i % 3 == 0) {
-                Lng = startLng;
-                Lat = parseFloat(startLat) + 0.00003;
-                startLat = Lat;
-            } else if (i % 5 == 0) {
-                Lng = parseFloat(startLng) + 0.00006;
-                startLng = Lng;
-                Lat = parseFloat(startLat) + 0.0003;
-                startLat = Lat;
-            } else if (i % 7 == 0) {
-                Lng = parseFloat(startLng) + 0.00002;
-                startLng = Lng;
-                Lat = startLat;
-            } else if (i % 9 == 0) {
-                Lng = startLng;
-                Lat = parseFloat(startLat) + 0.0003;
-                startLat = Lat;
-            } else {
-                Lng = parseFloat(startLng) + 0.00004;
-                startLng = Lng;
-                Lat = parseFloat(startLat) + 0.00002;
-                startLat = Lat;
-            }
-            var data = [];
-            data[0] = Lng;
-            data[1] = Lat;
-            points.push(data);
-        }
-        return points;
-    }
-
 </script>
 <script type="text/javascript">
-    // 初始化地图
-    var map = new AMap.Map('plane-map', {
-        zoom: 18,
-        center: [119, 30],
-        layers: [
-            // 添加交通图层
-            new AMap.TileLayer.Traffic({
-                zIndex: 10,
-                autoRefresh: true,
-                interval: 180
-            }),
-            new AMap.TileLayer()
-        ]
-    });
-
-    // 获取所有的marker对象
-    function GetMarkers(count) {
-        var markerList = [];
-        var points = GetPoints(count);
-        for (i = 0; i < points.length; i++) {
-            var marker = new AMap.Marker({
-                position: new AMap.LngLat(points[i][0], points[i][1]),
-                icon: new AMap.Icon({
-                    size: new AMap.Size(32, 32),
-                    image: "../user_guide/_static/images/dataIndex/planeS.png"
-                }),
-                offset: new AMap.Pixel(0, -20)
+    //搜索
+    $('#submit').click(function () {
+        var url="<?php echo base_url() ?>index/planeHis";
+        var startTime=$("#startTime").val();
+        var endTime=$("#endTime").val();
+        var planeId=$('.plane-form .active').data('id');
+        if(!planeId){
+            alert('请选择无人机');
+        }
+        var urlData={startTime:startTime,endTime:endTime,planeId:planeId};
+        var PointArr;
+        var speed;
+        var alt;
+        $.ajax({
+            type : "post",
+            url :url,
+            data : urlData,
+            async : false, //重点
+            dataType:'json',
+            success : function(res){
+                console.log(res)
+                PointArr = res.data.point;
+                speed = res.data.speed;
+                alt = res.data.alt;
+            }
+        });
+        var points = [];
+        var pointStart = new BMap.Point(PointArr[0].BLng, PointArr[0].BLat);
+        var pointEnd=new BMap.Point(PointArr[PointArr.length-1].BLng, PointArr[PointArr.length-1].BLat);
+        for(var i=0;i<PointArr.length;i++){
+            var pointTemp = new BMap.Point(PointArr[i].BLng, PointArr[i].BLat);
+            points.push(pointTemp);
+        }
+        var cxt = "/user_guide/_static/images/";
+        var clng,clat;
+        var imei= "";
+        var map = new BMap.Map("allmap",{minZoom:8,maxZoom:17});     //百度地图对象
+        var car;   //飞机图标
+        var centerPoint;
+        var timer;     //定时器
+        var index = 0; //记录播放到第几个point
+        // var pointA={BLng:108.9531326294,BLat:34.2935302306};
+        var playBtn;
+        var ic=cxt+'dataIndex/plane1.png';
+        var myIcon2 = new BMap.Icon(
+            ic, // 百度图片
+            new BMap.Size(40,40), // 视窗大小
+            {
+                imageSize: new BMap.Size(35,35), // 引用图片实际大小　
+            }
+        );
+        function ZoomControl1(){
+            // 默认停靠位置和偏移量
+            this.defaultAnchor = BMAP_ANCHOR_BOTTOM_LEFT;
+            this.defaultOffset = new BMap.Size(5, 50); // 距离左上角位置
+        }
+        function ZoomControl2(){
+            // 默认停靠位置和偏移量
+            this.defaultAnchor = BMAP_ANCHOR_BOTTOM_RIGHT;
+            this.defaultOffset = new BMap.Size(20, 70); // 距离右上角位置
+        }
+        ZoomControl1.prototype = new BMap.Control();
+        ZoomControl2.prototype = new BMap.Control();
+        ZoomControl1.prototype.initialize = function(map){
+            // 创建一个DOM元素
+            var div = document.createElement("div");
+            // 添加文字说明
+            var div1 = '<div class="fleft">'+
+                '<div>'+
+                '<span class="cric ccolor_r"></span><span>时间:'+startTime+'至'+endTime+'</span>'+
+                '</div>'+
+                '<div>'+
+                '<span class="cric ccolor_g"></span><span>平均高度:'+alt+'m</span>'+
+                '</div>'+
+                '<div>'+
+                '<span class="cric ccolor_b"></span><span>平均速度:'+speed+'m/s</span>'+
+                '</div>'+
+                '</div>';
+            div.innerHTML = div1;
+            // 添加DOM元素到地图中
+            map.getContainer().appendChild(div);
+            // 将DOM元素返回
+            return div;
+        };
+        ZoomControl2.prototype.initialize = function(map){
+            // 创建一个DOM元素
+            var div = document.createElement("div");
+            // 添加文字说明
+            var div1 = '<div class="fright">'+
+                '<a href="#" onclick="round();">'+
+                '<img src="'+cxt+'dataIndex/zoom-in.png"/>'+
+                '</a>'+
+                '<a  href="#" onclick="shrink();">'+
+                '<img src="'+cxt+'dataIndex/zoom-out.png"/>'+
+                '</a>'+
+                '<a href="#" onclick="reset()">'+
+                '<img src="'+cxt+'dataIndex/focus.png"/>'+
+                '</a>'+
+                '<div class="playd">'+
+                '<input id="play" type="button" onclick="play();" disabled class="playcss"/>'+
+                '</div>'+
+                '</div>';
+            div.innerHTML = div1;
+            // 添加DOM元素到地图中
+            map.getContainer().appendChild(div);
+            // 将DOM元素返回
+            return div;
+        };
+        // 创建控件
+        var myZoomCtrl1 = new ZoomControl1();
+        var myZoomCtrl2 = new ZoomControl2();
+        // 添加到地图当中
+        map.addControl(myZoomCtrl1);
+        map.addControl(myZoomCtrl2);
+        init();
+        function init() {
+            playBtn = document.getElementById("play");
+            map.centerAndZoom(pointStart,16);
+            map.setCenter(pointStart);
+            map.enableScrollWheelZoom();
+            map.addControl(new BMap.ScaleControl());
+            //通过DrivingRoute获取一条路线的point
+            var driving = new BMap.DrivingRoute(map);
+            driving.search(pointStart, pointEnd);
+            driving.setSearchCompleteCallback(function() {
+                //连接所有点
+                map.addOverlay(new BMap.Polyline(points, {strokeColor: "#D1C9C6", strokeWeight: 5, strokeOpacity: 1}));
+                //显示小车子
+                car = new BMap.Marker(points[0],{icon:myIcon2});
+                map.addOverlay(car);
+                //标注起点、终点
+                var sic=cxt+'dataIndex/position.png';
+                var smyIcon = new BMap.Icon(sic,new BMap.Size(25,25),{imageSize: new BMap.Size(25,25),});
+                var eic=cxt+'dataIndex/position.png';
+                var emyIcon = new BMap.Icon(eic,new BMap.Size(25,25),{imageSize: new BMap.Size(25,25),});
+                var sMark=new BMap.Marker(pointStart,{icon:smyIcon});
+                map.addOverlay(sMark);
+                var eMark=new BMap.Marker(pointEnd,{icon:emyIcon});
+                map.addOverlay(eMark);
+                //点亮操作按钮
+                playBtn.disabled = false;
             });
-            markerList.push(marker);
-        }
-        return markerList;
-    }
-
-    // marker数组对象
-    var markerList = GetMarkers(100);
-
-    // 根据markerList生成折线节点坐标
-    function GetPath(markerList) {
-        var path = [];
-        for (i = 0; i < markerList.length; i++) {
-            path.push(markerList[i].getPosition());
-        }
-        console.log(path);
-        return path;
-    }
-
-    // 创建折线实例
-    var polyline = new AMap.Polyline({
-        path: GetPath(markerList),
-        borderWeight: 4,
-        strokeColor: '#f60179',
-        lineJoin: 'round', // 折线拐点样式 round -> 圆形 bevel -> 斜角
-        lineCap: 'round', // 折线两端样式，默认值butt -> 无头  round -> 圆头 square -> 方头
-        isOutline: true, // 是否带描边
-        outlineColor: '#f60179',
-        strokeOpacity: 0.5,
-        draggable: false, // 设置折线可以拖拽
-        showDir: true
+        };
+        play = function (){
+            playBtn.disabled = true;
+            var point = points[index];
+            pointA=point;
+            if(index > 0) {
+                map.addOverlay(new BMap.Polyline([points[index - 1], point], {strokeColor: "#d4237a", strokeWeight: 5, strokeOpacity: 1}));
+            }
+            car.setPosition(point);
+            car.setRotation(PointArr[index].Direction);
+            index++;
+            if(index < points.length) {
+                focusMap();
+                timer = window.setTimeout("play(" + index + ")", 200);
+            } else {
+                playBtn.disabled = true;
+                map.panTo(point);
+                reset();
+            }
+        };
+        shrink = function (){//缩小
+            map.zoomTo(map.getZoom() - 1);
+        };
+        round = function (){//放大
+            map.zoomTo(map.getZoom() + 1);
+        };
+        focusMap = function(){
+            map.setCenter(pointA);//使飞机保持在中心点位置移动
+        };
+        reset = function (){ //重置
+            playBtn.disabled = false;
+            if(timer) {
+                window.clearTimeout(timer);
+            }
+            index = 0;
+            pointA =points[0];
+            car.setPosition(points[0]);
+            map.setCenter(pointStart);
+        };
     });
-
-    // 添加到map对象
-    map.add(polyline);
-
-    // 定时函数
-    var marker = null;
-
-    function AddMarkerToMap(markerObj) {
-        if (markerObj == undefined) {
-            // 清除定时函数
-            window.clearInterval(timer);
-            return false;
-        }
-        // 清除之前的maker
-        if (marker != null) {
-            map.remove(marker);
-        }
-        // 暂存
-        marker = markerObj;
-        // 设置地图中心为当前的marker坐标
-        map.setCenter(markerObj.getPosition());
-        // 添加maker
-        map.add(markerObj);
-    }
-
-    // 每隔500毫秒执行
-    var index = 0;
-    var timer = window.setInterval("AddMarkerToMap(markerList[index++])", 200);
-
-
-    // var timer = window.setInterval("AddMarkerToMap();", 500);
-
-    // 定义折线节点坐标，每个对象为AMap.LngLat
-    // var path = [
-    //   new AMap.LngLat(121.0001, 32),
-    //   new AMap.LngLat(121.02190000000073, 32)
-    // ]
-
-
 </script>
 </body>
 </html>

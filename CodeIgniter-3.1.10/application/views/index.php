@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>空气质量监控系统-首页</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/easyui.css" rel="stylesheet" type="text/css" >
-    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+<!--    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />-->
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
 <!--    <script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/px2rem.js"></script>-->
     <style>
@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .roll_row .roll__list{width: 9999px;}
         .roll_col .roll__list{width: 100%;}
         .air-center .map-border{width: 950px;height: 466px;position: absolute;z-index:1;background:url(<?php echo STATIC_IMG?>dataIndex/map-border.png) left top no-repeat;    background-size: 950px 466px;left: 41px;}
-        .air-center #plane-map{width: 920px;height: 465px;margin:20px auto 0; border-radius: 25px;}
+        .air-center .plane-map{width: 920px;height: 465px;margin:20px auto 0; border-radius: 25px;}
         .air-bottom {width: 1033px;height: 250px;margin-top: 25px}
         .air-bottom .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
         .air-bottom .air-title .title-icon{width: 12px;height: 9px;background: url(<?php echo STATIC_IMG?>dataIndex/title-icon.png) left top no-repeat;background-size: contain}
@@ -57,12 +57,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right .num-btn:hover{background-size: 100% 2px,  2px 100%, 100% 2px, 2px 100%;}
         .air-right .num-btn span{font-size: 26px}
         .air-right .air-btn2{margin-left: 30px}
-        .air-right .plane-person{width: 349px;margin:20px auto 0 ;font-size: 14px}
-        .air-right .plane-person .person{display: inline-block;}
-        .air-right .plane-person .person2{margin-left: 20px}
+        .air-right .plane-person{width: 96%;height: 260px;margin:20px auto 0 ;font-size: 14px;overflow-y: auto;}
+        .air-right .plane-person .person{display: inline-block;margin-left: 25px;}
         .air-right .plane-person .person img{width: 160px;height: 200px;border: 1px solid #00679c}
         .air-right .plane-stock .stock{width: 153px;height: 62px;background:url(<?php echo STATIC_IMG?>dataIndex/plane1-border.png) left top no-repeat;background-size: contain;display: inline-block;float: left;overflow: hidden;margin-left: 45px;margin-bottom: 20px}
-        .air-right .plane-stock {height: 162px;overflow: hidden;}
+        .air-right .plane-stock {width: 98%;height: 162px;overflow-y: auto;}
         .air-right .plane-stock>li:nth-of-type(odd){margin-left: 33px}
         .air-right .plane-stock .stock img{width: 37px;height: 37px;float: left;margin: 10px 12px}
         .air-right .plane-stock .stock p{float: left;margin: 10px 0 2px 15px}
@@ -117,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php }?>
             </ul>
         </div>
-        <div class="plane-map"><i class="map-border"></i><div id="plane-map" class="map" tabindex="0"></div></div>
+        <div><div id="allmap" class="plane-map" ></div></div>
         <div class="air-bottom">
             <p class="air-title">
                 <i class="title-icon"></i>
@@ -142,18 +141,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="info1">
             <p class="air-title">无人机负责人</p>
             <div class="plane-person">
+                <?php if($user) foreach ($user as $kk => $vv){?>
                 <div class="person">
-                    <img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">
-                    <p>姓名：张三</p>
-                    <p>负责内容：无人机清点</p>
-                    <p>联系方式：18611631111</p>
+                    <img src="<?php echo STATIC_IMG?>dataIndex/person.png" >
+                    <p>姓名：<?php echo $vv['username']?></p>
+                    <p>负责内容：<?php echo $vv['charge']?></p>
+                    <p>联系方式：<?php echo $vv['iphone']?></p>
                 </div>
-                <div class="person person2">
-                    <img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">
-                    <p>姓名：张三</p>
-                    <p>负责内容：无人机清点</p>
-                    <p>联系方式：18611631111</p>
-                </div>
+                <?php }?>
             </div>
         </div>
         <div class="air">
@@ -161,10 +156,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <ul class="plane-stock">
                 <?php foreach ($planeStock as $k => $v){?>
                 <li class="stock">
-                    <img src="<?php echo STATIC_IMG?>dataIndex/plane1.png" alt="">
+                    <img src="<?php echo STATIC_IMG?>dataIndex/plane1.png" >
                     <i class="shu"></i>
                     <p><?php echo $v['productId'] ?><br>
-                        <?php if($v['status'] == 1){ echo '状态正常';}else{ echo '状态异常';} ?></p>
+                        <?php if($v['status'] == 1){ echo '状态:正常';}else{ echo '状态:异常';} ?></p>
                 </li>
                 <?php }?>
             </ul>
@@ -177,7 +172,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/echarts-wordcloud.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/china.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
-<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.10&key=3ce518392b5361b83ad0abb560b4c3b1"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZY3NXS5MWZXGlHaTQikPK3BuxnxQF0hB"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/air.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <script type="text/javascript">
@@ -185,7 +180,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </script>
 <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
 <script>
-
 </script>
 </body>
 </html>

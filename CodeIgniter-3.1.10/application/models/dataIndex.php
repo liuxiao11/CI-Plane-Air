@@ -22,15 +22,29 @@ class dataIndex extends CI_Model {
      */
     public function indexPage(){
         $where = date('Y-m-d');
-        $plane_query = $this->db->where('Day',$where)->order_by('serialNum','DESC')->get($this->productTable);
-        $whereStockWhere = 'productId not in (SELECT productId from product)';
-        $planeStock = $this->db->select('*')->from($this->productStock)->where($whereStockWhere)->get()->result_array();
-//        var_dump($this->db->last_query());die;
+        $plane_query = $this->db->where('Day',$where)->order_by('serialNum','DESC')->get($this->productTable);//无人机信息
         $data['plane'] = $plane_query->result_array();
+        $whereStockWhere = 'productId not in (SELECT productId from product)';
+        $planeStock = $this->db->select('*')->from($this->productStock)->where($whereStockWhere)->get()->result_array();//无人机库存信息
         $air_query = $this->db->from($this->airTable)->join($this->productTable,$this->productTable.'.id = '.$this->airTable.'.productId')->where('Day',$where)->order_by('serialNum','ASC')->get();
-        $air = $air_query->result_array();
+        $air = $air_query->result_array();//气体信息
         $air_querylist = $this->db->query('select '.$this->field.' from '.$this->airTable.' join '.$this->productTable.' on '.$this->productTable.'.id = '.$this->airTable.'.productId where Day = '.'"'.$where.'"'.' order by serialNum DESC');
-        $airlist = $air_querylist->row_array();
+        $airlist = $air_querylist->row_array();//所有气体列表
+        $user = $this->db->select('*')->from($this->userTable)->where('time',$where)->get()->result_array();//负责无人机人员列表
+        $plane_new2 = $this->db->where('Day',$where)->order_by('serialNum','ASC')->get($this->productTable)->row_array();//无人机开始GPS数据
+        $planeWhere = array(
+            'Day'=>$where,
+            'productId'=>$plane_new2['productId']
+        );
+        $plane_new = $this->db->where($planeWhere)->order_by('serialNum','DESC')->get($this->productTable)->row_array();//无人机新GPS数据
+        if(!empty($plane_new)){
+            $data['End_point']['lon'] = $plane_new['lon'];
+            $data['End_point']['lat'] = $plane_new['lat'];
+        }
+        if(!empty($plane_new2)){
+            $data['Start_point']['lon'] = $plane_new2['lon'];
+            $data['Start_point']['lat'] = $plane_new2['lat'];
+        }
         if(!empty($airlist)){
             foreach ($airlist as $key => $val){
                 $airList[] = $key;
@@ -48,6 +62,9 @@ class dataIndex extends CI_Model {
             $data['time'] = $Time;
             $data['air'] = $air1;
 
+        }
+        if(!empty($user)){
+            $data['user'] = $user;
         }
         $data['planeStock'] = $planeStock;
         if($data){
@@ -122,7 +139,7 @@ class dataIndex extends CI_Model {
      * @return bool
      */
     public function personSelect($where){
-        $user = $this->db->select('*')->from($this->userTable)->where('week',$where)->get()->result_array();
+        $user = $this->db->select('*')->from($this->userTable)->where('time',$where)->get()->result_array();
         if($user){
             return $user;
         }else{
@@ -162,8 +179,16 @@ class dataIndex extends CI_Model {
      */
     public function hisPlane($where){
         $plane = $this->db->where($where)->order_by('serialNum','DESC')->get($this->productTable)->result_array();
+        $speed = $this->db->select_avg('speed')->where($where)->order_by('serialNum','DESC')->get($this->productTable)->row_array();
+        $alt = $this->db->select_avg('alt')->where($where)->order_by('serialNum','DESC')->get($this->productTable)->row_array();
         if($plane){
-            return $plane;
+            foreach ($plane as $k => $v){
+                $data['point'][$k]['BLng'] = $v['lon'];
+                $data['point'][$k]['BLat'] = $v['lat'];
+            }
+            $data['speed'] = sprintf("%01.2f", $speed['speed']);
+            $data['alt'] = sprintf("%01.2f", $alt['alt']);
+            return $data;
         }else{
             return false;
         }
