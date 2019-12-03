@@ -107,6 +107,7 @@ class Index extends CI_Controller
                 $data['charge'] = $this->input->post('charge');
                 $data['week'] = $this->input->post('week');
                 $data['time'] = $this->input->post('time');
+                $data['id'] = $this->input->post('id');
                 if ($this->dataIndex->personSet($data)) {
                     $this->show_message('true', '操作成功');
                 } else {
@@ -116,10 +117,9 @@ class Index extends CI_Controller
                 $this->show_message('false', '数据不能留空');
             }
         }
-        $data['week'] = $this->dataIndex->get_week();
-        $weekarray=array("日","一","二","三","四","五","六");
-        $where = "星期".$weekarray[date("w")];
-        $data['user'] = $this->dataIndex->personSelect($where);
+        $data['week'] = $this->dataIndex->get_weeks();
+        $whereTime = date("Y-m-d");
+        $data['user'] = $this->dataIndex->personSelect($whereTime);
         $this->load->view('set-person',$data);
     }
 

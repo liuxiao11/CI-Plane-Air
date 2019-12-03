@@ -38,11 +38,11 @@ class dataIndex extends CI_Model {
         );
         $plane_new = $this->db->where($planeWhere)->order_by('serialNum','DESC')->get($this->productTable)->row_array();//无人机新GPS数据
         if(!empty($plane_new)){
-            $data['End_point']['lon'] = $plane_new['lon'];
+            $data['End_point']['lng'] = $plane_new['lon'];
             $data['End_point']['lat'] = $plane_new['lat'];
         }
         if(!empty($plane_new2)){
-            $data['Start_point']['lon'] = $plane_new2['lon'];
+            $data['Start_point']['lng'] = $plane_new2['lon'];
             $data['Start_point']['lat'] = $plane_new2['lat'];
         }
         if(!empty($airlist)){
@@ -116,9 +116,9 @@ class dataIndex extends CI_Model {
      * @return bool
      */
     public function personSet($data){
-        $user = $this->db->select('*')->from($this->userTable)->where('username',$data['username'])->get()->row_array();
+        $user = $this->db->select('*')->from($this->userTable)->where('id',$data['id'])->get()->row_array();
         if($user){
-            $this->db->where('username', $data['username']);
+            $this->db->where('id', $data['id']);
             if($this->db->update($this->userTable, $data)){
                 return true;
             }else{
@@ -165,11 +165,26 @@ class dataIndex extends CI_Model {
         $time = $time != '' ? $time : time();
         //获取当前周几
         $week = date('w', $time);
-        $date = [];
         for ($i=1; $i<=7; $i++){
             $date[$i] = date($format ,strtotime( '+' . $i-$week .' days', $time));
         }
         return $date;
+    }
+    /**
+     * 获取最近七天日期
+     */
+    function get_weeks($time = '', $format='Y-m-d'){
+        $time = $time != '' ? $time : time();
+        //组合数据
+        $week = date('w', $time);
+        for ($i= 1; $i<=7; $i++){
+            $date[] = date($format ,strtotime( '+' . $i-1 .' days', $time));
+        }
+        foreach ($date as $k => $v){
+            $data[date('w', strtotime($v))] = $v;
+
+        }
+        return $data;
     }
 
     /**

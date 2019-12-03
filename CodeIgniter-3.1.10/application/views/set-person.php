@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .date>ul>li{width: 130px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg.png) left top no-repeat;background-size: 130px 48px;float: left;margin-left: 60px;text-align: center;line-height: 45px;color: #b8c5c8}
         .air-center .date>ul>.active{background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg-active.png) left top no-repeat;background-size: 130px 48px;color: #fff363}
         .air-center .date>ul>li:nth-child(1){margin-left: 0;}
-        .plane-person{width: 1177px;height:370px;margin:50px 0 0 120px ;font-size: 18px;}
+        .plane-person{width: 1177px;height:370px;margin:50px 0 0 120px ;font-size: 18px;overflow-y: auto}
         .plane-person .person{display: inline-block;margin-right: 48px}
         .plane-person .active{background:url(<?php echo STATIC_IMG?>dataIndex/person-check.png) no-repeat;background-size: 62px 34px;background-position: 148px 220px }
         .plane-person .active img{ box-shadow: 0 0 10px #fcea00 }
@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="date week" >
             <ul>
                 <?php foreach ($week as $k => $v){?>
-                    <li data-id="<?php echo $k?>" data-date="<?php echo $v?>"><?php if($k == 1){echo '星期一';}elseif($k == 2){echo '星期二';}elseif($k == 3){echo '星期三';}elseif($k == 4){echo '星期四';}elseif($k == 5){echo '星期五';}elseif($k == 6){echo '星期六';}elseif($k == 7){echo '星期日';}else{echo "未知";} ?></li>
+                    <li data-id="<?php echo $k?>" data-date="<?php echo $v?>"><?php if($k == 1){echo '星期一';}elseif($k == 2){echo '星期二';}elseif($k == 3){echo '星期三';}elseif($k == 4){echo '星期四';}elseif($k == 5){echo '星期五';}elseif($k == 6){echo '星期六';}elseif($k == 0){echo '星期日';}else{echo "未知";} ?></li>
                 <?php }?>
             </ul>
         </div>
@@ -81,13 +81,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <p class="air-title">
                 操作人员信息添加
             </p>
-            <form class="plane-form" method="post" id="userForm" onsubmit="return false;">
+            <form action="" class="plane-form" method="post" id="userForm" >
                 <ul>
                     <li>
-                        姓名：<input type="text" class="plane-name"name="username" id="username" data-validation="length" data-validation-length="2-4" data-validation-error-msg="姓名须为2至4个字符"></li>
+                        姓名：<input type="text" class="plane-name" name="username" id="username" data-validation="length" data-validation-length="2-4" data-validation-error-msg="姓名须为2至4个字符"></li>
                     <li>负责内容：<input type="text" class="plane-number" name="charge" id="charge" data-validation="length" data-validation-length="2-8" data-validation-error-msg="负责内容须为2至8个字符"></li>
                     <li>电话：<input type="text" class="plane-number" name="iphone" id="iphone" data-validation="custom" data-validation-regexp="^1[345789]\d{9}$" data-validation-error-msg="手机号格式不正确"></li>
-                    <li><input class="submit" id="submit" type="submit" value="提交"></li>
+                    <li><input type="hidden" name="id" id="id"><input class="submit" id="submit" type="submit" value="提交"></li>
                 </ul>
             </form>
         </div>
@@ -98,7 +98,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.form-validator.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <script>
-    $.validate({form: '#userForm'});
     //默认当天的星期选中
     var time=new Date();
     var day=time.getDay();
@@ -106,10 +105,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if($(this).data('id') == day){
             $(this).addClass('active').siblings().removeClass('active');
         }
-        if($(this).data('id') < day){
-            $(this).css('color','#2c2f2f')
-        }
+        // if($(this).data('id') < day){
+        //     $(this).css('color','#2c2f2f')
+        // }
     });
+    //页面一开始获取当天负责人
     var url="<?php echo base_url() ?>index/personSet";
     var week = $('.week ul .active').data('date');
     console.log(week)
@@ -131,11 +131,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             alert(result.tips);
         }
     },"json");
-    //选择
+    //选择星期
     $('.week>ul>li').click(function () {
-        if($(this).data('id') < day){
-            alert('不可选择已过期的星期');
-        }else{
+        // if($(this).data('id') < day){
+        //     alert('不可选择已过期的星期');
+        // }else{
             $(this).addClass('active').siblings().removeClass('active');
             var url="<?php echo base_url() ?>index/personSet";
             var week = $('.week ul .active').data('date');
@@ -158,9 +158,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     alert(result.tips);
                 }
             },"json");
-        }
+        // }
     });
-    $('.close-btn').click(function () {
+    $(document).on('click','.close-btn',function () {
         var r = confirm("确认删除嘛?");
         if(r == true){
             var url="<?php echo base_url() ?>index/delPerson";
@@ -182,41 +182,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var username = $(this).find('.choseName').text();
         var charge = $(this).find('.choseCharge').text();
         var iphone = $(this).find('.closeIphone').text();
+        var close = $(this).find('.close-btn').attr('id');
         if($(this).hasClass('active')){
             $(this).removeClass('active');
             $('#username').val('');
             $('#iphone').val('');
             $('#charge').val('');
-            $('#username').removeAttr('readonly');
+            $('#id').val('');
         }else{
             $(this).addClass('active').siblings().removeClass('active');
             $('#username').val(username);
             $('#iphone').val(iphone);
             $('#charge').val(charge);
-            $('#username').attr('readonly','readonly');
+            $('#id').val(close);
         }
 
     });
-
+    $.validate({form: '#userForm'});
+    console.log();
     //提交
     $('#submit').click(function () {
-        var url="<?php echo base_url() ?>index/personSet";
-        var username=$("#username").val();
-        var charge=$("#charge").val();
-        var iphone=$("#iphone").val();
-        var time=$('.week ul .active').data('date');
-        var week = $('.week ul .active').text();
-        console.log(week);
-        var urlData={username:username,iphone:iphone,week:week,time:time,charge:charge};
-        $.post(url,urlData,function(result){
-            console.log(result.status);
-            if(result.status == 'true'){
-                alert(result.tips);
-                window.location.reload();
-            }else if(result.status == 'false'){
-                alert(result.tips);
-            }
-        },"json");
+        if ($('#userForm ul li').hasClass('has-error')){
+            alert('提交有误');
+        }else{
+            var url="<?php echo base_url() ?>index/personSet";
+            var username=$("#username").val();
+            var id=$("#id").val();
+            var charge=$("#charge").val();
+            var iphone=$("#iphone").val();
+            var time=$('.week ul .active').data('date');
+            var week = $('.week ul .active').text();
+            console.log(week);
+            var urlData={username:username,iphone:iphone,week:week,time:time,charge:charge,id:id};
+            $.post(url,urlData,function(result){
+                console.log(result.status);
+                if(result.status == 'true'){
+                    alert(result.tips);
+                    window.location.reload();
+                }else if(result.status == 'false'){
+                    alert(result.tips);
+                }
+            },"json");
+        }
     });
 </script>
 </body>

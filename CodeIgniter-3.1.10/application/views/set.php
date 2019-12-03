@@ -25,20 +25,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-left .active{color: #fff363;background:url(<?php echo STATIC_IMG?>dataIndex/date-active.png) left top no-repeat;background-size: 260px 60px;}
         .air-left .active a{color: #fff363}
         .air-center{width: 1442px;min-height: 86%;background:url(<?php echo STATIC_IMG?>dataIndex/center-border.png) left top no-repeat;background-size: 1442px 928px;margin-top: 150px;float: left}
-        .air-center .plane-data{width: 1442px;height: 554px;overflow: hidden;position: relative;font-size: 16px}
-        .air-center .plane-data ul{width: 1218px;height: 178px;margin: 0 auto}
-        .air-center .plane-data>ul>li{width: 360px;height: 178px;background:url(<?php echo STATIC_IMG?>dataIndex/plane-border.png) left top no-repeat;background-size: 360px 178px;float: left;margin-left: 60px;margin-top: 80px}
-        .air-center .plane-data>ul>li:nth-child(1){margin-left: 0;}
-        .air-center .plane-data>ul>li:nth-child(4){margin-left: 0}
+        .air-center .plane-data{width: 1442px;overflow: hidden;position: relative;font-size: 16px;}
+        .air-center .plane-data ul{width: 1218px;height: 526px;margin:70px auto 0;overflow-y: auto}
+        .air-center .plane-data>ul>li{width: 360px;height: 178px;background:url(<?php echo STATIC_IMG?>dataIndex/plane-border.png) left top no-repeat;background-size: 360px 178px;float: left;margin-right: 40px;margin-top: 50px}
+        .air-center .plane-data>ul>li:nth-child(1){margin-top: 0}
+        .air-center .plane-data>ul>li:nth-child(2){margin-top: 0}
+        .air-center .plane-data>ul>li:nth-child(3){margin-top: 0}
         .air-center .plane-data>ul>li img{width: 63px;height: 29px;margin-left: 35px;vertical-align: top;margin-top: 20px;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
         .air-center .plane-data>ul>li .close-btn{width: 20px;height: 20px;background:url(<?php echo STATIC_IMG?>dataIndex/close-btn.png) center no-repeat;background-size: 20px 20px;float: right;margin-top: 15px;margin-right: 10px}
         .air-center .plane-data .plane-title{margin-top:40px;margin-left: 35px}
         .air-center .plane-data .plane-content{margin-top:10px;display: inline-block;}
         .air-center .plane-data .plane-content .plane-text{display: inline-block;margin-left: 70px}
-        .roll_row .roll__list::before, .roll_row .roll__list::after {content: "";display: table;line-height: 0;}
-        .roll_row .roll__list::after {clear: both;}
-        .roll_row .roll__list{width: 9999px;}
-        .roll_col .roll__list{width: 100%;}
         .air-bottom {width: 1442px;position: absolute;top: 812px;}
         .air-bottom .air-title{width: 699px;height: 37px;margin: 20px 0 0 30px;display: inline-block;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff }
         .air-bottom .plane-form{margin: 0 0 0 110px;display: inline-block;font-size: 22px; }
@@ -60,8 +57,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </ul>
     </div>
     <div class="air-center">
-        <div class="plane-data roll-wrap roll_row" id="plane-data">
-            <ul class="roll__list">
+        <div class="plane-data" id="plane-data">
+            <ul>
                 <?php foreach ($plane as $k => $v){?>
                 <li>
                     <a class="close-btn" id="<?php echo $v['id']?>" href="javascript:void (0)"></a>
@@ -99,27 +96,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
 </div>
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
-<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.form-validator.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <script>
     $.validate({form: '#userForm'});
     $('#submit').click(function () {
-        var url="<?php echo base_url() ?>index/dataSet";
-        var productId=$("#productId").val();
-        var status=$("#status").val();
-        var speed=$("#speed").val();
-        var alt=$("#alt").val();
-        var urlData={productId:productId,status:status,speed:speed,alt:alt};
-        $.post(url,urlData,function(result){
-           console.log(result.status);
-           if(result.status == 'true'){
-               alert(result.tips);
-               window.location.reload();
-           }else if(result.status == 'false'){
-               alert(result.tips);
-           }
-        },"json");
+        if ($('#userForm ul li').hasClass('has-error')){
+            alert('提交有误');
+        }else{
+            var url="<?php echo base_url() ?>index/dataSet";
+            var productId=$("#productId").val();
+            var status=$("#status").val();
+            var speed=$("#speed").val();
+            var alt=$("#alt").val();
+            var urlData={productId:productId,status:status,speed:speed,alt:alt};
+            $.post(url,urlData,function(result){
+               console.log(result.status);
+               if(result.status == 'true'){
+                   alert(result.tips);
+                   window.location.reload();
+               }else if(result.status == 'false'){
+                   alert(result.tips);
+               }
+            },"json");
+        }
     });
     $('.close-btn').click(function () {
         var r = confirm("确认删除嘛?");
@@ -138,13 +138,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },"json");
         }
 
-    });
-    $('#plane-data').rollSlide({
-        orientation: 'left',
-        num: 1,
-        v: 1000,
-        space: 1000,
-        isRoll: true
     });
 </script>
 </body>

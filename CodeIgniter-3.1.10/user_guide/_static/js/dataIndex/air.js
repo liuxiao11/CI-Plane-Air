@@ -585,21 +585,28 @@ $.post('/index/indexPage',function (data) {
             // 百度地图API功能
             var map=new BMap.Map("allmap");
             var startPoint = Startpoint;
-            map.centerAndZoom(new BMap.Point(startPoint.lon, startPoint.lat), 15);
+            map.centerAndZoom(new BMap.Point(startPoint.lng, startPoint.lat), 15);
             map.enableScrollWheelZoom(true);
 
             var myIcon=new BMap.Icon("/user_guide/_static/images/dataIndex/planeS.png", new BMap.Size(32, 32), { //飞机图片
                 //offset: new BMap.Size(0, -5),    //相当于CSS精灵
                 imageOffset: new BMap.Size(0, 0)//图片的偏移量。为了是图片底部中心对准坐标点。
             });
-            var carMk=new BMap.Marker(new BMap.Point(startPoint.lon, startPoint.lat),{icon:myIcon});
+            var carMk=new BMap.Marker(new BMap.Point(startPoint.lng, startPoint.lat),{icon:myIcon});
             map.addOverlay(carMk);
-
+            var cxt = "/user_guide/_static/images/";
+            var clng,clat;
+            var imei= "";
+            var centerPoint;
+            var timer;     //定时器
+            var index = 0; //记录播放到第几个point
+            var playBtn;
+            var ic=cxt+'dataIndex/plane1.png';
             function renderLastPoint(point){
                 // 实例化一个驾车导航用来生成路线
                 var driving=new BMap.DrivingRoute(map);
-                var sp=new BMap.Point(startPoint.lon, startPoint.lat);
-                var ep=new BMap.Point(point.lon, point.lat);
+                var sp=new BMap.Point(startPoint.lng, startPoint.lat);
+                var ep=new BMap.Point(point.lng, point.lat);
                 driving.search(sp, ep);
                 //设置新的开始点
                 startPoint=point;
@@ -661,8 +668,8 @@ $.post('/index/indexPage',function (data) {
             //模拟业务
             var ii=0;
             var _task=setInterval(function(){
-                var lastPoint={lon:Endpoint.lon+ii*0.01,lat:34.3175030000};//终点
-                if(lastPoint.lon==startPoint.lon&&lastPoint.lat==startPoint.lat){
+                var lastPoint={lng:Endpoint.lng+ii*0.01,lat:34.3175030000};//终点
+                if(lastPoint.lng==startPoint.lng&&lastPoint.lat==startPoint.lat){
                     //相同点，则不需要画图
                     return;
                 }
@@ -674,11 +681,58 @@ $.post('/index/indexPage',function (data) {
             // var _task=setInterval(function(){
             //     console.log(Endpoint);
             //     var lastPoint = Endpoint;//终点
-            //     if(lastPoint.lon==startPoint.lon && lastPoint.lat==startPoint.lat){
+            //     if(lastPoint.lng==startPoint.lng && lastPoint.lat==startPoint.lat){
             //         //相同点，则不需要画图
             //         return;
             //     }
             // },t30);
+
+            function ZoomControl2(){
+                // 默认停靠位置和偏移量
+                this.defaultAnchor = BMAP_ANCHOR_BOTTOM_RIGHT;
+                this.defaultOffset = new BMap.Size(20, 70); // 距离右上角位置
+            }
+            ZoomControl2.prototype = new BMap.Control();
+            ZoomControl2.prototype.initialize = function(map){
+                // 创建一个DOM元素
+                var div = document.createElement("div");
+                // 添加文字说明
+                var div1 = '<div class="fright">'+
+                    '<a href="#" onclick="round();">'+
+                    '<img src="'+cxt+'dataIndex/zoom-in.png"/>'+
+                    '</a>'+
+                    '<a  href="#" onclick="shrink();">'+
+                    '<img src="'+cxt+'dataIndex/zoom-out.png"/>'+
+                    '</a>'+
+                    '<a href="#" onclick="reset()">'+
+                    '<img src="'+cxt+'dataIndex/focus.png"/>'+
+                    '</a>'+
+                    '</div>';
+                div.innerHTML = div1;
+                // 添加DOM元素到地图中
+                map.getContainer().appendChild(div);
+                // 将DOM元素返回
+                return div;
+            };
+            var myZoomCtrl2 = new ZoomControl2();
+            map.addControl(myZoomCtrl2);
+            shrink = function (){//缩小
+                map.zoomTo(map.getZoom() - 1);
+            };
+            round = function (){//放大
+                map.zoomTo(map.getZoom() + 1);
+            };
+            // console.log(Startpoint)
+            reset = function (){ //重置
+                // playBtn.disabled = false;
+                if(timer) {
+                    window.clearTimeout(timer);
+                }
+                index = 0;
+                pointA = Startpoint;
+                carMk.setPosition(Startpoint);
+                map.setCenter(Startpoint);
+            };
         }
     }else if(data.status == 'false'){
         console.log('暂无数据');

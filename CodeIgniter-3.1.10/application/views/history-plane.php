@@ -162,6 +162,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             var pointTemp = new BMap.Point(PointArr[i].BLng, PointArr[i].BLat);
             points.push(pointTemp);
         }
+        console.log(points)
         var cxt = "/user_guide/_static/images/";
         var clng,clat;
         var imei= "";
