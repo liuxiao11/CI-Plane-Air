@@ -207,7 +207,8 @@ class dataIndex extends CI_Model {
             foreach ($air as $k => $v){
                 $time[$k] = $v['Day'];
             }
-            $time = array_unique($time);
+            $time1 = array_flip($time);
+            $time = array_keys($time1);
             foreach ($time as $key => $val){
                 $data[$key]['time'] = $val;
                 $air1 = $this->db->query('select '. $joinField .',Time from '.$this->airTable.' join '.$this->productTable.' on '.$this->productTable.'.id = '.$this->airTable.'.productId where Day = '.'"'.$val.'"'.' order by serialNum ASC')->result_array();
@@ -236,5 +237,4 @@ class dataIndex extends CI_Model {
             return  $airList;
         }
     }
-
 }

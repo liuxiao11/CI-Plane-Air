@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>空气质量监控系统-历史数据（气体）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
-    <link href="https://cdn.bootcss.com/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet">
+    <link href="<?php echo STATIC_CSS?>dataIndex/jquery.datetimepicker.min.css" rel="stylesheet">
 <!--    <script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/px2rem.js"></script>-->
     <style>
         /*#container{position:relative;width:100%;height:100%;min-width:1200px;max-width:3840px;min-height:720px;max-height:2160px;}*/
@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <form action="" class="plane-form">
                 <ul>
                     <li>开始时间：<input type="text" class="datetimepicker" name="time" id="startTime" readonly value="<?php echo date('Y-m-d')?>"></li>
-                    <li>结束时间：<input type="text" class="datetimepicker" name="time" id="endTime" readonly ></li>
+                    <li>结束时间：<input type="text" class="datetimepicker" name="time" id="endTime" readonly value="<?php echo date('Y-m-d')?>"></li>
                     <li>区域筛选：<select name="area" id="area">
                             <option value="1">未央区</option>
                             <option value="2">雁塔区</option>
@@ -71,8 +71,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <option value="4">长安区</option>
                         </select></li>
                     <li class="air-list">气体：
-                        <?php if($airList) foreach ($airList as $k => $v){?>
-                        <button type="button" class="button" data-id="<?php echo $v?>"><?php echo $v?></button>
+                        <?php if(isset($airList) && !empty($airList)) foreach ($airList as $k => $v){?>
+                            <button type="button" class="button" data-id="<?php echo $v?>"><?php echo $v?></button>
                         <?php }?>
                         <button class="submit" id="submit" type="button" >搜索</button>
                     </li>
@@ -86,8 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
 </div>
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
-<script src="https://cdn.bootcss.com/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js
-"></script>
+<script src="<?php echo STATIC_JS?>dataIndex/jquery.datetimepicker.full.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/echarts.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/echarts-wordcloud.js"></script>
@@ -120,9 +119,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         var urlData={startTime:startTime,endTime:endTime,area:area,air:air};
         $.post(url,urlData,function(result){
-            console.log(result);
-            $('#airList').html('');
+            console.log(result.status);
             if(result.status == 'true'){
+                console.log(111)
+                $('#airList').html('');
                 for (var i=0;i<result.data.length;i++){
                     var str = '<div class="date-chose" id="date">'+result.data[i].time+'</div>';
                     $('#airList').append(str);

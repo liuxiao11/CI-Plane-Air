@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>空气质量监控系统-历史数据（无人机）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
-    <link href="https://cdn.bootcss.com/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet">
+    <link href="<?php echo STATIC_CSS?>dataIndex/jquery.datetimepicker.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
 <!--    <script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/px2rem.js"></script>-->
@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <form class="plane-form">
                 <ul>
                     <li>开始时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="<?php echo date('Y-m-d')?>"></li>
-                    <li>结束时间：<input type="text" class="plane-name" name="time" id="endTime" readonly ></li>
+                    <li>结束时间：<input type="text" class="plane-name" name="time" id="endTime" readonly value="<?php echo date('Y-m-d')?>"></li>
                     <li class="plane-list">无人机：
                         <?php if($planeList) foreach ($planeList as $k => $v){?>
                             <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['productId']?></button>
@@ -77,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
-<script src="https://cdn.bootcss.com/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script src="<?php echo STATIC_JS?>dataIndex/jquery.datetimepicker.full.min.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZY3NXS5MWZXGlHaTQikPK3BuxnxQF0hB"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/planeMap.js"></script>-->

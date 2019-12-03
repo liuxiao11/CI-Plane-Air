@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right .num-btn:hover{background-size: 100% 2px,  2px 100%, 100% 2px, 2px 100%;}
         .air-right .num-btn span{font-size: 26px}
         .air-right .air-btn2{margin-left: 30px}
-        .air-right .plane-person{width: 96%;height: 260px;margin:20px auto 0 ;font-size: 14px;overflow-y: auto;}
+        .air-right .plane-person{width: 96%;height: 263px;margin:20px auto 0 ;font-size: 14px;overflow-y: auto;}
         .air-right .plane-person .person{display: inline-block;margin-left: 25px;}
         .air-right .plane-person .person img{width: 160px;height: 200px;border: 1px solid #00679c}
         .air-right .plane-stock .stock{width: 153px;height: 62px;background:url(<?php echo STATIC_IMG?>dataIndex/plane1-border.png) left top no-repeat;background-size: contain;display: inline-block;float: left;overflow: hidden;margin-left: 45px;margin-bottom: 20px}
@@ -141,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="info1">
             <p class="air-title">无人机负责人</p>
             <div class="plane-person">
-                <?php if($user) foreach ($user as $kk => $vv){?>
+                <?php if(isset($user) && !empty($user)) foreach ($user as $kk => $vv){?>
                 <div class="person">
                     <img src="<?php echo STATIC_IMG?>dataIndex/person.png" >
                     <p>姓名：<?php echo $vv['username']?></p>
