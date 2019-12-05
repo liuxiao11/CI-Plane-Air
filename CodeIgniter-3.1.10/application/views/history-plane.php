@@ -78,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
 <script src="<?php echo STATIC_JS?>dataIndex/jquery.datetimepicker.full.min.js"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZY3NXS5MWZXGlHaTQikPK3BuxnxQF0hB"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nVzaOG4nXU266Xgw2HZZvEyvfHIGlsmm"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/planeMap.js"></script>-->
 <script>

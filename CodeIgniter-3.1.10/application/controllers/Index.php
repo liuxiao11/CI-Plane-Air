@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+header("Access-Control-Allow-Origin: * ");
 
 class Index extends CI_Controller
 {
@@ -34,14 +35,14 @@ class Index extends CI_Controller
     {
         $data = $this->dataIndex->indexPage();
         if ($this->input->is_ajax_request()) {
-            if($data){
-                $this->show_message('true', '数据查询成功',$data);
-            }else{
-                $data='';
-                $this->show_message('false', '暂无数据',$data);
+            if ($data) {
+                $this->show_message('true', '数据查询成功', $data);
+            } else {
+                $data = '';
+                $this->show_message('false', '暂无数据', $data);
             }
         }
-        $this->load->view('index',$data);
+        $this->load->view('index', $data);
     }
 
     /**
@@ -65,7 +66,7 @@ class Index extends CI_Controller
             }
         }
         $data['plane'] = $this->dataIndex->planeSelect();
-        $this->load->view('set',$data);
+        $this->load->view('set', $data);
     }
 
     /**
@@ -86,6 +87,7 @@ class Index extends CI_Controller
             }
         }
     }
+
     /**
      * 数据设置(操作人员设置)
      */
@@ -93,12 +95,12 @@ class Index extends CI_Controller
     {
         if ($this->input->is_ajax_request()) {
             $where = $this->input->post('week1');
-            if(!empty($where)){
+            if (!empty($where)) {
                 $week = $this->dataIndex->personSelect($where);
-                if($week){
-                    $this->show_message('true', '数据查询成功',$week);
-                }else{
-                    $this->show_message('true', '暂无数据','');
+                if ($week) {
+                    $this->show_message('true', '数据查询成功', $week);
+                } else {
+                    $this->show_message('true', '暂无数据', '');
                 }
             }
             if ($this->input->post('username') && $this->input->post('iphone') && $this->input->post('week') && $this->input->post('time')) {
@@ -120,7 +122,7 @@ class Index extends CI_Controller
         $data['week'] = $this->dataIndex->get_weeks();
         $whereTime = date("Y-m-d");
         $data['user'] = $this->dataIndex->personSelect($whereTime);
-        $this->load->view('set-person',$data);
+        $this->load->view('set-person', $data);
     }
 
     /**
@@ -168,7 +170,7 @@ class Index extends CI_Controller
             }
         }
         $data['planeList'] = $this->dataIndex->planeSelect();
-        $this->load->view('history-plane',$data);
+        $this->load->view('history-plane', $data);
     }
 
     /**
@@ -185,7 +187,7 @@ class Index extends CI_Controller
                     "startTime" => $startTime,
                     "endTime" => $endTime,
                 );
-                $data = $this->dataIndex->hisAir($where,$field);
+                $data = $this->dataIndex->hisAir($where, $field);
                 if ($data) {
                     $this->show_message('true', '数据查询成功', $data);
                 } else {
@@ -196,7 +198,25 @@ class Index extends CI_Controller
             }
         }
         $data['airList'] = $this->dataIndex->airList();
-        $this->load->view('history-air',$data);
+        $this->load->view('history-air', $data);
+    }
+
+    public function testMap()
+    {
+        $data = $this->dataIndex->planeOnSelect();
+        $this->show_message('true', '数据查询成功', $data);
+    }
+    public function testMapId()
+    {
+        $id = $this->input->get('id');
+        $data = $this->dataIndex->planeOneSelect($id);
+        $this->show_message('true', '数据查询成功', $data);
+    }
+    public function planeLatLon()
+    {
+        $id = $this->input->post('productId');
+        $data = $this->dataIndex->planeLatLon($id);
+        $this->show_message('true', '数据查询成功', $data);
     }
 
     /**
@@ -211,7 +231,7 @@ class Index extends CI_Controller
     function show_message($status, $tips, $data = '', $ms = 2000, $dialog = '', $returnjs = false)
     {
         $data = $data ? $data : array();
-        $res = array("status" => $status, "tips" => $tips, "ms" => $ms ,'data' => $data) ;
+        $res = array("status" => $status, "tips" => $tips, "ms" => $ms, 'data' => $data);
         $json = json_encode($res, JSON_UNESCAPED_UNICODE);
         exit($json);
     }

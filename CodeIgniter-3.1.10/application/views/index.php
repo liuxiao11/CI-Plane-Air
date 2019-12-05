@@ -101,19 +101,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="air-center">
         <div class="plane-data roll-wrap roll_row" id="plane-data">
             <ul class="roll__list">
-                <?php foreach ($plane as $k => $v){?>
-                <li>
-                    <div class="plane-title">无人机<?php echo $v['productId']?></div>
-                    <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
-                        <div class="plane-text">
-                            <p>飞行状态：正常</p>
-                            <p>飞行速度：<?php echo $v['speed']?>m/s</p>
-                            <p>飞行高度：<?php echo $v['alt']?>m</p>
-                        </div>
-                    </div>
-                </li>
-                <?php }?>
             </ul>
         </div>
         <div><div id="allmap" class="plane-map" ></div></div>
@@ -172,7 +159,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/echarts-wordcloud.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/china.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZY3NXS5MWZXGlHaTQikPK3BuxnxQF0hB"></script>
+<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.cookie.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nVzaOG4nXU266Xgw2HZZvEyvfHIGlsmm"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/air.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <script type="text/javascript">
