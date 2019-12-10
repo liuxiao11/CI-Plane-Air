@@ -22,6 +22,7 @@ var cxt = "/user_guide/_static/images/";
 dataIndex();
 dataMap();
 setInterval(dataIndex, 5000);
+
 function dataIndex() {
     var myDate = new Date();
     $.post('/index/indexPage', function (data) {
@@ -628,8 +629,9 @@ function dataIndex() {
     //显示最后更新时间
     $('#refresh').html("<span id=\"refreshTime\">最后刷新时间：" + myDate.toLocaleDateString() + " " + myDate.toLocaleTimeString() + "</span>");
 }
-function dataMap(){
-    $.ajax( {
+
+function dataMap() {
+    $.ajax({
         async: false,
         cache: true,
         url: "/index/testMap",
@@ -680,9 +682,9 @@ function dataMap(){
                                 goodsSpeed = resultContent.speed;
                                 goodsAlt = resultContent.alt;
                                 /**** 创建报警图标，并在地图上显示报警图标，且鼠标经过报警图标时，显示报警的详细信息 ***/
-                                if (longitude[i] == '999.99999999' || latitude[i]== '999.99999999') {
+                                if (longitude[i] == '999.99999999' || latitude[i] == '999.99999999') {
                                     var alarmMarker = new BMap.Marker(new BMap.Point(longitude[i], latitude[i]), {icon: new BMap.Icon(cxt + "dataIndex/warning.png", new BMap.Size(32, 32))});  // 创建自定义报警图标
-                                    var alarmContent = '<div><img style="float:right;margin:2px" id="alarmInfo" src="' + cxt + 'dataIndex/warning.png" width="30" height="30"/><p style="margin:0;line-height:1.5;font-size:13px;text-indent:2em"><br/>无人机：' + goodsName + '<br/>报警类型：GPS为正常定位<br/>报警时间：' + getFormatDate() +
+                                    var alarmContent = '<div><img style="float:right;margin:2px" id="alarmInfo" src="' + cxt + 'dataIndex/warning.png" width="30" height="30"/><p style="margin:0;line-height:1.5;font-size:13px;text-indent:2em"><br/>无人机：' + goodsName + '<br/>报警类型：GPS未正常定位<br/>报警时间：' + getFormatDate() +
                                         '<br/></p></div>';
                                     map.addOverlay(alarmMarker); // 将报警图标添加到地图中
                                     addMouseoverHandler2(alarmContent, alarmMarker); //添加鼠标滑过报警图标时显示报警详情的事件
@@ -695,7 +697,7 @@ function dataMap(){
                                 addMouseoverHandler(steelContent, steelMarker); //添加鼠标滑过无人机图标时显示无人机详情的事件
 
                                 /**** 创建报警图标，并在地图上显示报警图标，且鼠标经过报警图标时，显示报警的详细信息 ***/
-                                if (alarm[i] == '0' || alarm[i]== '00000000000') {
+                                if (alarm[i] == '0' || alarm[i] == '00000000000') {
                                     var alarmMarker = new BMap.Marker(new BMap.Point(longitude[i], latitude[i]), {icon: new BMap.Icon(cxt + "dataIndex/warning.png", new BMap.Size(32, 32))});  // 创建自定义报警图标
                                     var alarmContent = '<div><img style="float:right;margin:2px" id="alarmInfo" src="' + cxt + 'dataIndex/warning.png" width="30" height="30"/><p style="margin:0;line-height:1.5;font-size:13px;text-indent:2em"><br/>无人机：' + goodsName + '<br/>报警类型：时间异常<br/>报警时间：' + getFormatDate() +
                                         '<br/></p></div>';
@@ -750,20 +752,21 @@ function dataMap(){
                         }, 3000);
                     };
 
-                    function ZoomControl2(){
+                    function ZoomControl2() {
                         // 默认停靠位置和偏移量
                         this.defaultAnchor = BMAP_ANCHOR_BOTTOM_RIGHT;
                         this.defaultOffset = new BMap.Size(20, 70); // 距离右上角位
                     }
+
                     ZoomControl2.prototype = new BMap.Control();
-                    ZoomControl2.prototype.initialize = function(map){
+                    ZoomControl2.prototype.initialize = function (map) {
                         // 创建一个DOM元素
                         var div = document.createElement("div");
                         // 添加文字说明
-                        var div1 = '<div class="fright">'+
-                            '<a href="#" onclick="reset()">'+
-                            '<img src="'+cxt+'dataIndex/focus.png"/>'+
-                            '</a>'+
+                        var div1 = '<div class="fright">' +
+                            '<a href="#" onclick="reset()">' +
+                            '<img src="' + cxt + 'dataIndex/focus.png"/>' +
+                            '</a>' +
                             '</div>';
                         div.innerHTML = div1;
                         // 添加DOM元素到地图中
@@ -775,7 +778,7 @@ function dataMap(){
                     var myZoomCtrl2 = new ZoomControl2();
                     map.addControl(myZoomCtrl2);
 
-                    reset = function (){ //重置
+                    reset = function () { //重置
                         clearTimeout(t);
                         dataMap();
                     };
@@ -864,6 +867,7 @@ $('#plane-data').rollSlide({
     space: 1000,
     isRoll: true
 });
+
 /* 获取当前日期 */
 function showTime() {
     var show_day = new Array('星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六');
