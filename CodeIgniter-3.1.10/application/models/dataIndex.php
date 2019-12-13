@@ -65,18 +65,17 @@ class dataIndex extends CI_Model
                             if ($value[$kk] > $airdataList[$kk]) {
                                 $a[$kk][] = $value[$kk];
                             }else{
-                                $a[$kk][0] = '';
+                                $a[$kk][] = '';
                             }
                         }
                     }
                 }
                 foreach ($a as $key => $item) {
-                    if(in_array("",$item)){
-                        $b[$key] = count($item);
-                    }else{
-                        $b[$key] = array();
+                    if(in_array('',$item)){
+
                     }
-//                    $a[$key] = count($item);
+                        $b[$k] = count($item);
+
                 }
                 $data['time'] = $Time;
                 $data['air'] = $air1;
