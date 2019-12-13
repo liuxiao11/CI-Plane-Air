@@ -54,12 +54,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <ul>
             <li class="air-date active"><a href="<?php echo base_url()?>index/dataSet"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机</a></li>
             <li class="air-date"><a href="<?php echo base_url()?>index/personSet"><img src="<?php echo STATIC_IMG?>dataIndex/set-person.png" alt="">操作人员</a></li>
+            <li class="air-date"><a href="<?php echo base_url()?>index/airSet"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">气体阈值</a></li>
+
         </ul>
     </div>
     <div class="air-center">
         <div class="plane-data" id="plane-data">
             <ul>
-                <?php foreach ($plane as $k => $v){?>
+                <?php if(!empty($plane) && isset($plane))  foreach ($plane as $k => $v){?>
                 <li>
                     <a class="close-btn" id="<?php echo $v['id']?>" href="javascript:void (0)"></a>
                     <div class="plane-title">无人机<?php echo $v['productId']?></div>

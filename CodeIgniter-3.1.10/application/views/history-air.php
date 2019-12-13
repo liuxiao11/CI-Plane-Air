@@ -72,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </select></li>
                     <li class="air-list">气体：
                         <?php if(isset($airList) && !empty($airList)) foreach ($airList as $k => $v){?>
-                            <button type="button" class="button" data-id="<?php echo $v?>"><?php echo $v?></button>
+                            <button type="button" class="button" data-id="<?php echo $v['field']?>"><?php echo $v['field']?></button>
                         <?php }?>
                         <button class="submit" id="submit" type="button" >搜索</button>
                     </li>

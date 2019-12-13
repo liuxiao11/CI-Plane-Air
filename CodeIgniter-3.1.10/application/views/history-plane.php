@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <li>开始时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="<?php echo date('Y-m-d')?>"></li>
                     <li>结束时间：<input type="text" class="plane-name" name="time" id="endTime" readonly value="<?php echo date('Y-m-d')?>"></li>
                     <li class="plane-list">无人机：
-                        <?php if($planeList) foreach ($planeList as $k => $v){?>
+                        <?php if(!empty($planeList) && isset($planeList)) foreach ($planeList as $k => $v){?>
                             <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['productId']?></button>
                         <?php }?>
                         <button class="submit" id="submit" type="button" >搜索</button>

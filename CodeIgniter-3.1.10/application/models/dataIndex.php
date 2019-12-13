@@ -12,14 +12,13 @@ class dataIndex extends CI_Model
     public $productStock = 'plane';
     public $airTable = 'air';
     public $userTable = 'user';
+    public $tshTable = 'air_threshold';
     public $field = '`CO`,`SO2`,`NO2`,`O3`,`PM2.5`,`PM10`,`VOC`,`CO2`,`H2S`,`NO`,`CH2O`,`NH3`,`PH3`,`HCN`,`C2H4`,`H2O2`,`CH4`,`F2`,`HCL`,`C2H4O`,`SF6`';
 
     public function __construct()
     {
-
         $this->load->database();
     }
-
     /**
      * 首页数据查询
      * @return mixed
@@ -32,8 +31,7 @@ class dataIndex extends CI_Model
         $planeStock = $this->db->select('*')->from($this->productStock)->where($whereStockWhere)->get()->result_array();//无人机库存信息
         $air_query = $this->db->from($this->airTable)->join($this->productTable, $this->productTable . '.id = ' . $this->airTable . '.productId')->where('Day', $where)->order_by('serialNum', 'ASC')->get();
         $air = $air_query->result_array();//气体信息
-        $air_querylist = $this->db->query('select ' . $this->field . ' from ' . $this->airTable . ' join ' . $this->productTable . ' on ' . $this->productTable . '.id = ' . $this->airTable . '.productId where Day = ' . '"' . $where . '"' . ' order by serialNum DESC');
-        $airlist = $air_querylist->row_array();//所有气体列表
+        $airlist = $this->airList();//所有气体列表
         $user = $this->db->select('*')->from($this->userTable)->where('time', $where)->get()->result_array();//负责无人机人员列表
         $plane_new2 = $this->db->where('Day', $where)->order_by('serialNum', 'ASC')->get($this->productTable)->row_array();//无人机开始GPS数据
         $planeWhere = array(
@@ -51,25 +49,45 @@ class dataIndex extends CI_Model
         }
         if (!empty($airlist)) {
             foreach ($airlist as $key => $val) {
-                $airList[] = $key;
-                $airdataList[] = $val;
+                $airList[] = $val['field'];
+                $airdataList[$val['field']] = $val['threshold'];
             }
-
             $data['airList'] = $airList;
             $data['airdataList'] = $airdataList;
-        }
-        if (!empty($air)) {
-            foreach ($air as $k => $v) {
-                $Time[] = substr($v['Time'], 0, 5);
-                $air1[] = $v;
+            if (!empty($air)) {
+                foreach ($air as $k => $v) {
+                    $Time[] = substr($v['Time'], 0, 5);
+                    $air1[] = $v;
+                }
+                foreach ($airdataList as $kk => $vv){
+                    foreach ($air1 as $kkk => $value){
+                        if(!empty($airdataList[$kk])) {
+                            if ($value[$kk] > $airdataList[$kk]) {
+                                $a[$kk][] = $value[$kk];
+                            }else{
+                                $a[$kk][0] = '';
+                            }
+                        }
+                    }
+                }
+                foreach ($a as $key => $item) {
+                    if(in_array("",$item)){
+                        $b[$key] = count($item);
+                    }else{
+                        $b[$key] = array();
+                    }
+//                    $a[$key] = count($item);
+                }
+                $data['time'] = $Time;
+                $data['air'] = $air1;
+                $data['airdataList'] = $a;
             }
-            $data['time'] = $Time;
-            $data['air'] = $air1;
-
         }
+
         if (!empty($user)) {
             $data['user'] = $user;
         }
+        var_dump($a);die;
         $data['planeStock'] = $planeStock;
         if ($data) {
             return $data;
@@ -183,6 +201,21 @@ class dataIndex extends CI_Model
             } else {
                 return false;
             }
+        }
+
+    }
+    /**
+     * 气体阈值数据添加
+     * @param $data
+     * @return bool
+     */
+    public function airSet($data)
+    {
+        $this->db->where('id', $data['id']);
+        if ($this->db->update($this->tshTable, $data)) {
+            return true;
+        } else {
+            return false;
         }
 
     }
@@ -309,13 +342,13 @@ class dataIndex extends CI_Model
 
     public function airList()
     {
-        $air_querylist = $this->db->query('select ' . $this->field . ' from ' . $this->airTable);
-        $airlist = $air_querylist->row_array();
+        $air_querylist = $this->db->query('select * from '.$this->tshTable);
+        $airlist = $air_querylist->result_array();
         if (!empty($airlist)) {
-            foreach ($airlist as $key => $val) {
-                $airList[] = $key;
-            }
-            return $airList;
+//            foreach ($airlist as $key => $val) {
+//                $airList[] = $val['field'];
+//            }
+            return $airlist;
         }
     }
 }

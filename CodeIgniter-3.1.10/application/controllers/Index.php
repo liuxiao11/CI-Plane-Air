@@ -145,6 +145,29 @@ class Index extends CI_Controller
     }
 
     /**
+     * 数据设置(气体阈值设置)
+     */
+    public function airSet()
+    {
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post('tsh') && $this->input->post('air')) {
+                $data['threshold'] = $this->input->post('tsh');
+                $data['id'] = $this->input->post('air');
+                $data['datetime'] = date('Y-m-d : H:i:s');
+                if ($this->dataIndex->airSet($data)) {
+                    $this->show_message('true', '数据更新成功');
+                } else {
+                    $this->show_message('false', '数据更新失败');
+                }
+            } else {
+                $this->show_message('false', '数据不能留空');
+            }
+        }
+        $data['airList'] = $this->dataIndex->airList();
+        $this->load->view('set-air',$data);
+    }
+
+    /**
      * 历史记录(无人机)
      */
     public function planeHis()
@@ -201,17 +224,20 @@ class Index extends CI_Controller
         $this->load->view('history-air', $data);
     }
 
+    /*首页地图正在飞的无人机*/
     public function testMap()
     {
         $data = $this->dataIndex->planeOnSelect();
         $this->show_message('true', '数据查询成功', $data);
     }
+    /*首页地图某个无人机的详细信息*/
     public function testMapId()
     {
         $id = $this->input->get('id');
         $data = $this->dataIndex->planeOneSelect($id);
         $this->show_message('true', '数据查询成功', $data);
     }
+    /*首页地图正在飞的无人机经纬度*/
     public function planeLatLon()
     {
         $id = $this->input->post('productId');

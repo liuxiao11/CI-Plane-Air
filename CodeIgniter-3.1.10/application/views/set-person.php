@@ -54,19 +54,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <ul>
             <li class="air-date"><a href="<?php echo base_url()?>index/dataSet"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机</a></li>
             <li class="air-date active"><a href="<?php echo base_url()?>index/personSet"><img src="<?php echo STATIC_IMG?>dataIndex/set-person.png" alt="">操作人员</a></li>
+            <li class="air-date"><a href="<?php echo base_url()?>index/airSet"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">气体阈值</a></li>
         </ul>
     </div>
     <div class="air-center">
         <div class="date week" >
             <ul>
-                <?php foreach ($week as $k => $v){?>
+                <?php  if(!empty($week) && isset($week))  foreach ($week as $k => $v){?>
                     <li data-id="<?php echo $k?>" data-date="<?php echo $v?>"><?php if($k == 1){echo '星期一';}elseif($k == 2){echo '星期二';}elseif($k == 3){echo '星期三';}elseif($k == 4){echo '星期四';}elseif($k == 5){echo '星期五';}elseif($k == 6){echo '星期六';}elseif($k == 0){echo '星期日';}else{echo "未知";} ?></li>
                 <?php }?>
             </ul>
         </div>
 
         <div class="plane-person" id="plane-person">
-            <?php if($user) foreach ($user as $key => $value){?>
+            <?php if(!empty($user) && isset($user)) foreach ($user as $key => $value){?>
                 <div class="person" >
                     <a class="close-btn" id="<?php echo $value['id']?>" href="javascript:void (0)"></a>
                     <img src="<?php echo STATIC_IMG?>dataIndex/person.png" alt="">

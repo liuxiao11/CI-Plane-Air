@@ -2,22 +2,6 @@ var Time = '';
 var Startpoint;
 var Endpoint;
 var cxt = "/user_guide/_static/images/";
-// // 百度地图API功能
-// var map = new BMap.Map("allmap");// 创建Map实例
-// map.centerAndZoom(new BMap.Point('西安市'), 12);// 初始化地图,设置中心点坐标和地图级别
-// map.enableScrollWheelZoom(true);//开启鼠标滚轮缩放
-// map.addControl(new BMap.NavigationControl()); //添加平移缩放控件
-// // var opts = {type: BMAP_NAVIGATION_CONTROL_ZOOM}
-// // map.addControl(new BMap.NavigationControl(opts));//简洁缩放控件
-// // map.addControl(new BMap.OverviewMapControl({isOpen: true}));  //添加缩略地图控件
-// var ic = cxt + 'dataIndex/plane1.png';
-// var myIcon2 = new BMap.Icon(
-//     ic, // 百度图片
-//     new BMap.Size(40, 40), // 视窗大小
-//     {
-//         imageSize: new BMap.Size(32, 32), // 引用图片实际大小　
-//     }
-// );
 //开始定时刷新
 dataIndex();
 dataMap();
@@ -859,7 +843,6 @@ function dataMap() {
         }
     });
 }
-
 $('#plane-data').rollSlide({
     orientation: 'left',
     num: 1,
@@ -867,7 +850,6 @@ $('#plane-data').rollSlide({
     space: 1000,
     isRoll: true
 });
-
 /* 获取当前日期 */
 function showTime() {
     var show_day = new Array('星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六');
