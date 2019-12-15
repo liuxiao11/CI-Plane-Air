@@ -53,40 +53,49 @@ class dataIndex extends CI_Model
                 $airdataList[$val['field']] = $val['threshold'];
             }
             $data['airList'] = $airList;
-            $data['airdataList'] = $airdataList;
+//            $data['airdataList'] = $airdataList;
             if (!empty($air)) {
                 foreach ($air as $k => $v) {
                     $Time[] = substr($v['Time'], 0, 5);
                     $air1[] = $v;
                 }
-                foreach ($airdataList as $kk => $vv){
-                    foreach ($air1 as $kkk => $value){
-                        if(!empty($airdataList[$kk])) {
-                            if ($value[$kk] > $airdataList[$kk]) {
-                                $a[$kk][] = $value[$kk];
-                            }else{
-                                $a[$kk][] = '';
+                $index = 0;
+                foreach ($airdataList as $kk => $vv) {
+                    foreach ($air1 as $kkk => $vvv) {
+                        if (!empty($airdataList[$kk])) {
+                            if ($vvv[$kk] > $airdataList[$kk]) {
+                                $a[$kk][] = $vvv[$kk];
                             }
                         }
                     }
                 }
-                foreach ($a as $key => $item) {
-                    if(in_array('',$item)){
+                if(isset($a) && !empty($a)){
+                    foreach ($a as $ke => $val){
+                        $field[] = $ke;
+                    }
+                    foreach ($airList as $key => $item) {
+                        if (in_array($item, $field)) {
+                            $b[$key] = count($a[$item]);
+                        } else {
+                            $b[$key] = 0;
+                        }
 
                     }
-                        $b[$k] = count($item);
-
+                    $data['airdataList'] = $b;
+                    foreach ($b as $key1 => $val1){
+                        $total[] = $val1;
+                    }
+                    $data['total'] = array_sum($total);
                 }
                 $data['time'] = $Time;
                 $data['air'] = $air1;
-                $data['airdataList'] = $a;
             }
         }
 
         if (!empty($user)) {
             $data['user'] = $user;
         }
-        var_dump($a);die;
+
         $data['planeStock'] = $planeStock;
         if ($data) {
             return $data;
@@ -344,9 +353,6 @@ class dataIndex extends CI_Model
         $air_querylist = $this->db->query('select * from '.$this->tshTable);
         $airlist = $air_querylist->result_array();
         if (!empty($airlist)) {
-//            foreach ($airlist as $key => $val) {
-//                $airList[] = $val['field'];
-//            }
             return $airlist;
         }
     }

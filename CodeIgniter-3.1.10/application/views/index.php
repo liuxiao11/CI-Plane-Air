@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .roll_row .roll__list::after {clear: both;}
         .roll_row .roll__list{width: 9999px;}
         .roll_col .roll__list{width: 100%;}
-        .air-center .map-border{width: 950px;height: 466px;position: absolute;z-index:1;background:url(<?php echo STATIC_IMG?>dataIndex/map-border.png) left top no-repeat;    background-size: 950px 466px;left: 41px;}
+        .air-center .map-border{width: 950px;height: 466px;position: absolute;z-index:1;background:url(<?php echo STATIC_IMG?>dataIndex/map-border.png) left top no-repeat;background-size: 950px 466px;left: 41px;}
         .air-center .plane-map{width: 920px;height: 465px;margin:20px auto 0; border-radius: 25px;}
         .air-bottom {width: 1033px;height: 250px;margin-top: 25px}
         .air-bottom .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
@@ -51,12 +51,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right .air-btn-border img{width: 22px;height: 22px;vertical-align: sub;margin-right: 5px}
         .air-right .info1{width: 420px;height: 332px;background:url(<?php echo STATIC_IMG?>dataIndex/b-air-border.png) left top no-repeat;background-size: contain;margin: 25px 0}
         .info1 .air-title{margin: 15px 0 0 30px;display: inline-block;font-size: 12px}
-        .air-right .number{width: 318px;height: 80px;margin:10px auto 0 ;display: block;}
-        .air-right .num-btn{width: 139px;height: 65px;font-size: 15px;text-align: center;border: 1px solid #00679c;transition: ease-in .3s;background: linear-gradient(0, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-90deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-180deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-270deg, #00679c 2px, #00679c 2px) no-repeat;background-size: 0 2px, 2px 0, 0 2px, 2px 0;background-position: left top, right top, right bottom, left bottom;display: inline-block;box-shadow: 0 0 8px #00679c;}
-        /*.air-right .num-btn{background-size: 100% 2px,  2px 100%, 100% 2px, 2px 100%;animation:play 3s linear  infinite;-moz-animation:play 3s  linear  infinite;-webkit-animation:play 3s linear  infinite;-o-animation:play 3s linear  infinite;}*/
-        .air-right .num-btn:hover{background-size: 100% 2px,  2px 100%, 100% 2px, 2px 100%;}
-        .air-right .num-btn span{font-size: 26px}
-        .air-right .air-btn2{margin-left: 30px}
+        .air-right .number{width: 318px;height: 50px;margin:20px auto 10px ;text-align: center;font-size: 15px;line-height: 40px}
+        .air-right .num-btn span:hover{background-size: 100% 2px,  2px 100%, 100% 2px, 2px 100%;}
+        .air-right .num-btn span{font-size: 26px;color: #29c4fd;font-weight: bold;box-shadow: 0 0 8px #00679c;transition: ease-in .3s;background: linear-gradient(0, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-90deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-180deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-270deg, #00679c 2px, #00679c 2px) no-repeat;background-size: 0 2px, 2px 0, 0 2px, 2px 0;background-position: left top, right top, right bottom, left bottom;box-shadow: 0 0 8px #00679c;margin-left: 20px;padding: 10px}
+        /*.air-right .air-btn2{margin-left: 30px}*/
         .air-right .plane-person{width: 96%;height: 263px;margin:20px auto 0 ;font-size: 14px;overflow-y: auto;}
         .air-right .plane-person .person{display: inline-block;margin-left: 25px;}
         .air-right .plane-person .person img{width: 160px;height: 200px;border: 1px solid #00679c}
@@ -120,8 +118,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="info1 air-warning">
             <p class="air-title">气体预警和风险数量</p>
             <div class="number">
-                <i class="num-btn air-btn1"><span>128</span><br>今日预警总数</i>
-                <i class="num-btn air-btn2"><span>166</span><br>今日查阅总数</i>
+                <i class="num-btn air-btn1">今日预警总数:<span><?php if(isset($total) && !empty($total)) echo $total;?></span></i>
+<!--                <i class="num-btn air-btn2"><span>166</span><br>今日查阅总数</i>-->
             </div>
             <div class="air-chart" id="warning" style="width: 95%;height: 63%"></div>
         </div>
