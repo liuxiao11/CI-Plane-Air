@@ -6,17 +6,21 @@ var cxt = "/user_guide/_static/images/";
 dataIndex();
 dataMap();
 setInterval(dataIndex, 5000);
-
+if($.cookie('id') == 'null'){
+    m = setInterval(dataMap, 5000);
+}else{
+    clearTimeout(m)
+}
 function dataIndex() {
     var myDate = new Date();
     $.post('/index/indexPage', function (data) {
-        console.log(data);
         if (data.status == 'true') {
             Time = data.data.time;
             Startpoint = data.data.Start_point;
             Endpoint = data.data.End_point;
             var plane = data.data.plane;
             var dataAir = data.data.air;
+            var total = data.data.total;
             var SO2data = [];
             var NO2data = [];
             var PM2data = [];
@@ -590,8 +594,13 @@ function dataIndex() {
                     myChartWarning.resize();
                 };
                 $('#plane-data ul').html('');
+                $("#dataNums").html('');
+                $("#dataNums").rollNum({
+                    deVal:total
+                });
+                // $('#warning-total').html('今日预警总数：'+data.data.total);
                 for (var p = 0; p < plane.length; p++) {
-                    var planeHtml = '<li>' +
+                     var planeHtml = '<li>' +
                         '<div class="plane-title">无人机' + plane[p].productId + '</div>' +
                         '<div class="plane-content">' +
                         '<img src="' + cxt + 'dataIndex/plane.png" alt="无人机">' +
@@ -604,6 +613,7 @@ function dataIndex() {
                         '</li>';
                     $('#plane-data ul').append(planeHtml);
                 }
+
 
             }
         } else if (data.status == 'false') {
@@ -657,7 +667,7 @@ function dataMap() {
                         url: "/index/testMapId?id=" + vehicleID[i],
                         type: 'GET',
                         success: function (res) {
-                            console.log(JSON.parse(res));
+                            $.cookie('id',null);
                             var result = eval('(' + res + ')');
                             var resultContent = result.data;
                             if (result.data.length != 0) {
@@ -693,6 +703,8 @@ function dataMap() {
                     });
                     var trackMap = [];
                     getCars = function (id) {
+                        $.cookie('id',id);
+                        clearInterval(m)
                         map.clearOverlays();
                         map.panTo(trackMap[trackMap.length - 1]);//将地图的中心点更改为给定的点。
                         map.setZoom(14);//将视图切换到指定的缩放等级，中心点坐标不变。
@@ -764,7 +776,7 @@ function dataMap() {
 
                     reset = function () { //重置
                         clearTimeout(t);
-                        dataMap();
+                        window.location.reload()
                     };
 
                     function getFormatDate() {
@@ -843,12 +855,38 @@ function dataMap() {
         }
     });
 }
+
 $('#plane-data').rollSlide({
     orientation: 'left',
     num: 1,
     v: 1000,
     space: 1000,
     isRoll: true
+});
+$('#warningDis').click(function () {
+    $('#alert').show();
+    var url="/index/warningDis";
+    $.post(url,function(result){
+        if(result.status == 'true'){
+            $('#airWarTable tbody').html('');
+            for (var i=0;i <result.data.length;i++){
+                var html =
+                    '<tr>' +
+                    '<td>'+result.data[i].productId+'</td>' +
+                    '<td>'+result.data[i].airName+'</td>' +
+                    '<td>'+result.data[i].airNum+'</td>' +
+                    '<td>'+result.data[i].airTsh+'</td>' +
+                    '<td>'+result.data[i].time+'</td>' +
+                    '</tr>';
+                $('#airWarTable tbody').append(html);
+            }
+        }else if(result.status == 'false'){
+            alert(result.tips);
+        }
+    },"json");
+});
+$('#closeBtn').click(function () {
+    $('.alertPopBoxBg').hide();
 });
 /* 获取当前日期 */
 function showTime() {

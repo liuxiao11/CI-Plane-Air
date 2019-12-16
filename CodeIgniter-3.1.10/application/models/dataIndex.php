@@ -350,7 +350,7 @@ class dataIndex extends CI_Model
         }
 
     }
-
+    /*所有气体名称*/
     public function airList()
     {
         $air_querylist = $this->db->query('select * from '.$this->tshTable);
@@ -359,4 +359,38 @@ class dataIndex extends CI_Model
             return $airlist;
         }
     }
+    /*气体预警详情*/
+    public function warningDis()
+    {
+        $where = date('Y-m-d');
+        $air = $this->db->from($this->airTable)->join($this->productTable, $this->productTable . '.id = ' . $this->airTable . '.productId')->where('Day', $where)->order_by('serialNum', 'ASC')->get()->result_array();//气体信息
+        $airlist = $this->airList();//所有气体名称列表
+//        var_dump($air);die;
+        if (!empty($air)) {
+            foreach ($airlist as $key => $val) {
+                $airdataList[$val['field']] = $val['threshold'];
+            }
+            $i = 0;
+            foreach ($airdataList as $kk => $vv) {
+                foreach ($air as $kkk => $vvv) {
+                    if (!empty($airdataList[$kk])) {
+                        if ($vvv[$kk] >= $airdataList[$kk]) {
+                            $i++;
+                            $data[$i]['productId'] = $vvv['productId'];
+                            $data[$i]['airName'] = $kk;
+                            $data[$i]['airNum'] = $vvv[$kk];
+                            $data[$i]['airTsh'] = $airdataList[$kk];
+                            $data[$i]['time'] = $vvv['Time'];
+                        }
+                    }
+                }
+            }
+        }
+        if(isset($data) && !empty($data)){
+            return array_values($data);
+        }else{
+            return false;
+        }
+    }
+
 }

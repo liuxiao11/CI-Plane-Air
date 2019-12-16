@@ -13,9 +13,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>空气质量监控系统-首页</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/easyui.css" rel="stylesheet" type="text/css" >
-<!--    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />-->
+    <link href="<?php echo STATIC_CSS?>dataIndex/globle.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
-<!--    <script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/px2rem.js"></script>-->
     <style>
         #refresh{position:absolute;top:0;font-size:20px;}
         .air-top{position:absolute;width:100%;height:93px;background:url(<?php echo STATIC_IMG?>dataIndex/top.png) left top no-repeat;background-size: 100% 100%;font-size: 37px;line-height: 93px;text-align: center}
@@ -51,9 +50,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right .air-btn-border img{width: 22px;height: 22px;vertical-align: sub;margin-right: 5px}
         .air-right .info1{width: 420px;height: 332px;background:url(<?php echo STATIC_IMG?>dataIndex/b-air-border.png) left top no-repeat;background-size: contain;margin: 25px 0}
         .info1 .air-title{margin: 15px 0 0 30px;display: inline-block;font-size: 12px}
-        .air-right .number{width: 318px;height: 50px;margin:20px auto 10px ;text-align: center;font-size: 15px;line-height: 40px}
-        .air-right .num-btn span:hover{background-size: 100% 2px,  2px 100%, 100% 2px, 2px 100%;}
-        .air-right .num-btn span{font-size: 26px;color: #29c4fd;font-weight: bold;box-shadow: 0 0 8px #00679c;transition: ease-in .3s;background: linear-gradient(0, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-90deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-180deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-270deg, #00679c 2px, #00679c 2px) no-repeat;background-size: 0 2px, 2px 0, 0 2px, 2px 0;background-position: left top, right top, right bottom, left bottom;box-shadow: 0 0 8px #00679c;margin-left: 20px;padding: 8px}
+        .air-right .number{width: 318px;height: 50px;margin:20px auto 10px ;text-align: center;font-size: 15px;}
+        /*.air-right .num-btn span:hover{background-size: 100% 2px,  2px 100%, 100% 2px, 2px 100%;}*/
+        /*.air-right .num-btn span{font-size: 26px;color: #29c4fd;font-weight: bold;box-shadow: 0 0 8px #00679c;transition: ease-in .3s;background: linear-gradient(0, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-90deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-180deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-270deg, #00679c 2px, #00679c 2px) no-repeat;background-size: 0 2px, 2px 0, 0 2px, 2px 0;background-position: left top, right top, right bottom, left bottom;box-shadow: 0 0 8px #00679c;margin-left: 20px;padding: 8px}*/
         /*.air-right .air-btn2{margin-left: 30px}*/
         .air-right .plane-person{width: 96%;height: 263px;margin:20px auto 0 ;font-size: 14px;overflow-y: auto;}
         .air-right .plane-person .person{display: inline-block;margin-left: 25px;}
@@ -65,6 +64,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right .plane-stock .stock p{float: left;margin: 10px 0 2px 15px}
         .air-right .plane-stock .stock button{float: left;width: 60px;margin-left: 15px;font-size:11px;background-color: #e9873e;border: none;color: #ffffff}
 
+        /*弹窗*/
+        .alertPopBoxBg{display:none;position: fixed;bottom: 0;left: 0;top: 0;right: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.6);z-index: 102;}
+        .alertPopBox{display:block;position:absolute;margin:auto;width:672px;height:520px;top: 0;left: 0;right: 0;bottom: 0;background: url(<?php echo STATIC_IMG?>dataIndex/alert-border.png) left top rgba(9,33,68,0.5);}
+        .alertPopBox .close-btn{width: 28px;height: 28px;float: right;margin: 15px;}
+        .alertPopBox .air-table{padding: 10px;width: 95%;height: 80%;overflow-y: auto}
+        .air-table table{width: 100%;text-align: center;border-spacing: 0;border-collapse: collapse;}
+        .air-table table th,td{text-align: center;padding: 8px}
+        .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
+        .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
     </style>
 </head>
 <body>
@@ -117,8 +125,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <div class="info1 air-warning">
             <p class="air-title">气体预警和风险数量</p>
+            <a href="javascript:void (0)" id="warningDis" class="air-title" style="float: right;margin-right: 30px">更多详情</a>
             <div class="number">
-                <i class="num-btn air-btn1">今日预警总数:<?php if(isset($total) && !empty($total)) {echo "<span>".$total."</span>";}else{ echo "<span>0</span>";}?></i>
+                <div class="num-btn air-btn1" id="warning-total">今日预警总数：<div id="dataNums"></div></div>
 <!--                <i class="num-btn air-btn2"><span>166</span><br>今日查阅总数</i>-->
             </div>
             <div class="air-chart" id="warning" style="width: 95%;height: 63%"></div>
@@ -150,14 +159,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </ul>
         </div>
     </div>
+    <!--气体预警详情弹窗-->
+    <div class="alertPopBoxBg" id="alert">
+        <div class="alertPopBox">
+            <a href="javascript:void (0)" id="closeBtn"><img class="close-btn" src="<?php echo STATIC_IMG?>dataIndex/close.png" ></a>
+            <h3 style="margin: 15px">预警信息</h3>
+            <div class="air-table">
+                <table id="airWarTable">
+                    <thead>
+                    <tr>
+                        <th>无人机编号</th>
+                        <th>气体名称</th>
+                        <th>采集值</th>
+                        <th>气体阈值</th>
+                        <th>时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/echarts.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/echarts-wordcloud.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/china.js"></script>
-<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.cookie.js"></script>
+<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
+<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/num.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nVzaOG4nXU266Xgw2HZZvEyvfHIGlsmm"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/air.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>

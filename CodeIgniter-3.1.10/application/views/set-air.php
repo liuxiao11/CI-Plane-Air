@@ -36,7 +36,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-bottom .air-title{width: 699px;height: 37px;margin: 20px 0 0 30px;display: inline-block;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff }
         .air-bottom .plane-form{margin: 20px 0 0 90px;font-size: 22px;}
         .air-bottom .plane-form p{margin: 30px;display: inline-block}
-        .air-bottom .plane-form .bootstrap-select{width: 280px !important;}
+        .air-bottom .plane-form .bootstrap-select{width: 280px !important;font-size: 20px !important;}
+        .air-bottom .plane-form .bootstrap-select button{font-size: 18px !important;}
+        .air-bottom .plane-form .bootstrap-select .dropdown-menu{font-size: 18px !important;}
         .air-bottom .plane-form .btn-default{height: 48px!important;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;}
         .air-bottom .plane-form .btn-default:focus{border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;}
         .air-bottom .plane-form .btn-default:hover{border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;}

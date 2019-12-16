@@ -244,7 +244,15 @@ class Index extends CI_Controller
         $data = $this->dataIndex->planeLatLon($id);
         $this->show_message('true', '数据查询成功', $data);
     }
-
+    /*气体预警详情*/
+    public function warningDis(){
+        $data = $this->dataIndex->warningDis();
+        if($data){
+            $this->show_message('true', '数据查询成功', $data);
+        }else{
+            $this->show_message('true', '暂无数据', '');
+        }
+    }
     /**
      * @param $status
      * @param $tips
