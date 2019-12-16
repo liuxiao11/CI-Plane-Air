@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                          class="selectpicker show-tick "  data-size="10"
                          data-live-search="true" data-validation="selectRequire" title="请输入选择">
                         <?php if(isset($airList) && !empty($airList)) foreach ($airList as $k => $v){?>
-                        <option value="<?php echo $v['id']?>"><?php echo $v['field']?></option>
+                            <option value="<?php echo $v['id']?>"><?php echo $v['field']?></option>
                         <?php }?>
                     </select>
                 </p>
@@ -114,21 +114,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $.validate({form: '#userForm'});
     $('.selectpicker').selectpicker();
     $('#submit').click(function () {
-        var url="<?php echo base_url() ?>index/airSet";
-        var air=$("#main_air").val();
-        var tsh=$("#tsh").val();
-        var urlData={air:air,tsh:tsh};
-        $.post(url,urlData,function(result){
-            console.log(result.status);
-            if(result.status == 'true'){
-                alert(result.tips);
-                window.location.reload();
-            }else if(result.status == 'false'){
-                alert(result.tips);
-            }
-        },"json");
+        if ($('#userForm p').hasClass('has-error')){
+            alert('提交有误');
+        }else{
+            var url="<?php echo base_url() ?>index/airSet";
+            var air=$("#main_air").val();
+            var tsh=$("#tsh").val();
+            var urlData={air:air,tsh:tsh};
+            $.post(url,urlData,function(result){
+                console.log(result.status);
+                if(result.status == 'true'){
+                    alert(result.tips);
+                    window.location.reload();
+                }else if(result.status == 'false'){
+                    alert(result.tips);
+                }
+            },"json");
+        }
     });
-
 </script>
 </body>
 </html>

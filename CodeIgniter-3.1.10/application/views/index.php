@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .info1 .air-title{margin: 15px 0 0 30px;display: inline-block;font-size: 12px}
         .air-right .number{width: 318px;height: 50px;margin:20px auto 10px ;text-align: center;font-size: 15px;line-height: 40px}
         .air-right .num-btn span:hover{background-size: 100% 2px,  2px 100%, 100% 2px, 2px 100%;}
-        .air-right .num-btn span{font-size: 26px;color: #29c4fd;font-weight: bold;box-shadow: 0 0 8px #00679c;transition: ease-in .3s;background: linear-gradient(0, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-90deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-180deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-270deg, #00679c 2px, #00679c 2px) no-repeat;background-size: 0 2px, 2px 0, 0 2px, 2px 0;background-position: left top, right top, right bottom, left bottom;box-shadow: 0 0 8px #00679c;margin-left: 20px;padding: 10px}
+        .air-right .num-btn span{font-size: 26px;color: #29c4fd;font-weight: bold;box-shadow: 0 0 8px #00679c;transition: ease-in .3s;background: linear-gradient(0, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-90deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-180deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-270deg, #00679c 2px, #00679c 2px) no-repeat;background-size: 0 2px, 2px 0, 0 2px, 2px 0;background-position: left top, right top, right bottom, left bottom;box-shadow: 0 0 8px #00679c;margin-left: 20px;padding: 8px}
         /*.air-right .air-btn2{margin-left: 30px}*/
         .air-right .plane-person{width: 96%;height: 263px;margin:20px auto 0 ;font-size: 14px;overflow-y: auto;}
         .air-right .plane-person .person{display: inline-block;margin-left: 25px;}
@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="info1 air-warning">
             <p class="air-title">气体预警和风险数量</p>
             <div class="number">
-                <i class="num-btn air-btn1">今日预警总数:<span><?php if(isset($total) && !empty($total)) echo $total;?></span></i>
+                <i class="num-btn air-btn1">今日预警总数:<?php if(isset($total) && !empty($total)) {echo "<span>".$total."</span>";}else{ echo "<span>0</span>";}?></i>
 <!--                <i class="num-btn air-btn2"><span>166</span><br>今日查阅总数</i>-->
             </div>
             <div class="air-chart" id="warning" style="width: 95%;height: 63%"></div>

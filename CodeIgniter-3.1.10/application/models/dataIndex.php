@@ -47,49 +47,52 @@ class dataIndex extends CI_Model
             $data['Start_point']['lng'] = $plane_new2['lon'];
             $data['Start_point']['lat'] = $plane_new2['lat'];
         }
+        if (!empty($air)) {
+            foreach ($air as $k => $v) {
+                $Time[] = substr($v['Time'], 0, 5);
+                $air1[] = $v;
+            }
+            $data['time'] = $Time;
+            $data['air'] = $air1;
+        }
         if (!empty($airlist)) {
             foreach ($airlist as $key => $val) {
                 $airList[] = $val['field'];
                 $airdataList[$val['field']] = $val['threshold'];
             }
             $data['airList'] = $airList;
-//            $data['airdataList'] = $airdataList;
-            if (!empty($air)) {
-                foreach ($air as $k => $v) {
-                    $Time[] = substr($v['Time'], 0, 5);
-                    $air1[] = $v;
-                }
-                $index = 0;
-                foreach ($airdataList as $kk => $vv) {
-                    foreach ($air1 as $kkk => $vvv) {
-                        if (!empty($airdataList[$kk])) {
-                            if ($vvv[$kk] > $airdataList[$kk]) {
-                                $a[$kk][] = $vvv[$kk];
-                            }
+            foreach ($airdataList as $kk => $vv) {
+                foreach ($air1 as $kkk => $vvv) {
+                    if (!empty($airdataList[$kk])) {
+                        if ($vvv[$kk] >= $airdataList[$kk]) {
+                            $a[$kk][] = $vvv[$kk];
                         }
                     }
                 }
-                if(isset($a) && !empty($a)){
-                    foreach ($a as $ke => $val){
-                        $field[] = $ke;
-                    }
-                    foreach ($airList as $key => $item) {
-                        if (in_array($item, $field)) {
-                            $b[$key] = count($a[$item]);
-                        } else {
-                            $b[$key] = 0;
-                        }
-
-                    }
-                    $data['airdataList'] = $b;
-                    foreach ($b as $key1 => $val1){
-                        $total[] = $val1;
-                    }
-                    $data['total'] = array_sum($total);
-                }
-                $data['time'] = $Time;
-                $data['air'] = $air1;
             }
+            if(isset($a) && !empty($a)){
+                foreach ($a as $ke => $val){
+                    $field[] = $ke;
+                }
+                foreach ($airList as $key => $item) {
+                    if (in_array($item, $field)) {
+                        $b[$key] = count($a[$item]);
+                    } else {
+                        $b[$key] = 0;
+                    }
+
+                }
+                foreach ($b as $key1 => $val1){
+                    $total[] = $val1;
+                }
+            }else{
+                foreach ($airList as $key => $item) {
+                    $b[$key] = 0;
+                }
+                $total[] = 0;
+            }
+            $data['airdataList'] = $b;
+            $data['total'] = array_sum($total);
         }
 
         if (!empty($user)) {
