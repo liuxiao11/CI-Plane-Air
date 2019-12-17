@@ -66,9 +66,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <li>结束时间：<input type="text" class="datetimepicker" name="time" id="endTime" readonly value="<?php echo date('Y-m-d')?>"></li>
                     <li>区域筛选：<select name="area" id="area">
                             <option value="1">未央区</option>
-                            <option value="2">雁塔区</option>
-                            <option value="3">碑林区</option>
-                            <option value="4">长安区</option>
                         </select></li>
                     <li class="air-list">气体：
                         <?php if(isset($airList) && !empty($airList)) foreach ($airList as $k => $v){?>
@@ -100,11 +97,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $(this).removeClass('active');
         } else{
             $(this).addClass('active');
-            var actLen = $('.plane-form .active').length;
-            if(actLen > 6){
-                $(this).removeClass('active');
-                alert('一次最多可选6项')
-            }
+            // var actLen = $('.plane-form .active').length;
+            // if(actLen > 6){
+            //     $(this).removeClass('active');
+            //     alert('一次最多可选6项')
+            // }
         }
     });
     //提交

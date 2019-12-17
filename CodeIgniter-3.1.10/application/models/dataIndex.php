@@ -29,11 +29,11 @@ class dataIndex extends CI_Model
         $data['plane'] = $this->planeOnSelect();//正在飞行中无人机信息
         $whereStockWhere = 'productId not in (SELECT productId from product)';
         $planeStock = $this->db->select('*')->from($this->productStock)->where($whereStockWhere)->get()->result_array();//无人机库存信息
-        $air_query = $this->db->from($this->airTable)->join($this->productTable, $this->productTable . '.id = ' . $this->airTable . '.productId')->where('Day', $where)->order_by('serialNum', 'ASC')->get();
-        $air = $air_query->result_array();//气体信息
+        $air = $this->db->from($this->airTable)->join($this->productTable, $this->productTable . '.id = ' . $this->airTable . '.productId')->where('Day', $where)->order_by('serialNum', 'DESC')->limit(5)->get()->result_array();//首页所需包信息
+        $airWarning = $this->db->from($this->airTable)->join($this->productTable, $this->productTable . '.id = ' . $this->airTable . '.productId')->where('Day', $where)->order_by('serialNum', 'DESC')->get()->result_array();//今日所有气体信息
         $airlist = $this->airList();//所有气体列表
         $user = $this->db->select('*')->from($this->userTable)->where('time', $where)->get()->result_array();//负责无人机人员列表
-        $plane_new2 = $this->db->where('Day', $where)->order_by('serialNum', 'ASC')->get($this->productTable)->row_array();//无人机开始GPS数据
+        $plane_new2 = $this->db->where('Day', $where)->order_by('serialNum', 'DESC')->get($this->productTable)->row_array();//无人机开始GPS数据
         $planeWhere = array(
             'Day' => $where,
             'productId' => $plane_new2['productId']
@@ -60,8 +60,9 @@ class dataIndex extends CI_Model
                 $airdataList[$val['field']] = $val['threshold'];
             }
             $data['airList'] = $airList;
+            /*预警信息*/
             foreach ($airdataList as $kk => $vv) {
-                foreach ($air1 as $kkk => $vvv) {
+                foreach ($airWarning as $kkk => $vvv) {
                     if (!empty($airdataList[$kk])) {
                         if ($vvv[$kk] >= $airdataList[$kk]) {
                             $a[$kk][] = $vvv[$kk];
@@ -93,7 +94,6 @@ class dataIndex extends CI_Model
             $data['airdataList'] = $b;
             $data['total'] = array_sum($total);
         }
-
         if (!empty($user)) {
             $data['user'] = $user;
         }
@@ -104,6 +104,9 @@ class dataIndex extends CI_Model
         } else {
             return false;
         }
+    }
+    public function airWarning(){
+
     }
 
     /**
@@ -333,7 +336,7 @@ class dataIndex extends CI_Model
             $time = array_keys($time1);
             foreach ($time as $key => $val) {
                 $data[$key]['time'] = $val;
-                $air1 = $this->db->query('select ' . $joinField . ',Time from ' . $this->airTable . ' join ' . $this->productTable . ' on ' . $this->productTable . '.id = ' . $this->airTable . '.productId where Day = ' . '"' . $val . '"' . ' order by serialNum ASC')->result_array();
+                $air1 = $this->db->query('select ' . $joinField . ',Time from ' . $this->airTable . ' join ' . $this->productTable . ' on ' . $this->productTable . '.id = ' . $this->airTable . '.productId where Day = ' . '"' . $val . '"' . ' order by serialNum DESC')->result_array();
                 if (!empty($air1)) {
                     foreach ($air1 as $kk => $vv) {
                         $Time[$kk] = substr($vv['Time'], 0, 5);
@@ -362,7 +365,7 @@ class dataIndex extends CI_Model
     public function warningDis()
     {
         $where = date('Y-m-d');
-        $air = $this->db->from($this->airTable)->join($this->productTable, $this->productTable . '.id = ' . $this->airTable . '.productId')->where('Day', $where)->order_by('serialNum', 'ASC')->get()->result_array();//气体信息
+        $air = $this->db->from($this->airTable)->join($this->productTable, $this->productTable . '.id = ' . $this->airTable . '.productId')->where('Day', $where)->order_by('serialNum', 'DESC')->get()->result_array();//气体信息
         $airlist = $this->airList();//所有气体名称列表
 //        var_dump($air);die;
         if (!empty($air)) {

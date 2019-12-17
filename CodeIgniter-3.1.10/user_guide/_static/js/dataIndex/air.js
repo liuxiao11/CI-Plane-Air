@@ -5,9 +5,9 @@ var cxt = "/user_guide/_static/images/";
 //开始定时刷新
 dataIndex();
 dataMap();
-setInterval(dataIndex, 5000);
+setInterval(dataIndex, 10000);
 if($.cookie('id') == 'null'){
-    m = setInterval(dataMap, 5000);
+    m = setInterval(dataMap, 10000);
 }else{
     clearTimeout(m)
 }
@@ -775,7 +775,9 @@ function dataMap() {
                     map.addControl(myZoomCtrl2);
 
                     reset = function () { //重置
-                        clearTimeout(t);
+                        if(typeof t != "undefined"){
+                            clearTimeout(t);
+                        }
                         window.location.reload()
                     };
 

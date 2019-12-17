@@ -58,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right .plane-person .person{display: inline-block;margin-left: 25px;}
         .air-right .plane-person .person img{width: 160px;height: 200px;border: 1px solid #00679c}
         .air-right .plane-stock .stock{width: 153px;height: 62px;background:url(<?php echo STATIC_IMG?>dataIndex/plane1-border.png) left top no-repeat;background-size: contain;display: inline-block;float: left;overflow: hidden;margin-left: 45px;margin-bottom: 20px}
-        .air-right .plane-stock {width: 98%;height: 162px;overflow-y: auto;}
+        .air-right .plane-stock {width: 98%;height: 162px;overflow-y: auto;margin-top: 25px;}
         .air-right .plane-stock>li:nth-of-type(odd){margin-left: 33px}
         .air-right .plane-stock .stock img{width: 37px;height: 37px;float: left;margin: 10px 12px}
         .air-right .plane-stock .stock p{float: left;margin: 10px 0 2px 15px}
