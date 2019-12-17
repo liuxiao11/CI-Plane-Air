@@ -631,6 +631,7 @@ function dataMap() {
         url: "/index/testMap",
         type: 'POST',
         success: function (result) {
+            $.cookie('id',null);
             var result = JSON.parse(result);
             var point = result.data;
             if (point != undefined && point.length > 0) {
@@ -667,7 +668,6 @@ function dataMap() {
                         url: "/index/testMapId?id=" + vehicleID[i],
                         type: 'GET',
                         success: function (res) {
-                            $.cookie('id',null);
                             var result = eval('(' + res + ')');
                             var resultContent = result.data;
                             if (result.data.length != 0) {

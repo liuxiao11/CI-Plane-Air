@@ -47,15 +47,14 @@ class dataIndex extends CI_Model
             $data['Start_point']['lng'] = $plane_new2['lon'];
             $data['Start_point']['lat'] = $plane_new2['lat'];
         }
-        if (!empty($air)) {
+        if (!empty($air) && !empty($airlist)) {
             foreach ($air as $k => $v) {
                 $Time[] = substr($v['Time'], 0, 5);
                 $air1[] = $v;
             }
             $data['time'] = $Time;
             $data['air'] = $air1;
-        }
-        if (!empty($airlist)) {
+
             foreach ($airlist as $key => $val) {
                 $airList[] = $val['field'];
                 $airdataList[$val['field']] = $val['threshold'];
