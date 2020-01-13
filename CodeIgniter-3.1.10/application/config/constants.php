@@ -91,7 +91,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 |
 |
 */
-defined('STATIC_')      OR define('STATIC_', 'http://local.ci.com/user_guide/_static/'); // js公共路径
-defined('STATIC_JS')      OR define('STATIC_JS', 'http://local.ci.com/user_guide/_static/js/'); // js公共路径
-defined('STATIC_IMG')      OR define('STATIC_IMG', 'http://local.ci.com/user_guide/_static/images/'); // img公共路径
-defined('STATIC_CSS')      OR define('STATIC_CSS', 'http://local.ci.com/user_guide/_static/css/'); // css公共路径
+defined('STATIC_')      OR define('STATIC_', 'http://local.air.com/user_guide/_static/'); // js公共路径
+defined('STATIC_JS')      OR define('STATIC_JS', 'http://local.air.com/user_guide/_static/js/'); // js公共路径
+defined('STATIC_IMG')      OR define('STATIC_IMG', 'http://local.air.com/user_guide/_static/images/'); // img公共路径
+defined('STATIC_CSS')      OR define('STATIC_CSS', 'http://local.air.com/user_guide/_static/css/'); // css公共路径
