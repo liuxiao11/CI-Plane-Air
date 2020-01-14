@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : localhost
 Source Server Version : 50726
 Source Host           : localhost:3306
-Source Database       : test
+Source Database       : air
 
 Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2020-01-13 19:55:03
+Date: 2020-01-14 10:04:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -146,10 +146,10 @@ CREATE TABLE `product` (
 -- Records of product
 -- ----------------------------
 INSERT INTO `product` VALUES ('1', null, '1574926175', null, null, '1998', '34.2935302306', '108.9531326294', '5.00', '900.00', null, '2019-12-17', '15:10:52');
-INSERT INTO `product` VALUES ('2', null, '1574994901', null, null, '1997', '34.2935302306', '108.9531326294', '6.00', '800.00', null, '2019-12-17', '17:03:04');
-INSERT INTO `product` VALUES ('3', null, '1574994875', null, null, '1997', '34.3175030000', '108.9497050000', '5.60', '780.00', null, '2019-12-17', '12:10:52');
+INSERT INTO `product` VALUES ('2', null, '1574994901', null, null, '1997', '34.2935302306', '108.9531326294', '6.00', '800.00', null, '2020-01-14', '17:03:04');
+INSERT INTO `product` VALUES ('3', null, '1574994875', null, null, '1997', '34.3175030000', '108.9497050000', '5.60', '780.00', null, '2020-01-14', '12:10:52');
 INSERT INTO `product` VALUES ('4', null, '1574994901', null, null, '1998', '34.3255530000', '108.9574660000', '8.00', '500.00', null, '2019-12-17', '10:03:04');
-INSERT INTO `product` VALUES ('5', null, '0', null, null, '1998', '34.2935302306', '108.9531326294', '8.00', '500.00', null, '2019-12-17', '08:03:04');
+INSERT INTO `product` VALUES ('5', null, '0', null, null, '1998', '34.2935302306', '108.9531326294', '8.00', '500.00', null, '2020-01-14', '08:03:04');
 INSERT INTO `product` VALUES ('6', null, '1575424991', null, null, '1998', '34.2935302306', '108.9531326294', '5.00', '400.00', null, '2019-12-17', '10:04:46');
 INSERT INTO `product` VALUES ('7', null, '1575427482', null, null, '1997', '34.3255530000', '108.9574660000', '6.00', '500.00', null, '2019-12-17', '11:45:48');
 INSERT INTO `product` VALUES ('8', null, '1575432901', null, null, '1997', '34.3289777713', '108.9304733276', '4.00', '500.00', null, '2019-12-17', '12:45:48');
