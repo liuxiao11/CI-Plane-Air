@@ -186,7 +186,7 @@ class Index extends CI_Controller
                 if ($data) {
                     $this->show_message('true', '数据查询成功', $data);
                 } else {
-                    $this->show_message('true', '未查到相应数据', '');
+                    $this->show_message('false', '未查到相应数据', '');
                 }
             } else {
                 $this->show_message('false', '搜索数据为空');

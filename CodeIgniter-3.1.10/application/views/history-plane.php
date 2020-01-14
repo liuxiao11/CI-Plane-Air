@@ -42,6 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .plane-map .playcss{width: 32px;height: 32px;background:url(<?php echo STATIC_IMG?>dataIndex/action.png) left top no-repeat;background-size: contain}
         .air-center .map-border{width: 1248px;height: 553px;position: absolute;z-index:1;background:url(<?php echo STATIC_IMG?>dataIndex/map-border.png) left top no-repeat;    background-size: 1248px 553px;left: 503px;}
         .plane-list{height: 111px;overflow-y: auto;padding-top: 5px;}
+        .map-p{margin: 80px auto 0; font-size: 18px;text-align: center}
     </style>
 </head>
 <body>
@@ -72,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </ul>
             </form>
         </div>
-        <div><div id="allmap" class="plane-map"></div></div>
+        <div id="mapPlaneBox"><div id="allmap" class="plane-map"></div></div>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
@@ -150,9 +151,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dataType:'json',
             success : function(res){
                 console.log(res)
-                PointArr = res.data.point;
-                speed = res.data.speed;
-                alt = res.data.alt;
+                if(res.status === "true"){
+                    PointArr = res.data.point;
+                    speed = res.data.speed;
+                    alt = res.data.alt;
+                }else{
+                    $('#mapPlaneBox').html("<p class='map-p'>没有相关数据...</p>");
+                }
             }
         });
         var points = [];
