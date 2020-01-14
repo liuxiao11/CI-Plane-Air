@@ -598,19 +598,35 @@ function dataIndex() {
                 $("#dataNums").rollNum({
                     deVal:total
                 });
+                console.log(plane);
                 // $('#warning-total').html('今日预警总数：'+data.data.total);
                 for (var p = 0; p < plane.length; p++) {
-                     var planeHtml = '<li>' +
-                        '<div class="plane-title">无人机' + plane[p].productId + '</div>' +
-                        '<div class="plane-content">' +
-                        '<img src="' + cxt + 'dataIndex/plane.png" alt="无人机">' +
-                        '<div class="plane-text">' +
-                        '<p>飞行状态：正常</p>' +
-                        '<p>飞行速度：' + plane[p].speed + 'm/s</p>' +
-                        '<p>飞行高度：' + plane[p].alt + 'm</p>' +
-                        '</div>' +
-                        '</div>' +
-                        '</li>';
+                    console.log(plane[p]['ptoductType']);
+                    if(plane[p]['ptoductType'] == "0"){
+                        var planeHtml = '<li>' +
+                            '<div class="plane-title">无人机' + plane[p].productId + '</div>' +
+                            '<div class="plane-content">' +
+                            '<img src="' + cxt + 'dataIndex/plane.png" alt="无人机">' +
+                            '<div class="plane-text">' +
+                            '<p>飞行状态：正常</p>' +
+                            '<p>飞行速度：' + plane[p].speed + 'm/s</p>' +
+                            '<p>飞行高度：' + plane[p].alt + 'm</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '</li>';
+                    }else{
+                        var planeHtml = '<li>' +
+                            '<div class="plane-title">无人机' + plane[p].productId + '</div>' +
+                            '<div class="plane-content">' +
+                            '<img class="carPlane" src="' + cxt + 'dataIndex/carPlane.png" alt="无人机">' +
+                            '<div class="plane-text">' +
+                            '<p>飞行状态：正常</p>' +
+                            '<p>飞行速度：' + plane[p].speed + 'm/s</p>' +
+                            '<p>飞行高度：' + plane[p].alt + 'm</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '</li>';
+                    }
                     $('#plane-data ul').append(planeHtml);
                 }
 

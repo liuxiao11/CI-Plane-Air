@@ -32,6 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .plane-data>ul>li:nth-child(2){margin-top: 0}
         .air-center .plane-data>ul>li:nth-child(3){margin-top: 0}
         .air-center .plane-data>ul>li img{width: 63px;height: 29px;margin-left: 35px;vertical-align: top;margin-top: 20px;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
+        .air-center .plane-data>ul>li .carPlane{width: 63px;height: 63px;vertical-align: top;margin-top: 5px;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
         .air-center .plane-data>ul>li .close-btn{width: 20px;height: 20px;background:url(<?php echo STATIC_IMG?>dataIndex/close-btn.png) center no-repeat;background-size: 20px 20px;float: right;margin-top: 15px;margin-right: 10px}
         .air-center .plane-data .plane-title{margin-top:40px;margin-left: 35px}
         .air-center .plane-data .plane-content{margin-top:10px;display: inline-block;}
@@ -66,9 +67,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <a class="close-btn" id="<?php echo $v['id']?>" href="javascript:void (0)"></a>
                     <div class="plane-title">无人机<?php echo $v['productId']?></div>
                     <div class="plane-content">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
+                        <?php if($v['productType'] == '0'){ echo "<img src='".STATIC_IMG."dataIndex/plane.png'>";}else{ echo "<img class='carPlane' src='".STATIC_IMG."dataIndex/carPlane.png'>";} ?>
                         <div class="plane-text">
-                            <p>飞行状态：<?php if($v['status'] == 1){ echo '正常';}else{ echo '异常';} ?></p>
+                            <p>设备类型：<?php if($v['productType'] == 1){ echo '车载';}else{ echo '无人机';} ?></p>
                             <p>飞行速度：<?php echo $v['speed']?>m/s</p>
                             <p>飞行高度：<?php echo $v['alt']?>m</p>
                         </div>
@@ -85,9 +86,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <form class="plane-form" method="post" id="userForm" onsubmit="return false;">
                 <ul>
                     <li>产品编号：<input type="text" class="plane-number" name="productId" id="productId" data-validation="length" data-validation-length="2-10" data-validation-error-msg="产品编号须为2至10个字符"></li>
-                    <li>产品状态：<select name="status" id="status">
-                        <option value="1">正常</option>
-                        <option value="0">异常</option></select>
+                    <li>产品类型：<select name="status" id="status">
+                        <option value="1">车载</option>
+                        <option value="0">无人机</option></select>
                     </li>
                     <li>平均速度：<input type="text" class="plane-number" name="speed" id="speed"  data-validation="number" data-validation-allowing="float"  data-validation-error-msg="速度须为数字"></li>
                     <li>平均高度：<input type="text" class="plane-number" name="alt" id="alt"  data-validation="number" data-validation-allowing="float"  data-validation-error-msg="高度须为数字">

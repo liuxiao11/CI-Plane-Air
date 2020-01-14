@@ -31,9 +31,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .plane-data>ul>li{width: 274px;height: 130px;background:url(<?php echo STATIC_IMG?>dataIndex/plane-border.png) left top no-repeat;background-size: 247px 130px;float: left;margin-left: 40px;margin-top: 22px}
         .air-center .plane-data>ul>li:nth-child(1){margin-left: 0}
         .air-center .plane-data>ul>li img{width: 63px;height: 29px;margin-left: 15px;vertical-align: top;margin-top: 20px ;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
+        .air-center .plane-data>ul>li .carPlane{width: 63px;height: 63px;margin-top: 5px;vertical-align: top;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
         .air-center .plane-data .plane-title{margin-top:20px;margin-left: 15px}
         .air-center .plane-data .plane-content{margin-top:8px;display: inline-block;}
-        .air-center .plane-data .plane-content .plane-text{display: inline-block;margin-left: 30px}
+        .air-center .plane-data .plane-content .plane-text{display: inline-block;margin-left: 30px;margin-top: 10px}
         .roll_row .roll__list::before, .roll_row .roll__list::after {content: "";display: table;line-height: 0;}
         .roll_row .roll__list::after {clear: both;}
         .roll_row .roll__list{width: 9999px;}
@@ -133,7 +134,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="air-chart" id="warning" style="width: 95%;height: 63%"></div>
         </div>
         <div class="info1">
-            <p class="air-title">无人机负责人</p>
+            <p class="air-title">检测设备负责人</p>
             <div class="plane-person">
                 <?php if(isset($user) && !empty($user)) foreach ($user as $kk => $vv){?>
                 <div class="person">
@@ -146,9 +147,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
         <div class="air">
-            <p class="air-title">无人机库存</p>
+            <p class="air-title">检测设备库存</p>
             <ul class="plane-stock">
-                <?php foreach ($planeStock as $k => $v){?>
+                <?php if(isset($planeStock) && !empty($planeStock)) foreach ($planeStock as $k => $v){?>
                 <li class="stock">
                     <img src="<?php echo STATIC_IMG?>dataIndex/plane1.png" >
                     <i class="shu"></i>

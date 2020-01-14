@@ -53,7 +53,7 @@ class Index extends CI_Controller
         if ($this->input->is_ajax_request()) {
             if ($this->input->post('productId') && $this->input->post('status') && $this->input->post('alt') && $this->input->post('speed')) {
                 $data['productId'] = $this->input->post('productId');
-                $data['status'] = $this->input->post('status');
+                $data['productType'] = $this->input->post('status');
                 $data['alt'] = $this->input->post('alt');
                 $data['speed'] = $this->input->post('speed');
                 if ($this->dataIndex->planeSet($data)) {
