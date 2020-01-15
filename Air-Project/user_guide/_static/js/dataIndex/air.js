@@ -42,7 +42,7 @@ function dataIndex() {
                     CH4data.push(dataAir[i].CH4);
                     SF6data.push(dataAir[i].SF6);
                     H2O2data.push(dataAir[i].H2O2);
-                    COCL2data.push(dataAir[i].COCL2);
+                    COCL2data.push(dataAir[i].H2S);
                 }
 
                 //柱状图
@@ -442,7 +442,7 @@ function dataIndex() {
                             fontSize: 10,
                             color: '#ffffff'
                         },
-                        data: ['CH4', 'SF6', 'H2O2', 'COCL2']
+                        data: ['CH4', 'SF6', 'H2O2', 'H2S']
                     },
                     grid: {
                         left: '3%',
@@ -498,7 +498,7 @@ function dataIndex() {
                             data: H2O2data
                         },
                         {
-                            name: 'COCL2',
+                            name: 'H2S',
                             type: 'line',
                             stack: '总量',
                             data: COCL2data
