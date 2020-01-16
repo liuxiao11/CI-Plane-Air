@@ -16,16 +16,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="<?php echo STATIC_CSS?>dataIndex/globle.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
     <style>
-        #refresh{position:absolute;top:0;font-size:20px;}
         .air-top{position:absolute;width:100%;height:93px;background:url(<?php echo STATIC_IMG?>dataIndex/top.png) left top no-repeat;background-size: 100% 100%;font-size: 37px;line-height: 93px;text-align: center}
-        .air-left{display: inline-block;width:420px;margin-left: 0.1rem;margin-top: 64px;float: left;}
+        .air-left{display: inline-block;width:420px;margin-top: 55px;position: absolute;left: 5px}
         .air-date{width: 388px;height: 59px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) left top no-repeat;background-size: contain;font-size: 22px;line-height: 59px;margin: 0 auto}
         .air-left .air-date .air-icon{width: 11px;height: 11px;background:url(<?php echo STATIC_IMG?>dataIndex/icon.png) left top no-repeat;background-size: contain;vertical-align:middle;margin-left: 11px}
         .air-left .air-date .air-weather-icon{width: 47px;height: 37px;background:url(<?php echo STATIC_IMG?>dataIndex/weather-icon.png) left top no-repeat;background-size: contain;vertical-align:middle;margin-left: 35px}
-        .air{width: 420px;height: 231px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border.png) left top no-repeat;background-size: contain;margin: 15px 0;overflow:hidden }
+        .air{width: 415px;height: 226px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border.png) left top no-repeat;background-size: contain;margin: 15px auto;overflow:hidden }
+        .air:last-child{margin-bottom: 0}
         .air-chart{margin: 0 auto}
         .air .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
-        .air-center{position: absolute;width: 1033px;height: 928px;background:url(<?php echo STATIC_IMG?>dataIndex/center-border.png) left top no-repeat;background-size: contain;margin-top: 150px;left: 50%;margin-left: -516.5px}
+        .air-center{position: absolute;width: 1033px;height: 928px;background:url(<?php echo STATIC_IMG?>dataIndex/center-border.png) left top no-repeat;background-size: contain;margin-top: 140px;left: 50%;margin-left: -516.5px}
         .air-center .plane-data{width: 1033px;height: 155px;overflow: hidden;position: relative;}
         .air-center .plane-data ul{width: 918px;height: 150px;margin: 0 auto}
         .air-center .plane-data>ul>li{width: 274px;height: 130px;background:url(<?php echo STATIC_IMG?>dataIndex/plane-border.png) left top no-repeat;background-size: 247px 130px;float: left;margin-left: 40px;margin-top: 22px}
@@ -44,17 +44,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-bottom {width: 1033px;height: 250px;margin-top: 25px}
         .air-bottom .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
         .air-bottom .air-title .title-icon{width: 12px;height: 9px;background: url(<?php echo STATIC_IMG?>dataIndex/title-icon.png) left top no-repeat;background-size: contain}
-        .air-right {display: inline-block;width:420px;margin-right: 10px;margin-top: 64px;float: right}
+        .air-right {display: inline-block;width:420px;margin-top: 55px;position: absolute;right: 1px;}
         .air-right .air-btn{text-align: center}
         .air-right .air-btn-border{width: 121px;height: 33px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg.png) left top no-repeat;background-size: contain;font-size: 16px;color: #fff363;text-align: center;line-height: 33px;display: inline-block}
         .air-right .air-btn-first{margin-right: 50px}
         .air-right .air-btn-border img{width: 22px;height: 22px;vertical-align: sub;margin-right: 5px}
-        .air-right .info1{width: 420px;height: 332px;background:url(<?php echo STATIC_IMG?>dataIndex/b-air-border.png) left top no-repeat;background-size: contain;margin: 25px 0}
+        .air-right .info1{width: 415px;height: 327px;background:url(<?php echo STATIC_IMG?>dataIndex/b-air-border.png) left top no-repeat;background-size: contain;margin: 28px 0}
         .info1 .air-title{margin: 15px 0 0 30px;display: inline-block;font-size: 12px}
         .air-right .number{width: 318px;height: 50px;margin:20px auto 10px ;text-align: center;font-size: 15px;}
-        /*.air-right .num-btn span:hover{background-size: 100% 2px,  2px 100%, 100% 2px, 2px 100%;}*/
-        /*.air-right .num-btn span{font-size: 26px;color: #29c4fd;font-weight: bold;box-shadow: 0 0 8px #00679c;transition: ease-in .3s;background: linear-gradient(0, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-90deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-180deg, #00679c 2px, #00679c 2px) no-repeat, linear-gradient(-270deg, #00679c 2px, #00679c 2px) no-repeat;background-size: 0 2px, 2px 0, 0 2px, 2px 0;background-position: left top, right top, right bottom, left bottom;box-shadow: 0 0 8px #00679c;margin-left: 20px;padding: 8px}*/
-        /*.air-right .air-btn2{margin-left: 30px}*/
         .air-right .plane-person{width: 96%;height: 263px;margin:20px auto 0 ;font-size: 14px;overflow-y: auto;}
         .air-right .plane-person .person{display: inline-block;margin-left: 25px;}
         .air-right .plane-person .person img{width: 160px;height: 200px;border: 1px solid #00679c}
@@ -78,10 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <div id="container">
-    <!-- 刷新 -->
-    <div id="refresh">
-        <span id="refreshTime">最后刷新时间：2019-11-06 23:13:24</span>
-    </div>
+
     <div class="air-top">空气质量监控系统</div>
     <div class="air-left">
         <div class="air-date">
