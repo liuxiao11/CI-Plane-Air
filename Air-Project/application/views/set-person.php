@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--    <script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/px2rem.js"></script>-->
     <style>
         .air-top{position:absolute;width:100%;height:93px;background:url(<?php echo STATIC_IMG?>dataIndex/top.png) left top no-repeat;background-size: 100% 100%;font-size: 37px;line-height: 93px;text-align: center}
-        .air-left{display: inline-block;width:384px;margin-left: 30px;margin-top: 64px;float: left}
+        .air-left{display: inline-block;width:384px;position: absolute;left: 30px;top: 64px;}
         .air-left .back{padding-left: 60px;line-height: 40px;background:url(<?php echo STATIC_IMG?>dataIndex/back.png) left top no-repeat;background-size: 40px 40px;font-size: 30px;color: #29c4fd}
         .air-left ul li:nth-child(1){margin-top: 60px}
         .air-date{width: 260px;height: 60px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) left top no-repeat;background-size: 260px 60px;font-size: 20px;line-height: 60px;margin-top:40px;}
@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-date a{color: #b8c5c8}
         .air-left .active{color: #fff363;background:url(<?php echo STATIC_IMG?>dataIndex/date-active.png) left top no-repeat;background-size: 260px 60px;}
         .air-left .active a{color: #fff363}
-        .air-center{width: 1442px;min-height: 86%;background:url(<?php echo STATIC_IMG?>dataIndex/center-border.png) left top no-repeat;background-size: 1442px 928px;margin-top: 150px;float: left}
+        .air-center{width: 1442px;height: 930px;background:url(<?php echo STATIC_IMG?>dataIndex/center-border.png) left top no-repeat;background-size: 1442px 928px;top: 150px;position: absolute;right: 50px}
         .air-center .date{width: 1442px;height: 78px;font-size: 24px}
         .air-center .date ul{width: 1316px;height: 48px;margin:52px auto 0 }
         .air-center .date>ul>li{width: 130px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg.png) left top no-repeat;background-size: 130px 48px;float: left;margin-left: 60px;text-align: center;line-height: 45px;color: #b8c5c8}
@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .plane-person .person img{width: 207px;height: 253px;border: 1px solid #00679c;margin-bottom: 20px}
         .plane-person .person p{line-height: 30px}
         .plane-person .person .close-btn{width: 20px;height: 20px;background:url(<?php echo STATIC_IMG?>dataIndex/close-btn.png) center no-repeat;background-size: 20px 20px;float: right;margin-left: 5px;}
-        .air-bottom {width: 1442px;position: absolute;top: 812px;}
+        .air-bottom {width: 1442px;position: absolute;top: 666px;}
         .air-bottom .air-title{width: 699px;height: 37px;margin: 20px 0 0 30px;display: inline-block;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff }
         .air-bottom .plane-form{margin: 0 0 0 110px;display: inline-block;font-size: 22px; }
         .air-bottom .plane-form ul li{display: inline-block;margin-right: 50px;margin-top: 10px}

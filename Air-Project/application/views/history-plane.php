@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <style>
         /*#container{position:relative;width:100%;height:100%;min-width:1200px;max-width:3840px;min-height:720px;max-height:2160px;}*/
         .air-top{position:absolute;width:100%;height:93px;background:url(<?php echo STATIC_IMG?>dataIndex/top.png) left top no-repeat;background-size: 100% 100%;font-size: 37px;line-height: 93px;text-align: center}
-        .air-left{display: inline-block;width:384px;margin-left: 30px;margin-top: 64px;float: left}
+        .air-left{display: inline-block;width:384px;position: absolute;left: 30px;top: 64px;}
         .air-left .back{padding-left: 60px;line-height: 40px;background:url(<?php echo STATIC_IMG?>dataIndex/back.png) left top no-repeat;background-size: 40px 40px;font-size: 30px;color: #29c4fd}
         .air-left ul li:nth-child(1){margin-top: 60px}
         .air-date{width: 260px;height: 60px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) left top no-repeat;background-size: 260px 60px;font-size: 20px;line-height: 60px;margin-top:40px;}
@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-date a{color: #b8c5c8}
         .air-left .active{color: #fff363;background:url(<?php echo STATIC_IMG?>dataIndex/date-active.png) left top no-repeat;background-size: 260px 60px;}
         .air-left .active a{color: #fff363}
-        .air-center{width: 1442px;height: 928px;background:url(<?php echo STATIC_IMG?>dataIndex/history-border.png) left top no-repeat;background-size: 1442px 928px;margin-top: 150px;float: left}
+        .air-center{width: 1442px;height: 928px;background:url(<?php echo STATIC_IMG?>dataIndex/history-border.png) left top no-repeat;background-size: 1442px 928px;    position: absolute;top: 170px;right: 50px;}
         .air-center .center-top {width: 1442px;height: 299px}
         .air-center .center-top .air-title{width: 699px;height: 37px;margin: 30px 0 0 40px;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff; }
         .air-center .center-top .plane-form{width: 1250px;height: 230px;margin-left:110px;display: inline-block;font-size: 22px; }
@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     speed = res.data.speed;
                     alt = res.data.alt;
                 }else{
-                    $('#mapPlaneBox').html("<p class='map-p'>没有相关数据...</p>");
+                    $('#mapPlaneBox').html("<div id='allmap' class='plane-map'><p class='map-p'>没有相关数据...</p></div>");
                 }
             }
         });

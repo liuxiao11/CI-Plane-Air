@@ -47,7 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right {display: inline-block;width:420px;margin-top: 55px;position: absolute;right: 1px;}
         .air-right .air-btn{text-align: center}
         .air-right .air-btn-border{width: 121px;height: 33px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg.png) left top no-repeat;background-size: contain;font-size: 16px;color: #fff363;text-align: center;line-height: 33px;display: inline-block}
-        .air-right .air-btn-first{margin-right: 50px}
         .air-right .air-btn-border img{width: 22px;height: 22px;vertical-align: sub;margin-right: 5px}
         .air-right .info1{width: 415px;height: 327px;background:url(<?php echo STATIC_IMG?>dataIndex/b-air-border.png) left top no-repeat;background-size: contain;margin: 28px 0}
         .info1 .air-title{margin: 15px 0 0 30px;display: inline-block;font-size: 12px}
@@ -63,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right .plane-stock .stock button{float: left;width: 60px;margin-left: 15px;font-size:11px;background-color: #e9873e;border: none;color: #ffffff}
 
         /*弹窗*/
-        .alertPopBoxBg{display:none;position: fixed;bottom: 0;left: 0;top: 0;right: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.6);z-index: 102;}
+        .alertPopBoxBg{display:none;position: fixed;bottom: 0;left: 0;top: 0;right: 0;width: 100%;height: 1080px;background-color: rgba(0,0,0,0.6);z-index: 102;}
         .alertPopBox{display:block;position:absolute;margin:auto;width:672px;height:520px;top: 0;left: 0;right: 0;bottom: 0;background: url(<?php echo STATIC_IMG?>dataIndex/alert-border.png) left top rgba(9,33,68,0.5);}
         .alertPopBox .close-btn{width: 28px;height: 28px;float: right;margin: 15px;}
         .alertPopBox .air-table{padding: 10px;width: 95%;height: 80%;overflow-y: auto}
@@ -115,8 +114,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
     <div class="air-right">
         <div class="air-date air-btn">
-            <a href="<?php echo base_url()?>index/dataSet" class="air-btn-border air-btn-first"><img src="<?php echo STATIC_IMG?>dataIndex/btn-set.png">数据设置</a>
+            <a href="<?php echo base_url()?>index/dataSet" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-set.png">数据设置</a>
             <a href="<?php echo base_url()?>index/planeHis" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-history.png">历史记录</a>
+            <a href="<?php echo base_url()?>index/planeHis" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/data.png">数据分析</a>
         </div>
         <div class="info1 air-warning">
             <p class="air-title">气体预警和风险数量</p>
