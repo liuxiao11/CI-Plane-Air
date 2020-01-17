@@ -394,5 +394,23 @@ class dataIndex extends CI_Model
             return false;
         }
     }
+    /*数据分析*/
+    public function dataAnalyse($data)
+    {
+        $field = '`SO2`,`NO2`,`PM10`,`PM2.5`,`CO`,`O3`';
+        $planeStock = $this->db->select('*')->from($this->productTable)->where($data)->get()->row_array();
+        $air = $this->db->query('select ' . $field . ' from ' . $this->airTable.' where productId =' . '"' . $planeStock['id'] . '"' )->row_array();
+        foreach ($air as $k => $v){
+            $air1[] = $v;
+            $field1[] = $k;
+        }
+        $info['air'] = $air1;
+        $info['airlist'] = $field1;
+        if(isset($info) && !empty($info)){
+            return $info;
+        }else{
+            return false;
+        }
+    }
 
 }

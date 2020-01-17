@@ -253,6 +253,29 @@ class Index extends CI_Controller
             $this->show_message('true', '暂无数据', '');
         }
     }
+    /*数据分析*/
+    public function dataAnalyse(){
+        if ($this->input->is_ajax_request()) {
+            $lat = $this->input->post('lat');
+            $lon = $this->input->post('lng');
+            $planeId = $this->input->post('planeId');
+            if ($lat && $lon) {
+                $data = array(
+                    "lat" => $lat,
+                    "lon" => $lon,
+                    "productId" => $planeId,
+                );
+                $info = $this->dataIndex->dataAnalyse($data);
+                if ($info) {
+                    $this->show_message('true', '数据查询成功', $info);
+                } else {
+                    $this->show_message('false', '未查到相应数据', '');
+                }
+            } else {
+                $this->show_message('false', '搜索数据为空');
+            }
+        }
+    }
     /**
      * @param $status
      * @param $tips

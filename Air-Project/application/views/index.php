@@ -116,7 +116,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="air-date air-btn">
             <a href="<?php echo base_url()?>index/dataSet" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-set.png">数据设置</a>
             <a href="<?php echo base_url()?>index/planeHis" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-history.png">历史记录</a>
-            <a href="<?php echo base_url()?>index/planeHis" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/data.png">数据分析</a>
         </div>
         <div class="info1 air-warning">
             <p class="air-title">气体预警和风险数量</p>
