@@ -70,11 +70,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-table table th,td{text-align: center;padding: 8px}
         .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
         .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
+
+        /*可拖动*/
+        .gridster{width: 100% !important}
     </style>
 </head>
 <body>
 <div id="container">
-
     <div class="air-top">空气质量监控系统</div>
     <div class="air-left">
         <div class="air-date">
@@ -98,61 +100,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="air-chart" id="CO-O3" style="width: 95%;height: 85%"></div>
         </div>
     </div>
-    <div class="air-center">
-        <div class="plane-data roll-wrap roll_row" id="plane-data">
-            <ul class="roll__list">
-            </ul>
-        </div>
-        <div><div id="allmap" class="plane-map" ></div></div>
-        <div class="air-bottom">
-            <p class="air-title">
-                <i class="title-icon"></i>
-                CH4/SF6/H2O2/COCL2
-            </p>
-            <div class="air-chart" id="CH4" style="width: 100%;height: 85%"></div>
-        </div>
-    </div>
-    <div class="air-right">
-        <div class="air-date air-btn">
-            <a href="<?php echo base_url()?>index/dataSet" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-set.png">数据设置</a>
-            <a href="<?php echo base_url()?>index/planeHis" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-history.png">历史记录</a>
-        </div>
-        <div class="info1 air-warning">
-            <p class="air-title">气体预警和风险数量</p>
-            <a href="javascript:void (0)" id="warningDis" class="air-title" style="float: right;margin-right: 30px">更多详情</a>
-            <div class="number">
-                <div class="num-btn air-btn1" id="warning-total">今日预警总数：<div id="dataNums"></div></div>
-<!--                <i class="num-btn air-btn2"><span>166</span><br>今日查阅总数</i>-->
+    <div class="gridster">
+        <div class="air-center" >
+            <div class="plane-data roll-wrap roll_row" id="plane-data">
+                <ul class="roll__list">
+                </ul>
             </div>
-            <div class="air-chart" id="warning" style="width: 95%;height: 63%"></div>
+            <div class="gridsterBox" id="gridsterBox1" ><div id="allmap" class="plane-map" ></div></div>
+            <div class="air-bottom">
+                <p class="air-title">
+                    <i class="title-icon"></i>
+                    CH4/SF6/H2O2/COCL2
+                </p>
+                <div class="air-chart" id="CH4" style="width: 100%;height: 85%"></div>
+            </div>
         </div>
-        <div class="info1">
-            <p class="air-title">检测设备负责人</p>
-            <div class="plane-person">
-                <?php if(isset($user) && !empty($user)) foreach ($user as $kk => $vv){?>
-                <div class="person">
-                    <img src="<?php echo STATIC_IMG?>dataIndex/person.png" >
-                    <p>姓名：<?php echo $vv['username']?></p>
-                    <p>负责内容：<?php echo $vv['charge']?></p>
-                    <p>联系方式：<?php echo $vv['iphone']?></p>
+        <div class="air-right">
+            <div class="air-date air-btn">
+                <a href="<?php echo base_url()?>index/dataSet" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-set.png">数据设置</a>
+                <a href="<?php echo base_url()?>index/planeHis" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-history.png">历史记录</a>
+            </div>
+            <div class="info1 air-warning">
+                <p class="air-title">气体预警和风险数量</p>
+                <a href="javascript:void (0)" id="warningDis" class="air-title" style="float: right;margin-right: 30px">更多详情</a>
+                <div class="number">
+                    <div class="num-btn air-btn1" id="warning-total">今日预警总数：<div id="dataNums"></div></div>
+                    <!--                <i class="num-btn air-btn2"><span>166</span><br>今日查阅总数</i>-->
                 </div>
-                <?php }?>
+                <div class="air-chart" id="warning" style="width: 95%;height: 63%"></div>
+            </div>
+            <div class="info1 gridsterBox" id="gridsterBox">
+                <p class="air-title">检测设备负责人</p>
+                <div class="plane-person">
+                    <?php if(isset($user) && !empty($user)) foreach ($user as $kk => $vv){?>
+                        <div class="person">
+                            <img src="<?php echo STATIC_IMG?>dataIndex/person.png" >
+                            <p>姓名：<?php echo $vv['username']?></p>
+                            <p>负责内容：<?php echo $vv['charge']?></p>
+                            <p>联系方式：<?php echo $vv['iphone']?></p>
+                        </div>
+                    <?php }?>
+                </div>
+            </div>
+            <div class="air">
+                <p class="air-title">检测设备库存</p>
+                <ul class="plane-stock">
+                    <?php if(isset($planeStock) && !empty($planeStock)) foreach ($planeStock as $k => $v){?>
+                        <li class="stock">
+                            <img src="<?php echo STATIC_IMG?>dataIndex/plane1.png" >
+                            <i class="shu"></i>
+                            <p><?php echo $v['productId'] ?><br>
+                                <?php if($v['status'] == 1){ echo '状态:正常';}else{ echo '状态:异常';} ?></p>
+                        </li>
+                    <?php }?>
+                </ul>
             </div>
         </div>
-        <div class="air">
-            <p class="air-title">检测设备库存</p>
-            <ul class="plane-stock">
-                <?php if(isset($planeStock) && !empty($planeStock)) foreach ($planeStock as $k => $v){?>
-                <li class="stock">
-                    <img src="<?php echo STATIC_IMG?>dataIndex/plane1.png" >
-                    <i class="shu"></i>
-                    <p><?php echo $v['productId'] ?><br>
-                        <?php if($v['status'] == 1){ echo '状态:正常';}else{ echo '状态:异常';} ?></p>
-                </li>
-                <?php }?>
-            </ul>
-        </div>
     </div>
+
     <!--气体预警详情弹窗-->
     <div class="alertPopBoxBg" id="alert">
         <div class="alertPopBox">
@@ -187,11 +192,74 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nVzaOG4nXU266Xgw2HZZvEyvfHIGlsmm"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/air.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
+<!--<script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/drag.js"></script>-->
 <script type="text/javascript">
     WIDGET = {FID: 'jyA2dogNAb'}
 </script>
 <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
 <script>
+    // 盒子1
+    $('#gridsterBox').mousedown(function (e) {
+        var boxLeft = e.offsetX,   //鼠标按下时记录指针偏离盒子左侧的距离
+            boxTop = e.offsetY;    //鼠标按下时记录指针偏离盒子顶部的距离
+        $(document).mousemove(function (event) {
+            $('#gridsterBox').offset({
+                left:event.pageX-boxLeft,    //两者相减保证鼠标按下时盒子位置不动
+                top:event.pageY-boxTop       //两者相减保证鼠标按下时盒子位置不动
+            });
+            if(checkIntersect($('#gridsterBox'),$('#gridsterBox1'),20)){
+                console.log(11)
+                //在范围内
+                $('#gridsterBox1').css('border','2px #F00 dashed');
+                $('#gridsterBox1').css('-webkit-animation-name','light');
+                $('#gridsterBox1').css('-webkit-animation-duration','1s');
+                $('#gridsterBox1').css('-webkit-animation-delay','0.5s');
+                $('#gridsterBox1').css('-webkit-animation-iteration-count','100');
+                $('#gridsterBox').css({
+                    'width': '920px',
+                    'height': '465px',
+                    'margin':'20px auto 0',
+                    'border-radius': '25px',
+                })
+            }else{
+                console.log(22)
+                //不在范围内
+                $('#gridsterBox1').css('border','2px #09F dashed');
+                $('#gridsterBox1').css('-webkit-animation-name','');
+                $('#gridsterBox').css({
+                    'width': '415px',
+                    'height': '327px',
+                    'margin':'28px 0',
+                    'border-radius': 'none',
+
+                })
+            }
+        });
+        function checkIntersect(obj1,obj2,distance){//检测碰撞,distance为吸附的范围
+            var top1 = obj1.offset().top;
+            var left1 = obj1.offset().left;
+            var width1 = obj1.offset().width;
+            var t1 = top1 - $(window).scrollTop();
+            var l1 = left1 - $(window).scrollLeft();
+            var top2 = obj2.offset().top;
+            var left2 = obj2.offset().left;
+            var width2 = obj2.width();
+            var height2 = obj2.height();
+            var t2 = top2 - $(window).scrollTop();
+            var l2 = left2 - $(window).scrollLeft();
+            if(((l1-l2>=0) && (l1<=width2)) && ((t1-t2>=0) && (t1<=height2))){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+    }).mouseup(function () {
+        $(document).off('mousemove');   //鼠标松开后清除鼠标移动事件
+        $('#gridsterBox1').css('border','none');
+        $('#gridsterBox1').css('-webkit-animation-name','');
+    });
+
 </script>
 </body>
 </html>
