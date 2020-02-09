@@ -37,17 +37,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .center-top .plane-form ul li button:focus{outline:none}
         .air-center .center-top .plane-form ul li .active{box-shadow: 0 0 8px #fcea00;color: #fff363;}
         .air-center .center-top .plane-form .submit{width: 120px !important;height: 40px !important;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 22px;display: block;float: right;padding: 0 !important;color: #d9d9d9}
-        .air-center .plane-map{width: 1218px;height: 551px;margin:20px auto 0;border-radius: 25px;}
+        .air-center .mapPlaneBox{float: left;width: 890px;}
+        .air-center .plane-map{width: 790px;height: 515px;margin:40px 20px 0 90px;border-radius: 25px;}
         .air-center .plane-map .fleft{color: #13227a;font-size: 14px;font-weight: bold}
         .air-center .plane-map .playcss{width: 32px;height: 32px;background:url(<?php echo STATIC_IMG?>dataIndex/action.png) left top no-repeat;background-size: contain}
         .air-center .map-border{width: 1248px;height: 553px;position: absolute;z-index:1;background:url(<?php echo STATIC_IMG?>dataIndex/map-border.png) left top no-repeat;    background-size: 1248px 553px;left: 503px;}
         .plane-list{height: 111px;overflow-y: auto;padding-top: 5px;}
         .map-p{margin: 80px auto 0; font-size: 18px;text-align: center}
-        /*弹窗*/
-        .alertPopBoxBg{display:none;position: fixed;bottom: 0;left: 0;top: 0;right: 0;width: 100%;height: 1080px;background-color: rgba(0,0,0,0.6);z-index: 102;}
-        .alertPopBox{display:block;position:absolute;margin:auto;width:672px;height:520px;top: 0;left: 0;right: 0;bottom: 0;background: url(<?php echo STATIC_IMG?>dataIndex/alert-border.png) left top rgba(9,33,68,0.5);}
-        .alertPopBox .close-btn{width: 28px;height: 28px;float: right;margin: 15px;}
-        .air{width: 590px;height: 433px;margin: 15px auto;}
+        /*气体详情*/
+        .airDesBox{float: left;display: none}
+        .airBox{margin-left: 20px}
+        .air{width: 460px;height: 460px;margin: 60px 0 0 10px;}
         .air-chart{margin: 0 auto;display: block}
     </style>
 </head>
@@ -79,14 +79,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </ul>
             </form>
         </div>
-        <div id="mapPlaneBox"><div id="allmap" class="plane-map"></div></div>
-    </div>
-    <!--气体详情弹窗-->
-    <div class="alertPopBoxBg" id="alert">
-        <div class="alertPopBox">
-            <a href="javascript:void (0)" id="closeBtn"><img class="close-btn" src="<?php echo STATIC_IMG?>dataIndex/close.png" ></a>
-            <h3 style="margin: 15px">气体详情</h3>
-            <div class="air" id="airBox">
+        <div class="mapPlaneBox" id="mapPlaneBox"><div id="allmap" class="plane-map"></div></div>
+        <!--气体详情弹窗-->
+        <div class="airDesBox" id="alert">
+            <div class="airBox">
+                <div class="air" id="airBox">
+                </div>
             </div>
         </div>
     </div>
@@ -174,12 +172,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             success : function(res){
                 console.log(res)
                 if(res.status === "true"){
+                    $('#alert').hide();
                     PointArr = res.data.point;
                     speed = res.data.speed;
                     alt = res.data.alt;
                     var points = [];
                     var pointStart = new BMap.Point(PointArr[0].BLng, PointArr[0].BLat);
+                    var pointStartTime = PointArr[0].time;
                     var pointEnd=new BMap.Point(PointArr[PointArr.length-1].BLng, PointArr[PointArr.length-1].BLat);
+                    var pointEndT=PointArr.length-1;
+                    var pointEndTime=PointArr[pointEndT].time;
                     var cxt = "/user_guide/_static/images/";
                     var clng,clat;
                     var imei= "";
@@ -205,8 +207,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var myIcon = new BMap.Icon(eic,new BMap.Size(25,25),{imageSize: new BMap.Size(25,25),});
                         /**** 创建无人机图标，并在地图上显示无人机图标，且鼠标经过无人机图标时，显示无人机的详细信息 ***/
                         var steelMarker = new BMap.Marker(new BMap.Point(PointArr[i].BLng, PointArr[i].BLat), {icon: myIcon});	//创建无人机图标
-                        var steelContent = '<div><p style="margin:0;line-height:1.5;font-size:13px;text-indent:2em"><br/>经度：' + PointArr[i].BLat + '<br/>纬度：' + PointArr[i].BLng + '<br/>' +
-                            '<button type="button" onclick="dataAny('+PointArr[i].BLng+', '+PointArr[i].BLat+')" style="width: 180px;height: 25px;float: left;background-color: #e9873e;border: none;color: #ffffff;margin-top: 20px">查看该点气体数据</button></p></div>';//无人机详情弹出框
+                        var steelContent = '<div><p>'+PointArr[i].time+'</p><p style="margin:0;line-height:1;font-size:13px;text-indent:2em"><br/>经度：' + PointArr[i].BLat + '<br/>纬度：' + PointArr[i].BLng + '<br/>' +
+                            '<button type="button" onclick="dataAny('+PointArr[i].BLng+', '+PointArr[i].BLat+')" style="width: 180px;height: 25px;float: left;background-color: #e9873e;border: none;color: #ffffff;margin-top: 15px">查看该点气体数据</button></p></div>';//无人机详情弹出框
                         map.addOverlay(steelMarker); // 将无人机图标添加到地图中
                         addMouseoverHandler(steelContent, steelMarker); //添加鼠标滑过无人机图标时显示无人机详情的事件
                     }
@@ -304,8 +306,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             map.addOverlay(eMark);
                             console.log(pointStart)
                             /**** 创建无人机图标，并在地图上显示无人机图标，且鼠标经过无人机图标时，显示无人机的详细信息 ***/
-                            var steelContent = '<div><p style="margin:0;line-height:1.5;font-size:13px;text-indent:2em"><br/>经度：' + pointStart.lng + '<br/>纬度：' + pointStart.lat + '<br/>' + '<button type="button" onclick="dataAny('+pointStart.lng+','+pointStart.lat+')" style="width: 180px;height: 25px;float: left;background-color: #e9873e;border: none;color: #ffffff;margin-top: 20px">查看该点气体数据</button></p></div>';//无人机详情弹出框
-                            var steelContent1 = '<div><p style="margin:0;line-height:1.5;font-size:13px;text-indent:2em"><br/>经度：' + pointEnd.lng + '<br/>纬度：' + pointEnd.lat + '<br/>' + '<button type="button" onclick="dataAny('+pointEnd.lng+','+pointEnd.lat+')" style="width: 180px;height: 25px;float: left;background-color: #e9873e;border: none;color: #ffffff;margin-top: 20px">查看该点气体数据</button></p></div>';//无人机详情弹出框
+                            var steelContent = '<div><p>'+pointStartTime+'</p><p style="margin:0;line-height:1;font-size:13px;text-indent:2em"><br/>经度：' + pointStart.lng + '<br/>纬度：' + pointStart.lat + '<br/>' + '<button type="button" onclick="dataAny('+pointStart.lng+','+pointStart.lat+')" style="width: 180px;height: 25px;float: left;background-color: #e9873e;border: none;color: #ffffff;margin-top: 15px">查看开始点气体数据</button></p></div>';//无人机详情弹出框
+                            var steelContent1 = '<div><p>'+pointEndTime+'</p><p style="margin:0;line-height:1;font-size:13px;text-indent:2em"><br/>经度：' + pointEnd.lng + '<br/>纬度：' + pointEnd.lat + '<br/>' + '<button type="button" onclick="dataAny('+pointEnd.lng+','+pointEnd.lat+')" style="width: 180px;height: 25px;float: left;background-color: #e9873e;border: none;color: #ffffff;margin-top: 15px">查看结束点气体数据</button></p></div>';//无人机详情弹出框
                             addMouseoverHandler(steelContent, sMark); //添加鼠标滑过无人机图标时显示无人机详情的事件
                             addMouseoverHandler(steelContent1, eMark); //添加鼠标滑过无人机图标时显示无人机详情的事件
                             //点亮操作按钮
@@ -472,6 +474,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         map.openInfoWindow(infoWindow, point); //开启信息窗口
                     }
                 }else{
+                    $('#alert').hide();
                     $('#mapPlaneBox').html("<div id='allmap' class='plane-map'><p class='map-p'>没有相关数据...</p></div>");
                 }
             }

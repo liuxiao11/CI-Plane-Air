@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right .info1{width: 415px;height: 327px;background:url(<?php echo STATIC_IMG?>dataIndex/b-air-border.png) left top no-repeat;background-size: contain;margin: 28px 0}
         .info1 .air-title{margin: 15px 0 0 30px;display: inline-block;font-size: 12px}
         .air-right .number{width: 318px;height: 50px;margin:20px auto 10px ;text-align: center;font-size: 15px;}
-        .air-right .plane-person{width: 96%;height: 263px;margin:20px auto 0 ;font-size: 14px;overflow-y: auto;}
+        .air-right .plane-person{width: 96%;height: 100%;margin:30px auto 0 ;font-size: 14px;}
         .air-right .plane-person .person{display: inline-block;margin-left: 25px;}
         .air-right .plane-person .person img{width: 160px;height: 200px;border: 1px solid #00679c}
         .air-right .plane-stock .stock{width: 153px;height: 62px;background:url(<?php echo STATIC_IMG?>dataIndex/plane1-border.png) left top no-repeat;background-size: contain;display: inline-block;float: left;overflow: hidden;margin-left: 45px;margin-bottom: 20px}
@@ -129,17 +129,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="air-chart" id="warning" style="width: 95%;height: 63%"></div>
             </div>
-            <div class="info1 gridsterBox" id="gridsterBox">
-                <p class="air-title">检测设备负责人</p>
+<!--            <div class="info1 gridsterBox" id="gridsterBox">-->
+            <!--                <p class="air-title">检测设备负责人</p>-->
+            <!--                <div class="plane-person">-->
+            <!--                    --><?php //if(isset($user) && !empty($user)) foreach ($user as $kk => $vv){?>
+            <!--                        <div class="person">-->
+            <!--                            <img src="--><?php //echo STATIC_IMG?><!--dataIndex/person.png" >-->
+            <!--                            <p>姓名：--><?php //echo $vv['username']?><!--</p>-->
+            <!--                            <p>负责内容：--><?php //echo $vv['charge']?><!--</p>-->
+            <!--                            <p>联系方式：--><?php //echo $vv['iphone']?><!--</p>-->
+            <!--                        </div>-->
+            <!--                    --><?php //}?>
+            <!--                </div>-->
+            <!--            </div>-->
+            <div class="info1 gridsterBox">
+                <p class="air-title">设备视频</p>
                 <div class="plane-person">
-                    <?php if(isset($user) && !empty($user)) foreach ($user as $kk => $vv){?>
-                        <div class="person">
-                            <img src="<?php echo STATIC_IMG?>dataIndex/person.png" >
-                            <p>姓名：<?php echo $vv['username']?></p>
-                            <p>负责内容：<?php echo $vv['charge']?></p>
-                            <p>联系方式：<?php echo $vv['iphone']?></p>
-                        </div>
-                    <?php }?>
+                    <video controls="controls" muted autoplay="autoplay" loop="loop" width="100%" >
+                        <source src="<?php echo STATIC_IMG?>dataIndex/plane.mp4" type="video/mp4">
+                    </video>
                 </div>
             </div>
             <div class="air">

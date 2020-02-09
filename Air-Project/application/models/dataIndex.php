@@ -308,6 +308,7 @@ class dataIndex extends CI_Model
             foreach ($plane as $k => $v) {
                 $data['point'][$k]['BLng'] = $v['lon'];
                 $data['point'][$k]['BLat'] = $v['lat'];
+                $data['point'][$k]['time'] = $v['Day'].' '.$v['Time'];
             }
             $data['speed'] = sprintf("%01.2f", $speed['speed']);
             $data['alt'] = sprintf("%01.2f", $alt['alt']);
