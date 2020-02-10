@@ -41,6 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .roll_col .roll__list{width: 100%;}
         .air-center .map-border{width: 950px;height: 466px;position: absolute;z-index:1;background:url(<?php echo STATIC_IMG?>dataIndex/map-border.png) left top no-repeat;background-size: 950px 466px;left: 41px;}
         .air-center .plane-map{width: 920px;height: 465px;margin:20px auto 0; border-radius: 25px;}
+        .air-center video{width: 864px;display: block;margin:10px auto 0; border-radius: 25px;}
         .air-bottom {width: 1033px;height: 250px;margin-top: 25px}
         .air-bottom .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
         .air-bottom .air-title .title-icon{width: 12px;height: 9px;background: url(<?php echo STATIC_IMG?>dataIndex/title-icon.png) left top no-repeat;background-size: contain}
@@ -51,7 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right .info1{width: 415px;height: 327px;background:url(<?php echo STATIC_IMG?>dataIndex/b-air-border.png) left top no-repeat;background-size: contain;margin: 28px 0}
         .info1 .air-title{margin: 15px 0 0 30px;display: inline-block;font-size: 12px}
         .air-right .number{width: 318px;height: 50px;margin:20px auto 10px ;text-align: center;font-size: 15px;}
-        .air-right .plane-person{width: 96%;height: 100%;margin:30px auto 0 ;font-size: 14px;}
+        .air-right .plane-person{width: 400px;height: 259px;margin:30px auto 0 ;font-size: 14px;}
+        .air-right .plane-map{width: 400px;height: 259px;}
         .air-right .plane-person .person{display: inline-block;margin-left: 25px;}
         .air-right .plane-person .person img{width: 160px;height: 200px;border: 1px solid #00679c}
         .air-right .plane-stock .stock{width: 153px;height: 62px;background:url(<?php echo STATIC_IMG?>dataIndex/plane1-border.png) left top no-repeat;background-size: contain;display: inline-block;float: left;overflow: hidden;margin-left: 45px;margin-bottom: 20px}
@@ -106,7 +108,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <ul class="roll__list">
                 </ul>
             </div>
-            <div class="gridsterBox" id="gridsterBox1" ><div id="allmap" class="plane-map" ></div></div>
+            <div class="gridsterBox" id="gridsterBox1" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event,this)">
+                <div id="allmap" class="plane-map" ></div>
+            </div>
             <div class="air-bottom">
                 <p class="air-title">
                     <i class="title-icon"></i>
@@ -143,9 +147,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!--                </div>-->
             <!--            </div>-->
             <div class="info1 gridsterBox">
-                <p class="air-title">设备视频</p>
-                <div class="plane-person">
-                    <video controls="controls" muted autoplay="autoplay" loop="loop" width="100%" >
+                <p class="air-title">设备信息</p>
+                <div class="plane-person" id="gridsterBox" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event,this)">
+                    <video controls="controls" muted autoplay="autoplay" loop="loop" width="100%" height="100%" >
                         <source src="<?php echo STATIC_IMG?>dataIndex/plane.mp4" type="video/mp4">
                     </video>
                 </div>
@@ -206,67 +210,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </script>
 <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
 <script>
-    // 盒子1
-    $('#gridsterBox').mousedown(function (e) {
-        var boxLeft = e.offsetX,   //鼠标按下时记录指针偏离盒子左侧的距离
-            boxTop = e.offsetY;    //鼠标按下时记录指针偏离盒子顶部的距离
-        $(document).mousemove(function (event) {
-            $('#gridsterBox').offset({
-                left:event.pageX-boxLeft,    //两者相减保证鼠标按下时盒子位置不动
-                top:event.pageY-boxTop       //两者相减保证鼠标按下时盒子位置不动
-            });
-            if(checkIntersect($('#gridsterBox'),$('#gridsterBox1'),20)){
-                console.log(11)
-                //在范围内
-                $('#gridsterBox1').css('border','2px #F00 dashed');
-                $('#gridsterBox1').css('-webkit-animation-name','light');
-                $('#gridsterBox1').css('-webkit-animation-duration','1s');
-                $('#gridsterBox1').css('-webkit-animation-delay','0.5s');
-                $('#gridsterBox1').css('-webkit-animation-iteration-count','100');
-                $('#gridsterBox').css({
-                    'width': '920px',
-                    'height': '465px',
-                    'margin':'20px auto 0',
-                    'border-radius': '25px',
-                })
-            }else{
-                console.log(22)
-                //不在范围内
-                $('#gridsterBox1').css('border','2px #09F dashed');
-                $('#gridsterBox1').css('-webkit-animation-name','');
-                $('#gridsterBox').css({
-                    'width': '415px',
-                    'height': '327px',
-                    'margin':'28px 0',
-                    'border-radius': 'none',
-
-                })
-            }
-        });
-        function checkIntersect(obj1,obj2,distance){//检测碰撞,distance为吸附的范围
-            var top1 = obj1.offset().top;
-            var left1 = obj1.offset().left;
-            var width1 = obj1.offset().width;
-            var t1 = top1 - $(window).scrollTop();
-            var l1 = left1 - $(window).scrollLeft();
-            var top2 = obj2.offset().top;
-            var left2 = obj2.offset().left;
-            var width2 = obj2.width();
-            var height2 = obj2.height();
-            var t2 = top2 - $(window).scrollTop();
-            var l2 = left2 - $(window).scrollLeft();
-            if(((l1-l2>=0) && (l1<=width2)) && ((t1-t2>=0) && (t1<=height2))){
-                return true;
-            }else{
-                return false;
-            }
-
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+    var srcdiv = null;
+    var temp = null;
+    //当拖动时触发
+    function drag(ev, divdom) {
+        srcdiv = divdom;
+        temp = divdom.innerHTML;
+    }
+    //当拖动完后触发
+    function drop(ev, divdom) {
+        ev.preventDefault();
+        if (srcdiv !== divdom) {
+            srcdiv.innerHTML = divdom.innerHTML;
+            divdom.innerHTML = temp;
         }
-    }).mouseup(function () {
-        $(document).off('mousemove');   //鼠标松开后清除鼠标移动事件
-        $('#gridsterBox1').css('border','none');
-        $('#gridsterBox1').css('-webkit-animation-name','');
-    });
+    }
 
 </script>
 </body>
