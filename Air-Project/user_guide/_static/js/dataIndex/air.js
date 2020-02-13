@@ -14,6 +14,7 @@ if($.cookie('id') == 'null'){
 function dataIndex() {
     var myDate = new Date();
     $.post('/index/indexPage', function (data) {
+        console.log(data.data)
         if (data.status == 'true') {
             Time = data.data.time;
             Startpoint = data.data.Start_point;
@@ -90,7 +91,7 @@ function dataIndex() {
                             },
                             axisLine: {
                                 lineStyle: {
-                                    color: ['#041530'],
+                                    color: ['#231e40'],
                                     width: 1,
                                 }
                             }
@@ -101,14 +102,14 @@ function dataIndex() {
                             type: 'value',
                             axisLine: {
                                 lineStyle: {
-                                    color: ['#041530'],
+                                    color: ['#231e40'],
                                     width: 1,
                                 }
                             },
                             splitLine: {
                                 show: true,
                                 lineStyle: {
-                                    color: ['#041530'],
+                                    color: ['#231e40'],
                                     width: 1,
                                     type: 'solid'
                                 }
@@ -166,7 +167,7 @@ function dataIndex() {
                             },
                             axisLine: {
                                 lineStyle: {
-                                    color: ['#041530'],
+                                    color: ['#231e40'],
                                     width: 1,
                                 }
                             }
@@ -177,14 +178,14 @@ function dataIndex() {
                             type: 'value',
                             axisLine: {
                                 lineStyle: {
-                                    color: ['#041530'],
+                                    color: ['#231e40'],
                                     width: 1,
                                 }
                             },
                             splitLine: {
                                 show: true,
                                 lineStyle: {
-                                    color: ['#041530'],
+                                    color: ['#231e40'],
                                     width: 1,
                                     type: 'solid'
                                 }
@@ -204,7 +205,6 @@ function dataIndex() {
                 var myChartPM = echarts.init(document.getElementById("PM"));
                 var myChartCO = echarts.init(document.getElementById("CO-O3"));
                 var myChartCH4 = echarts.init(document.getElementById("CH4"));
-
                 var optionPM = {
                     textStyle: {
                         color: '#f9fbfb',
@@ -234,85 +234,90 @@ function dataIndex() {
                         bottom: '3%',
                         containLabel: true
                     },
-                    xAxis: [
-                        {
-                            type: 'category',
-                            data: Time,
-                            axisLine: {
-                                lineStyle: {
-                                    color: '#041530',
-                                    width: 1,
-                                }
+                    xAxis: {
+                        type: 'category',
+                        data: Time,
+                        axisTick:{
+                            show:false,
+                        },
+                        boundaryGap: false,
+                        axisTick:{
+                            show:false,
+                        },
+                        axisLabel:{
+                            color:'#fff'
+                        },
+                        axisLine:{
+                            lineStyle:{
+                                color:'rgba(12,102,173,.5)',
+                                width:2,
                             }
                         }
-                    ],
-                    yAxis: [
-                        {
-                            type: 'value',
-                            axisLine: {
-                                lineStyle: {
-                                    color: '#041530',
-                                    width: 1,
-                                }
-                            },
-                            splitLine: {
-                                show: true,
-                                lineStyle: {
-                                    color: ['#041530'],
-                                    width: 1,
-                                    type: 'solid'
-                                }
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisTick:{
+                            show:true,//不显示刻度线
+                        },
+                        axisLabel:{
+                            color:'#fff'  //y轴上的字体颜色
+                        },
+                        axisLine:{
+                            lineStyle:{
+                                width:2,
+                                color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
                             }
+                        },
+                        splitLine: {
+                            show: false
                         }
-                    ],
+                    },
                     series: [
                         {
-                            name: 'PM10',
-                            type: 'line',
-                            stack: '总量',
-                            areaStyle: {
-                                normal: {
-                                    color: 'rgba(118,234,255,0.5)'
-                                }
-                            },
-                            itemStyle: {
-                                color: '#76eaff'
-                            },
-                            lineStyle: {
-                                color: new echarts.graphic.LinearGradient(
-                                    0, 0, 0, 1,
-                                    [
-                                        {offset: 0, color: '#12c0bc'},
-                                        {offset: 1, color: '#76eaff'},
-                                    ])
-                            },
-                            data: PM10data
-                        },
-                        {
                             name: 'PM2.5',
-                            type: 'line',
-                            stack: '总量',
-                            label: {
+                            type:'line',
+                            symbol: 'none',
+                            smooth:true,
+                            itemStyle: {
                                 normal: {
-                                    show: true,
-                                    position: 'top'
+                                    color: '#09b0f5',
                                 }
                             },
-                            itemStyle: {
-                                color: '#ffe992'
-                            },
-                            lineStyle: {
-                                color: new echarts.graphic.LinearGradient(
-                                    0, 0, 0, 1,
-                                    [
-                                        {offset: 0, color: '#ffe992'},
-                                        {offset: 1, color: '#fff449'}
-                                    ])
-                            },
                             areaStyle: {
-                                normal: {color: 'rgba(255,233,146,0.5)'}
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: '#09b0f5'
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(12,102,173,.5)'
+                                    }])
+                                }
                             },
                             data: PM2data
+                        },
+                        {
+                            name: 'PM10',
+                            type:'line',
+                            symbol: 'none',
+                            smooth:true,
+                            itemStyle: {
+                                normal: {
+                                    color: '#00adb5',
+                                }
+                            },
+                            areaStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: '#00adb5'
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(4,137,152,0.5)'
+                                    }])
+                                }
+                            },
+                            data: PM10data
                         }
                     ]
                 };
@@ -345,57 +350,66 @@ function dataIndex() {
                         bottom: '3%',
                         containLabel: true
                     },
-                    xAxis: [
-                        {
-                            type: 'category',
-                            data: Time,
-                            axisLine: {
-                                lineStyle: {
-                                    color: '#041530',
-                                    width: 1,
-                                }
+                    xAxis: {
+                        type: 'category',
+                        data: Time,
+                        axisTick:{
+                            show:false,
+                        },
+                        boundaryGap: false,
+                        axisTick:{
+                            show:false,
+                        },
+                        axisLabel:{
+                            color:'#fff'
+                        },
+                        axisLine:{
+                            lineStyle:{
+                                color:'rgba(12,102,173,.5)',
+                                width:2,
                             }
                         }
-                    ],
-                    yAxis: [
-                        {
-                            type: 'value',
-                            axisLine: {
-                                lineStyle: {
-                                    color: '#041530',
-                                    width: 1,
-                                }
-                            },
-                            splitLine: {
-                                show: true,
-                                lineStyle: {
-                                    color: ['#041530'],
-                                    width: 1,
-                                    type: 'solid'
-                                }
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisTick:{
+                            show:true,//不显示刻度线
+                        },
+                        axisLabel:{
+                            color:'#fff'  //y轴上的字体颜色
+                        },
+                        axisLine:{
+                            lineStyle:{
+                                width:2,
+                                color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
                             }
+                        },
+                        splitLine: {
+                            show: false
                         }
-                    ],
+                    },
                     series: [
                         {
                             name: 'CO',
                             type: 'line',
                             stack: '总量',
-                            areaStyle: {
+                            symbol: 'none',
+                            smooth:true,
+                            itemStyle: {
                                 normal: {
-                                    color: 'rgba(0,227,252,0.5)'
+                                    color: '#c5796d'
                                 }
                             },
-                            itemStyle: {
-                                color: '#00e3fc'
-                            },
-                            lineStyle: {
-                                color: new echarts.graphic.LinearGradient(
-                                    0, 0, 0, 1,
-                                    [
-                                        {offset: 0, color: '#00e3fc'},
-                                        {offset: 1, color: '#0069ff'},
-                                    ])
+                            areaStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: '#c5796d'
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(138,70,51,0.5)'
+                                    }])
+                                }
                             },
                             data: COdata
                         },
@@ -403,6 +417,8 @@ function dataIndex() {
                             name: 'O3',
                             type: 'line',
                             stack: '总量',
+                            symbol: 'none',
+                            smooth:true,
                             label: {
                                 normal: {
                                     show: true,
@@ -410,18 +426,20 @@ function dataIndex() {
                                 }
                             },
                             itemStyle: {
-                                color: '#ac75ff'
-                            },
-                            lineStyle: {
-                                color: new echarts.graphic.LinearGradient(
-                                    0, 0, 0, 1,
-                                    [
-                                        {offset: 0, color: '#ac75ff'},
-                                        {offset: 1, color: '#ff18f7'}
-                                    ])
+                                normal: {
+                                    color: '#ffc3a0'
+                                }
                             },
                             areaStyle: {
-                                normal: {color: 'rgba(172,117,255,0.5)'}
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: '#ffc3a0'
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(105,96,79,0.5)'
+                                    }])
+                                }
                             },
                             data: O3data
                         }
@@ -455,7 +473,7 @@ function dataIndex() {
                         boundaryGap: false,
                         axisLine: {
                             lineStyle: {
-                                color: '#041530',
+                                color: '#231e40',
                                 width: 1,
                             }
                         },
@@ -465,14 +483,14 @@ function dataIndex() {
                         type: 'value',
                         axisLine: {
                             lineStyle: {
-                                color: '#041530',
+                                color: '#231e40',
                                 width: 1,
                             }
                         },
                         splitLine: {
                             show: true,
                             lineStyle: {
-                                color: ['#041530'],
+                                color: ['#231e40'],
                                 width: 1,
                                 type: 'solid'
                             }
@@ -502,83 +520,49 @@ function dataIndex() {
                             type: 'line',
                             stack: '总量',
                             data: COCL2data
-                        },
+                        }
                     ]
                 };
 
                 //饼图
                 var myChartWarning = echarts.init(document.getElementById("warning"));
-
-                var data = genData(15);
                 var optionW = {
-                    tooltip: {
+                    textStyle: {
+                        fontSize: 12   // 调节字体大小
+
+                    },
+                    title : {
+                        text: '',       // 主标题名称
+                        subtext: '',    // 副标题名称
+                        x:'center'      // 标题的位置
+                    },
+                    tooltip : {
                         trigger: 'item',
                         formatter: "{a} <br/>{b} : {c} ({d}%)"
                     },
-                    legend: {
-                        type: 'scroll',
-                        orient: 'vertical',
-                        itemWidth: 13,
-                        itemHeight: 10,
-                        top: 10,
-                        textStyle: {
-                            fontSize: 10,
-                            color: '#ffffff'
-                        },
-                        right: 0,
-                        bottom: 10,
-                        data: data.legendData,
-
-                        selected: data.selected
-                    },
-                    series: [
+                    // legend: {
+                    //     orient: 'vertical',         // 标签名称垂直排列
+                    //     x: 'right',                 // 标签的位置
+                    //     data:['CO','SO2','NO2','O3','PM2.5','PM10']
+                    // },                              // 标签变量名称
+                    calculable : true,
+                    series : [
                         {
-                            name: '气体',
-                            type: 'pie',
-                            radius: '55%',
-                            center: ['40%', '50%'],
-                            data: data.seriesData,
-                            itemStyle: {
-                                emphasis: {
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 0,
-                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            name:'今日风险数量',                    // 图表名称
+                            type:'pie',                         // 图表类型
+                            radius : [20, 70],                 // 图表内外半径大小
+                            center : ['50%', '50%'],            // 图表位置
+                            roseType : 'area',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter: '{b}({d}%)'      // 显示百分比
                                 }
-                            }
+                            },
+                            data:data.data.pie
                         }
                     ]
                 };
-
-                function genData(count) {
-                    var nameList = data.data.airList;
-                    var numberList = data.data.airdataList;
-                    var legendData = [];
-                    var seriesData = [];
-                    var selected = {};
-                    for (var i = 0; i < count; i++) {
-                        legendData.push(nameList[i]);
-                        seriesData.push({
-                            name: nameList[i],
-                            value: numberList[i]
-                        });
-                        selected[nameList[i]] = i < 6;
-                    }
-                    return {
-                        legendData: legendData,
-                        seriesData: seriesData,
-                        selected: selected
-                    };
-
-                    function makeWord(max, min) {
-                        var nameLen = Math.ceil(Math.random() * max + min);
-                        var name = [];
-                        for (var i = 0; i < nameLen; i++) {
-                            name.push(nameList[Math.round(Math.random() * nameList.length - 1)]);
-                        }
-                        return name.join('');
-                    }
-                }
-
                 myChartSO2.setOption(optionSO2, true);
                 myChartNO2.setOption(optionNO2, true);
                 myChartPM.setOption(optionPM, true);
@@ -655,7 +639,12 @@ function dataMap() {
                 var map = new BMap.Map("allmap");// 创建Map实例
                 map.centerAndZoom(new BMap.Point('西安市'), 12);// 初始化地图,设置中心点坐标和地图级别
                 map.enableScrollWheelZoom(true);//开启鼠标滚轮缩放
-                map.addControl(new BMap.NavigationControl()); //添加平移缩放控件
+                // map.addControl(new BMap.NavigationControl()); //添加平移缩放控件
+                var mapStyle ={
+                    features: ["road","building","water","land"],//隐藏地图上的"poi",
+                    style : 'googlelite'
+                };
+                map.setMapStyle(mapStyle);
                 var ic = cxt + 'dataIndex/plane1.png';
                 var myIcon2 = new BMap.Icon(
                     ic, // 百度图片

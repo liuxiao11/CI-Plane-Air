@@ -92,6 +92,13 @@ class dataIndex extends CI_Model
                 $total[] = 0;
             }
             $data['airdataList'] = $b;
+            foreach ($b as $bk => $bv){
+                $pie[$bk]['value'] = $bv;
+            }
+            foreach ($airList as $ak => $av){
+                $pie[$ak]['name'] = $av;
+            }
+            $data['pie'] = array_slice($pie,0,6);
             $data['total'] = array_sum($total);
         }
         if (!empty($user)) {

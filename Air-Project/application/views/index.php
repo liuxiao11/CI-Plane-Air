@@ -16,43 +16,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="<?php echo STATIC_CSS?>dataIndex/globle.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
     <style>
-        .air-top{position:absolute;width:100%;height:93px;background:url(<?php echo STATIC_IMG?>dataIndex/top.png) left top no-repeat;background-size: 100% 100%;font-size: 37px;line-height: 93px;text-align: center}
+        .air-top{position:absolute;width:100%;height:93px;background:url(<?php echo STATIC_IMG?>dataIndex/top2.png) left top no-repeat;background-size: 100% 100%;font-size: 37px;line-height: 93px;text-align: center;letter-spacing: 10px}
         .air-left{display: inline-block;width:420px;margin-top: 55px;position: absolute;left: 5px}
         .air-date{width: 388px;height: 59px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) left top no-repeat;background-size: contain;font-size: 22px;line-height: 59px;margin: 0 auto}
         .air-left .air-date .air-icon{width: 11px;height: 11px;background:url(<?php echo STATIC_IMG?>dataIndex/icon.png) left top no-repeat;background-size: contain;vertical-align:middle;margin-left: 11px}
         .air-left .air-date .air-weather-icon{width: 47px;height: 37px;background:url(<?php echo STATIC_IMG?>dataIndex/weather-icon.png) left top no-repeat;background-size: contain;vertical-align:middle;margin-left: 35px}
-        .air{width: 415px;height: 226px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border.png) left top no-repeat;background-size: contain;margin: 15px auto;overflow:hidden }
+        .air{width: 415px;height: 226px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border1.png) left top no-repeat;background-size: contain;margin: 15px auto;overflow:hidden }
         .air:last-child{margin-bottom: 0}
         .air-chart{margin: 0 auto}
-        .air .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
-        .air-center{position: absolute;width: 1033px;height: 928px;background:url(<?php echo STATIC_IMG?>dataIndex/center-border.png) left top no-repeat;background-size: contain;margin-top: 140px;left: 50%;margin-left: -516.5px}
-        .air-center .plane-data{width: 1033px;height: 155px;overflow: hidden;position: relative;}
-        .air-center .plane-data ul{width: 918px;height: 150px;margin: 0 auto}
-        .air-center .plane-data>ul>li{width: 274px;height: 130px;background:url(<?php echo STATIC_IMG?>dataIndex/plane-border.png) left top no-repeat;background-size: 247px 130px;float: left;margin-left: 40px;margin-top: 22px}
+        .air .air-title{margin: 8px 0 0 30px;display: inline-block;font-size: 14px}
+        .air-center{position: absolute;width: 1033px;height: 928px;margin-top: 140px;left: 50%;margin-left: -516.5px;}
+        .air-center .plane-data{width: 1033px;height: 167px;overflow: hidden;position: relative;}
+        .air-center .plane-data ul{width: 918px;height: 150px;margin:17px auto 0;}
+        .air-center .plane-data>ul>li{width: 274px;height: 150px;background:url(<?php echo STATIC_IMG?>dataIndex/plane-border1.png) left top no-repeat;background-size: cover;float: left;margin-left: 40px;}
         .air-center .plane-data>ul>li:nth-child(1){margin-left: 0}
-        .air-center .plane-data>ul>li img{width: 63px;height: 29px;margin-left: 15px;vertical-align: top;margin-top: 20px ;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
-        .air-center .plane-data>ul>li .carPlane{width: 63px;height: 63px;margin-top: 5px;vertical-align: top;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
-        .air-center .plane-data .plane-title{margin-top:20px;margin-left: 15px}
+        .air-center .plane-data>ul>li img{width: 63px;height: 29px;margin-left: 45px;vertical-align: top;margin-top: 50px ;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
+        .air-center .plane-data>ul>li .carPlane{width: 63px;height: 50px;margin-top: 40px;vertical-align: top;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
+        .air-center .plane-data .plane-title{margin-left: 45px;position: absolute;top: 115px;color: #f9fbfb}
         .air-center .plane-data .plane-content{margin-top:8px;display: inline-block;}
-        .air-center .plane-data .plane-content .plane-text{display: inline-block;margin-left: 30px;margin-top: 10px}
+        .air-center .plane-data .plane-content .plane-text{display: inline-block;margin-left: 45px;margin-top: 35px}
+        .air-center .plane-data .plane-content .plane-text p{line-height: 24px}
         .roll_row .roll__list::before, .roll_row .roll__list::after {content: "";display: table;line-height: 0;}
         .roll_row .roll__list::after {clear: both;}
         .roll_row .roll__list{width: 9999px;}
         .roll_col .roll__list{width: 100%;}
-        .air-center .map-border{width: 950px;height: 466px;position: absolute;z-index:1;background:url(<?php echo STATIC_IMG?>dataIndex/map-border.png) left top no-repeat;background-size: 950px 466px;left: 41px;}
-        .air-center .plane-map{width: 920px;height: 465px;margin:20px auto 0; border-radius: 25px;}
+/*        .air-center .map-border{width: 960px;height: 467px;margin:0 auto 0;border: 20px ridge transparent;border-image:url(*/<?php //echo STATIC_IMG?>/*dataIndex/border.gif) 30 30 round ;}*/
+        .air-center .center-top{width: 1033px;height: 700px;background:url(<?php echo STATIC_IMG?>dataIndex/center-top.png) left top no-repeat;background-size: cover;}
+        .air-center .plane-map{width: 952px;height: 465px;margin:20px auto 0; border-radius: 25px;border: 5px ridge #00679c;}
         .air-center video{width: 864px;display: block;margin:10px auto 0; border-radius: 25px;}
-        .air-bottom {width: 1033px;height: 250px;margin-top: 25px}
+        .air-bottom {width: 1033px;height: 222px;position: absolute;bottom: 0;background:url(<?php echo STATIC_IMG?>dataIndex/bottom-border.png) left top no-repeat;background-size: cover;}
         .air-bottom .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
         .air-bottom .air-title .title-icon{width: 12px;height: 9px;background: url(<?php echo STATIC_IMG?>dataIndex/title-icon.png) left top no-repeat;background-size: contain}
         .air-right {display: inline-block;width:420px;margin-top: 55px;position: absolute;right: 1px;}
         .air-right .air-btn{text-align: center}
         .air-right .air-btn-border{width: 121px;height: 33px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg.png) left top no-repeat;background-size: contain;font-size: 16px;color: #fff363;text-align: center;line-height: 33px;display: inline-block}
         .air-right .air-btn-border img{width: 22px;height: 22px;vertical-align: sub;margin-right: 5px}
-        .air-right .info1{width: 415px;height: 327px;background:url(<?php echo STATIC_IMG?>dataIndex/b-air-border.png) left top no-repeat;background-size: contain;margin: 28px 0}
-        .info1 .air-title{margin: 15px 0 0 30px;display: inline-block;font-size: 12px}
-        .air-right .number{width: 318px;height: 50px;margin:20px auto 10px ;text-align: center;font-size: 15px;}
-        .air-right .plane-person{width: 400px;height: 259px;margin:30px auto 0 ;font-size: 14px;}
+        .air-right .info1{width: 415px;height: 327px;background:url(<?php echo STATIC_IMG?>dataIndex/b-air-border1.png) left top no-repeat;background-size: contain;margin: 28px 0}
+        .info1 .air-title{margin: 8px 0 0 20px;display: inline-block;font-size: 14px}
+        .air-right .number{width: 318px;height: 50px;margin:20px auto 10px ;text-align: center;font-size: 16px;}
+        .air-right .plane-person{width: 380px;height: 259px;margin:30px auto 0 ;font-size: 14px;}
         .air-right .plane-map{width: 400px;height: 259px;}
         .air-right .plane-person .person{display: inline-block;margin-left: 25px;}
         .air-right .plane-person .person img{width: 160px;height: 200px;border: 1px solid #00679c}
@@ -72,9 +74,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-table table th,td{text-align: center;padding: 8px}
         .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
         .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
-
-        /*可拖动*/
-        .gridster{width: 100% !important}
     </style>
 </head>
 <body>
@@ -102,73 +101,74 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="air-chart" id="CO-O3" style="width: 95%;height: 85%"></div>
         </div>
     </div>
-    <div class="gridster">
-        <div class="air-center" >
+
+    <div class="air-center" >
+        <div class="center-top">
             <div class="plane-data roll-wrap roll_row" id="plane-data">
                 <ul class="roll__list">
                 </ul>
             </div>
-            <div class="gridsterBox" id="gridsterBox1" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event,this)">
+            <div class="map-border" id="gridsterBox1" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event,this)">
                 <div id="allmap" class="plane-map" ></div>
             </div>
-            <div class="air-bottom">
-                <p class="air-title">
-                    <i class="title-icon"></i>
-                    CH4/SF6/H2O2/COCL2
-                </p>
-                <div class="air-chart" id="CH4" style="width: 100%;height: 85%"></div>
-            </div>
         </div>
-        <div class="air-right">
-            <div class="air-date air-btn">
-                <a href="<?php echo base_url()?>index/dataSet" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-set.png">数据设置</a>
-                <a href="<?php echo base_url()?>index/planeHis" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-history.png">历史记录</a>
-            </div>
-            <div class="info1 air-warning">
-                <p class="air-title">气体预警和风险数量</p>
-                <a href="javascript:void (0)" id="warningDis" class="air-title" style="float: right;margin-right: 30px">更多详情</a>
-                <div class="number">
-                    <div class="num-btn air-btn1" id="warning-total">今日预警总数：<div id="dataNums"></div></div>
-                    <!--                <i class="num-btn air-btn2"><span>166</span><br>今日查阅总数</i>-->
-                </div>
-                <div class="air-chart" id="warning" style="width: 95%;height: 63%"></div>
-            </div>
-<!--            <div class="info1 gridsterBox" id="gridsterBox">-->
-            <!--                <p class="air-title">检测设备负责人</p>-->
-            <!--                <div class="plane-person">-->
-            <!--                    --><?php //if(isset($user) && !empty($user)) foreach ($user as $kk => $vv){?>
-            <!--                        <div class="person">-->
-            <!--                            <img src="--><?php //echo STATIC_IMG?><!--dataIndex/person.png" >-->
-            <!--                            <p>姓名：--><?php //echo $vv['username']?><!--</p>-->
-            <!--                            <p>负责内容：--><?php //echo $vv['charge']?><!--</p>-->
-            <!--                            <p>联系方式：--><?php //echo $vv['iphone']?><!--</p>-->
-            <!--                        </div>-->
-            <!--                    --><?php //}?>
-            <!--                </div>-->
-            <!--            </div>-->
-            <div class="info1 gridsterBox">
-                <p class="air-title">设备信息</p>
-                <div class="plane-person" id="gridsterBox" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event,this)">
-                    <video controls="controls" muted autoplay="autoplay" loop="loop" width="100%" height="100%" >
-                        <source src="<?php echo STATIC_IMG?>dataIndex/plane.mp4" type="video/mp4">
-                    </video>
-                </div>
-            </div>
-            <div class="air">
-                <p class="air-title">检测设备库存</p>
-                <ul class="plane-stock">
-                    <?php if(isset($planeStock) && !empty($planeStock)) foreach ($planeStock as $k => $v){?>
-                        <li class="stock">
-                            <img src="<?php echo STATIC_IMG?>dataIndex/plane1.png" >
-                            <i class="shu"></i>
-                            <p><?php echo $v['productId'] ?><br>
-                                <?php if($v['status'] == 1){ echo '状态:正常';}else{ echo '状态:异常';} ?></p>
-                        </li>
-                    <?php }?>
-                </ul>
-            </div>
+        <div class="air-bottom">
+            <p class="air-title">
+                CH4/SF6/H2O2/COCL2
+            </p>
+            <div class="air-chart" id="CH4" style="width: 100%;height: 85%"></div>
         </div>
     </div>
+    <div class="air-right">
+        <div class="air-date air-btn">
+            <a href="<?php echo base_url()?>index/dataSet" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-set.png">数据设置</a>
+            <a href="<?php echo base_url()?>index/planeHis" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-history.png">历史记录</a>
+        </div>
+        <div class="info1 air-warning">
+            <p class="air-title">气体预警和风险数量</p>
+            <a href="javascript:void (0)" id="warningDis" class="air-title" style="float: right;margin-right: 15px">更多详情</a>
+            <div class="number">
+                <div class="num-btn air-btn1" id="warning-total">今日预警总数：<div id="dataNums"></div></div>
+                <!--                <i class="num-btn air-btn2"><span>166</span><br>今日查阅总数</i>-->
+            </div>
+            <div class="air-chart" id="warning" style="width: 95%;height: 63%"></div>
+        </div>
+<!--            <div class="info1 gridsterBox" id="gridsterBox">-->
+        <!--                <p class="air-title">检测设备负责人</p>-->
+        <!--                <div class="plane-person">-->
+        <!--                    --><?php //if(isset($user) && !empty($user)) foreach ($user as $kk => $vv){?>
+        <!--                        <div class="person">-->
+        <!--                            <img src="--><?php //echo STATIC_IMG?><!--dataIndex/person.png" >-->
+        <!--                            <p>姓名：--><?php //echo $vv['username']?><!--</p>-->
+        <!--                            <p>负责内容：--><?php //echo $vv['charge']?><!--</p>-->
+        <!--                            <p>联系方式：--><?php //echo $vv['iphone']?><!--</p>-->
+        <!--                        </div>-->
+        <!--                    --><?php //}?>
+        <!--                </div>-->
+        <!--            </div>-->
+        <div class="info1 gridsterBox">
+            <p class="air-title">设备信息</p>
+            <div class="plane-person" id="gridsterBox" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event,this)">
+                <video controls="controls" muted autoplay="autoplay" loop="loop" width="100%" height="100%" >
+                    <source src="<?php echo STATIC_IMG?>dataIndex/plane.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+        <div class="air">
+            <p class="air-title">检测设备库存</p>
+            <ul class="plane-stock">
+                <?php if(isset($planeStock) && !empty($planeStock)) foreach ($planeStock as $k => $v){?>
+                    <li class="stock">
+                        <img src="<?php echo STATIC_IMG?>dataIndex/plane1.png" >
+                        <i class="shu"></i>
+                        <p><?php echo $v['productId'] ?><br>
+                            <?php if($v['status'] == 1){ echo '状态:正常';}else{ echo '状态:异常';} ?></p>
+                    </li>
+                <?php }?>
+            </ul>
+        </div>
+    </div>
+
 
     <!--气体预警详情弹窗-->
     <div class="alertPopBoxBg" id="alert">
