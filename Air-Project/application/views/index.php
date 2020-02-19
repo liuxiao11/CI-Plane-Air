@@ -23,9 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-left .air-date .air-icon{width: 11px;height: 11px;background:url(<?php echo STATIC_IMG?>dataIndex/icon.png) left top no-repeat;background-size: contain;vertical-align:middle;margin-left: 11px}
         .air-left .air-date .air-weather-icon{width: 47px;height: 37px;background:url(<?php echo STATIC_IMG?>dataIndex/weather-icon.png) left top no-repeat;background-size: contain;vertical-align:middle;margin-left: 35px}
         .air{width: 415px;height: 226px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border1.png) left top no-repeat;background-size: contain;margin: 15px auto;overflow:hidden }
-        .air video{width: 415px;height: 226px;overflow:hidden;margin: 0 auto;
-            display: block; }
-        .air #allmap{width: 377px;height: 163px;margin: 20px 15px 0;}
+        .air video{width: 430px;height: 243px;overflow:hidden;margin: 0 auto;display: block; }
+        .air #allmap{width: 377px;height: 163px;margin: 50px 15px 0;}
         .air:last-child{margin-bottom: 0}
         .air-chart{margin: 0 auto}
         .air .air-title{margin: 8px 0 0 30px;display: inline-block;font-size: 14px}
@@ -679,7 +678,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             var myChartSO22 = dis('SO2',myChartSO2);
                             var myChartNO22 = dis('NO2',myChartNO2)
                             var myChartPM2 = dis('PM',myChartPM)
-                            var myChartCO2 = dis('CO',myChartCO)
+                            var myChartCO2 = dis('CO-O3',myChartCO)
                             if (myChartSO22){
                                 myChartSO22.setOption(optionSO2);
                             }
@@ -721,10 +720,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 }, 'json');
             }
-
-        if($('.air').find('#allmap')){
-            $('.air #allmap').before('<p class="air-title ditu">地图</p>')
-        }
     }
 
     var pic = $('#upload-img');
