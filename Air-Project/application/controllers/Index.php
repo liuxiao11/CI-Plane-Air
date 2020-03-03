@@ -178,9 +178,9 @@ class Index extends CI_Controller
             $planeId = $this->input->post('planeId');
             if ($startTime && $endTime && $planeId) {
                 $where = array(
-                    "Day >= " => $startTime,
-                    "Day <= " => $endTime,
-                    "productId = " => $planeId,
+                    "recDAY >= " => $startTime,
+                    "recDAY <= " => $endTime,
+                    "productID = " => $planeId,
                 );
                 $data = $this->dataIndex->hisPlane($where);
                 if ($data) {
@@ -205,12 +205,18 @@ class Index extends CI_Controller
             $startTime = $this->input->post('startTime');
             $endTime = $this->input->post('endTime');
             $field = $this->input->post('air');
-            if ($startTime && $endTime && $field) {
+            foreach ($field as $fk => $fv){
+                if($fv == 'uPM2.5'){
+                    $fv = 'uPM2_5';
+                }
+                $fields[] = $fv;
+            }
+            if ($startTime && $endTime && $fields) {
                 $where = array(
                     "startTime" => $startTime,
                     "endTime" => $endTime,
                 );
-                $data = $this->dataIndex->hisAir($where, $field);
+                $data = $this->dataIndex->hisAir($where, $fields);
                 if ($data) {
                     $this->show_message('true', '数据查询成功', $data);
                 } else {
@@ -261,9 +267,9 @@ class Index extends CI_Controller
             $planeId = $this->input->post('planeId');
             if ($lat && $lon) {
                 $data = array(
-                    "lat" => $lat,
-                    "lon" => $lon,
-                    "productId" => $planeId,
+                    "lGPS_lat" => $lat,
+                    "lGPS_lon" => $lon,
+                    "productID" => $planeId,
                 );
                 $info = $this->dataIndex->dataAnalyse($data);
                 if ($info) {

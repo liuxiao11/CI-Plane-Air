@@ -34,16 +34,18 @@ function dataIndex() {
             var COCL2data = [];
             if (dataAir && Startpoint && plane) {
                 for (var i = 0; i < dataAir.length; i++) {
-                    SO2data.push(dataAir[i].SO2);
-                    NO2data.push(dataAir[i].NO2);
-                    PM2data.push(dataAir[i]['PM2.5']);
-                    PM10data.push(dataAir[i].PM10);
-                    COdata.push(dataAir[i].CO);
-                    O3data.push(dataAir[i].O3);
-                    CH4data.push(dataAir[i].CH4);
-                    SF6data.push(dataAir[i].SF6);
-                    H2O2data.push(dataAir[i].H2O2);
-                    COCL2data.push(dataAir[i].H2S);
+                    SO2data.push(dataAir[i].uSO2);
+                    NO2data.push(dataAir[i].uNO2);
+                    PM2data.push(dataAir[i]['uPM2_5']);
+                    PM10data.push(dataAir[i].uPM10);
+                    COdata.push(dataAir[i].uCO);
+                    O3data.push(dataAir[i].uO3);
+                    if(dataAir[i].CH4 && dataAir[i].SF6 && dataAir[i].H2O2 && dataAir[i].H2S){
+                        CH4data.push(dataAir[i].CH4);
+                        SF6data.push(dataAir[i].SF6);
+                        H2O2data.push(dataAir[i].H2O2);
+                        COCL2data.push(dataAir[i].H2S);
+                    }
                 }
 
                 //柱状图
@@ -582,31 +584,32 @@ function dataIndex() {
                 $("#dataNums").rollNum({
                     deVal:total
                 });
+                console.log("111");
                 console.log(plane);
                 // $('#warning-total').html('今日预警总数：'+data.data.total);
                 for (var p = 0; p < plane.length; p++) {
                     console.log(plane[p]['ptoductType']);
                     if(plane[p]['ptoductType'] == "0"){
                         var planeHtml = '<li>' +
-                            '<div class="plane-title">无人机' + plane[p].productId + '</div>' +
+                            '<div class="plane-title">无人机' + plane[p].productID + '号</div>' +
                             '<div class="plane-content">' +
-                            '<img src="' + cxt + 'dataIndex/plane.png" alt="无人机">' +
+                            '<img class="carPlane" src="' + cxt + 'dataIndex/carPlane.png" alt="无人机">' +
                             '<div class="plane-text">' +
                             '<p>飞行状态：正常</p>' +
-                            '<p>飞行速度：' + plane[p].speed + 'm/s</p>' +
-                            '<p>飞行高度：' + plane[p].alt + 'm</p>' +
+                            // '<p>飞行速度：' + plane[p].speed + 'm/s</p>' +
+                            '<p>飞行高度：' + plane[p].nGPS_alt + 'm</p>' +
                             '</div>' +
                             '</div>' +
                             '</li>';
                     }else{
                         var planeHtml = '<li>' +
-                            '<div class="plane-title">无人机' + plane[p].productId + '</div>' +
+                            '<div class="plane-title">无人机' + plane[p].productID + '号</div>' +
                             '<div class="plane-content">' +
-                            '<img class="carPlane" src="' + cxt + 'dataIndex/carPlane.png" alt="无人机">' +
+                            '<img  src="' + cxt + 'dataIndex/plane.png" alt="无人机">' +
                             '<div class="plane-text">' +
                             '<p>飞行状态：正常</p>' +
-                            '<p>飞行速度：' + plane[p].speed + 'm/s</p>' +
-                            '<p>飞行高度：' + plane[p].alt + 'm</p>' +
+                            // '<p>飞行速度：' + plane[p].speed + 'm/s</p>' +
+                            '<p>飞行高度：' + plane[p].nGPS_alt + 'm</p>' +
                             '</div>' +
                             '</div>' +
                             '</li>';
