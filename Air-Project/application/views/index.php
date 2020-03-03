@@ -15,6 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="<?php echo STATIC_CSS?>dataIndex/easyui.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/globle.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
+    <link href="<?php echo STATIC_CSS?>dataIndex/video-js.css" rel="stylesheet" type="text/css" >
     <style>
         .top{position:absolute;width:100%;height:93px;font-size: 37px;line-height: 93px;text-align: center;letter-spacing: 10px}
         .air-top{position:absolute;width:100%;height:93px;background:url(<?php echo STATIC_IMG?>dataIndex/top22.png) left top no-repeat;background-size: 100% 100%;}
@@ -78,6 +79,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-table table th,td{text-align: center;padding: 8px}
         .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
         .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
+
+        .video-js{width: 100%;height: 100%}
     </style>
 </head>
 <body>
@@ -153,9 +156,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="info1 gridsterBox">
             <p class="air-title">设备信息</p>
             <div class="plane-person" id="gridsterBox" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
-                <video controls="controls" muted autoplay="autoplay" loop="loop" width="100%" height="100%" >
+                <video controls="controls" muted autoplay="autoplay" loop="loop" width="100%" height="100%" class="video-js" id="my-video">
                     <source src="<?php echo STATIC_IMG?>dataIndex/plane.mp4" type="video/mp4">
+<!--                    <source src="rtmp://172.16.15.240:1935/live/test11" type="rtmp/flv">-->
                 </video>
+                <embed width="300" height="70" class="openFlash" style="position:absolute;top:500px;z-Index:9999;margin: 0 auto" type="application/x-shockwave-flash">
+
             </div>
         </div>
         <div class="air">
@@ -206,6 +212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/num.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nVzaOG4nXU266Xgw2HZZvEyvfHIGlsmm"></script>
+<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/video.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/air.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/drag.js"></script>-->
@@ -735,6 +742,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
     setInterval('run()',1000);
+</script>
+<script>
+    function flashChecker() {
+        var hasFlash = 0;         //是否安装了flash
+        var flashVersion = 0; //flash版本
+        var isIE = /*@cc_on!@*/0;      //是否IE浏览器
+
+        if (isIE) {
+            var swf = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+            if (swf) {
+                hasFlash = 1;
+                VSwf = swf.GetVariable("$version");
+                flashVersion = parseInt(VSwf.split(" ")[1].split(",")[0]);
+            }
+        } else {
+            if (navigator.plugins && navigator.plugins.length > 0) {
+                var swf = navigator.plugins["Shockwave Flash"];
+                if (swf) {
+                    hasFlash = 1;
+                    var words = swf.description.split(" ");
+                    for (var i = 0; i < words.length; ++i) {
+                        if (isNaN(parseInt(words[i]))) continue;
+                        flashVersion = parseInt(words[i]);
+                    }
+                }
+            }
+        }
+        return {f: hasFlash, v: flashVersion};
+    }
+
+    var fls = flashChecker();
+    var s = "";
+    if (fls.f) {
+        document.getElementsByClassName("openFlash")[0].style.display = "none";
+        document.getElementsByClassName("openFlashTips")[0].style.display = "none";
+//        document.write("您安装了flash,当前flash版本为: " + fls.v + ".x");
+    }
+    else {
+        document.getElementsByClassName("openFlash")[0].style.display = "block";
+        document.getElementsByClassName("openFlashTips")[0].style.display = "block";
+//        document.write("您没有安装flash");
+    }
+
 </script>
 </body>
 </html>
