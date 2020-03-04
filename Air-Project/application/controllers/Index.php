@@ -51,11 +51,12 @@ class Index extends CI_Controller
     public function dataSet()
     {
         if ($this->input->is_ajax_request()) {
-            if ($this->input->post('productId') && $this->input->post('status') && $this->input->post('alt') && $this->input->post('speed')) {
+            if ($this->input->post('productId') ) {
                 $data['productId'] = $this->input->post('productId');
                 $data['productType'] = $this->input->post('status');
                 $data['alt'] = $this->input->post('alt');
                 $data['speed'] = $this->input->post('speed');
+                $data['video'] = $this->input->post('video');
                 if ($this->dataIndex->planeSet($data)) {
                     $this->show_message('true', '数据添加成功');
                 } else {

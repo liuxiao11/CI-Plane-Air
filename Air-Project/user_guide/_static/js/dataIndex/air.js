@@ -637,6 +637,8 @@ function dataMap() {
             $.cookie('id',null);
             var result = JSON.parse(result);
             var point = result.data;
+            console.log('222')
+            console.log(point)
             if (point != undefined && point.length > 0) {
                 // 百度地图API功能
                 var map = new BMap.Map("allmap");// 创建Map实例
@@ -662,9 +664,9 @@ function dataMap() {
 
                 for (var i = 0; i < point.length; i++) {
                     //获取每个无人机的位置信息及无人机的捆包号信息，位置信息用来在地图上显示无人机，捆包号用来通过捆包号查询无人机详细信息，以在鼠标滑过此无人机时显示无人机的详细信息。
-                    longitude[i] = point[i].lon;//经度
-                    latitude[i] = point[i].lat;//纬度
-                    vehicleID[i] = point[i].id;//product号
+                    longitude[i] = point[i].lGPS_lon;//经度
+                    latitude[i] = point[i].lGPS_lat;//纬度
+                    vehicleID[i] = point[i].id;//id号
                     alarm[i] = point[i].serialNum;//报警标志信息
                     // console.log(vehicleID[i]);
                     var goodsId, goodsName, goodsSpeed, goodsAlt;
@@ -680,11 +682,10 @@ function dataMap() {
                             var resultContent = result.data;
                             if (result.data.length != 0) {
                                 goodsId = resultContent.id;
-                                goodsName = resultContent.productId;
-                                goodsSpeed = resultContent.speed;
-                                goodsAlt = resultContent.alt;
+                                goodsName = resultContent.productID;
+                                goodsAlt = resultContent.nGPS_alt;
                                 /**** 创建报警图标，并在地图上显示报警图标，且鼠标经过报警图标时，显示报警的详细信息 ***/
-                                if (longitude[i] == '999.99999999' || latitude[i] == '999.99999999') {
+                                if (longitude[i] == '0.000000' || latitude[i] == '0.000000') {
                                     var alarmMarker = new BMap.Marker(new BMap.Point(longitude[i], latitude[i]), {icon: new BMap.Icon(cxt + "dataIndex/warning.png", new BMap.Size(32, 32))});  // 创建自定义报警图标
                                     var alarmContent = '<div><img style="float:right;margin:2px" id="alarmInfo" src="' + cxt + 'dataIndex/warning.png" width="30" height="30"/><p style="margin:0;line-height:1.5;font-size:13px;text-indent:2em"><br/>无人机：' + goodsName + '<br/>报警类型：GPS未正常定位<br/>报警时间：' + getFormatDate() +
                                         '<br/></p></div>';
@@ -693,7 +694,7 @@ function dataMap() {
                                 }
                                 /**** 创建无人机图标，并在地图上显示无人机图标，且鼠标经过无人机图标时，显示无人机的详细信息 ***/
                                 var steelMarker = new BMap.Marker(new BMap.Point(longitude[i], latitude[i]), {icon: myIcon2});	//创建无人机图标
-                                var steelContent = '<div><p style="margin:0;line-height:1.5;font-size:13px;text-indent:2em"><br/>无人机：' + goodsName + '<br/>速度：' + goodsSpeed + 'm/s<br/>高度：' + goodsAlt + 'm<br/>' +
+                                var steelContent = '<div><p style="margin:0;line-height:1.5;font-size:13px;text-indent:2em"><br/>无人机：' + goodsName + '<br/>高度：' + goodsAlt + 'm<br/>' +
                                     '<button type="button" onclick="getCars(' + goodsName + ')" style="width: 80px;height: 25px;float: right;background-color: #e9873e;border: none;color: #ffffff">跟踪路径</button></p></div>';//无人机详情弹出框
                                 map.addOverlay(steelMarker); // 将无人机图标添加到地图中
                                 addMouseoverHandler(steelContent, steelMarker); //添加鼠标滑过无人机图标时显示无人机详情的事件
@@ -725,7 +726,46 @@ function dataMap() {
                             dataType: 'json',
                             success: function (result) {
                                 var resulta = result.data;
-                                console.log(resulta)
+                                var errHandler = function(err){
+                                    alert(err.message);
+                                };
+
+                                var infHandler = function(inf) {
+                                    var sourcesNode = document.getElementById("sourcesNode");
+                                    var clients = inf.clients;
+                                    sourcesNode.innerHTML = "";
+
+                                    for (var client in clients) {
+                                        clients[client].forEach((sources) => {
+                                            let nodeButton = document.createElement("button");
+                                        nodeButton.setAttribute('data', sources.url + ' ' + client);
+                                        nodeButton.appendChild(document.createTextNode(sources.description));
+                                        nodeButton.onclick = (event)=> {
+                                            setPlayerSource(event.target.getAttribute('data'));
+                                        };
+                                        sourcesNode.appendChild(nodeButton);
+                                    });
+                                    }
+                                };
+                                var playerOptions = {
+                                    socket: "ws://localhost:8088/ws/",
+                                    redirectNativeMediaErrors : true,
+                                    bufferDuration: 30,
+                                    errorHandler: errHandler,
+                                    infoHandler: infHandler
+                                };
+
+                                var player = Streamedian.player('test_video', playerOptions);
+                                var html5Player  = $("#test_video");
+                                player.destroy();
+                                player = null;
+                                html5Player.src = resulta.video.eq(0);
+                                player = Streamedian.player("test_video", playerOptions);
+                                $('#choice_url').html('');
+                                for (var i=0; i<=resulta.video.length;i++){
+                                    var choi = '<option value="'+resulta.video[i]+'">视频源'+(i)+'</option>';
+                                }
+                                $('#choice_url').append(choi);
                                 if (resulta.length != 0) {
                                     /*** 实时获取经纬度信息 ***/
                                     var sitsLongitude = resulta.lon;

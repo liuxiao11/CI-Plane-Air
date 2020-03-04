@@ -39,11 +39,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .plane-data .plane-content .plane-text{display: inline-block;margin-left: 70px}
         .air-bottom {width: 1442px;position: absolute;top: 659px;}
         .air-bottom .air-title{width: 699px;height: 37px;margin: 20px 0 0 30px;display: inline-block;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff }
-        .air-bottom .plane-form{margin: 0 0 0 110px;display: inline-block;font-size: 22px; }
+        .air-bottom .plane-form{margin: 0 0 0 50px;display: inline-block;font-size: 22px; }
         .air-bottom .plane-form ul li{display: inline-block;margin-right: 50px;margin-top: 10px}
-        .air-bottom .plane-form input,select{width: 280px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
-        .air-bottom .plane-form ul select{width: 300px}
-        .air-bottom .plane-form .submit{width: 180px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 24px;display: block;float: right;padding: 0;color: #d9d9d9;margin-left: 50px}
+        .air-bottom .plane-form input,select{width: 275px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
+        .air-bottom .plane-form ul select{width: 275px}
+        .air-bottom .plane-form .submit{width: 180px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 24px;display: block;float: right;padding: 0;color: #d9d9d9;margin-left: 166px}
         .form-error{color: red;font-size: 16px;display: table-cell;}
     </style>
 </head>
@@ -91,7 +91,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <option value="0">无人机</option></select>
                     </li>
                     <li>平均速度：<input type="text" class="plane-number" name="speed" id="speed"  data-validation="number" data-validation-allowing="float"  data-validation-error-msg="速度须为数字"></li>
-                    <li>平均高度：<input type="text" class="plane-number" name="alt" id="alt"  data-validation="number" data-validation-allowing="float"  data-validation-error-msg="高度须为数字">
+                    <li>平均高度：<input type="text" class="plane-number" name="alt" id="alt"  data-validation="number" data-validation-allowing="float"  data-validation-error-msg="高度须为数字"></li>
+                    <li>视频源：<input type="text" class="plane-video" name="video" id="video" placeholder="rtsp(多个用英文逗号分隔)">
                         <input class="submit" id="submit" type="submit" value="提交"></li>
                 </ul>
             </form>
@@ -112,7 +113,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             var status=$("#status").val();
             var speed=$("#speed").val();
             var alt=$("#alt").val();
-            var urlData={productId:productId,status:status,speed:speed,alt:alt};
+            var video=$("#video").val();
+            var urlData={productId:productId,status:status,speed:speed,alt:alt,video:video};
             $.post(url,urlData,function(result){
                console.log(result.status);
                if(result.status == 'true'){

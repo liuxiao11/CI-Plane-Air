@@ -28,7 +28,7 @@ class dataIndex extends CI_Model
     {
         $where = date('Y-m-d');
         $data['plane'] = $this->planeOnSelect();//正在飞行中无人机信息
-        $whereStockWhere = 'productId not in (SELECT productId from product)';
+        $whereStockWhere = 'productId not in (SELECT productID from airdectectpack)';
         $planeStock = $this->db->select('*')->from($this->productStock)->where($whereStockWhere)->get()->result_array();//无人机库存信息
         $air = $this->db->from($this->airDataPack)->where('recDAY', $where)->order_by('serialNum', 'DESC')->limit(5)->get()->result_array();//首页所需包信息
         $airWarning = $this->db->from($this->airDataPack)->where('recDAY', $where)->order_by('serialNum', 'DESC')->get()->result_array();//今日所有气体信息
@@ -50,7 +50,7 @@ class dataIndex extends CI_Model
         }
         if (!empty($air) && !empty($airlist)) {
             foreach ($air as $k => $v) {
-                $Time[] = substr($v['recTime'], 0, 5);
+                $Time[] = $v['recTime'];
                 $air1[] = $v;
             }
             $data['time'] = $Time;
@@ -81,7 +81,6 @@ class dataIndex extends CI_Model
                 $airWnew[] = $wvN;
 
             }
-//            var_dump($airWnew);
             $nAdata = array_slice($airdataList,0,6);
             foreach ($nAdata as $kk => $vv) {
                 foreach ($airWnew as $kkk => $vvv) {
@@ -128,14 +127,28 @@ class dataIndex extends CI_Model
         }
 
         $data['planeStock'] = $planeStock;
+        $video_url= $this ->video_url();
+        $vul = array_slice($video_url,0,1);
+        foreach ($vul as $vk => $vv){
+            $vid = $vv['video'];
+        }
+        $data['video_url'] = $vid;
         if ($data) {
             return $data;
         } else {
             return false;
         }
     }
-    public function airWarning(){
-
+    public function video_url(){
+        $plane = $this->planeOnSelect();//正在飞行中无人机信息
+        foreach ($plane as $kp => $vp){
+            $planeStock[] = $this->db->select('productId,video')->from($this->productStock)->where('productId',$vp['productID'])->get()->row_array();//无人机库存信息
+        }
+        foreach ($planeStock as $sk => $sv){
+            $sv['video'] = explode(',',$sv['video']);
+            $video[] = $sv;
+        }
+        return $video;
     }
 
     /**
@@ -213,7 +226,8 @@ class dataIndex extends CI_Model
     public function planeLatLon($id)
     {
         $plane = $this->db->where('productID',$id)->order_by('serialNum', 'DESC')->get($this->airDataPack)->row_array();
-//        var_dump($this->db->last_query());die;
+        $planeStock = $this->db->select('video')->from($this->productStock)->where('productID',$id)->get()->row_array();
+        $data['video'] = explode(',',$planeStock['video']);
         if ($plane) {
             $data['lon'] = $plane['lGPS_lon'];
             $data['lat'] = $plane['lGPS_lat'];
