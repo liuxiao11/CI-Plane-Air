@@ -726,41 +726,42 @@ function dataMap() {
                             dataType: 'json',
                             success: function (result) {
                                 var resulta = result.data;
-                                var errHandler = function(err){
-                                    alert(err.message);
+                                var conf1 = {
+                                    videoid:'h5sVideo1',
+                                    protocol: window.location.protocol, //'http:' or 'https:'
+                                    host: window.location.host, //'localhost:8080'
+                                    rootpath:'/', // '/' or window.location.pathname
+                                    token:'token2',
+                                    hlsver:'v1', //v1 is for ts, v2 is for fmp4
+                                    session:'c1782caf-b670-42d8-ba90-2244d0b0ee83' //session got from login
                                 };
 
-                                var infHandler = function(inf) {
-                                    var sourcesNode = document.getElementById("sourcesNode");
-                                    var clients = inf.clients;
-                                    sourcesNode.innerHTML = "";
+                                var v1 = H5sPlayerCreate(conf1);
 
-                                    for (var client in clients) {
-                                        clients[client].forEach((sources) => {
-                                            let nodeButton = document.createElement("button");
-                                        nodeButton.setAttribute('data', sources.url + ' ' + client);
-                                        nodeButton.appendChild(document.createTextNode(sources.description));
-                                        nodeButton.onclick = (event)=> {
-                                            setPlayerSource(event.target.getAttribute('data'));
-                                        };
-                                        sourcesNode.appendChild(nodeButton);
-                                    });
+
+                                $('#h5sVideo1').parent().click(function () {
+                                    if($(this).children(".h5video").get(0).paused){
+                                        if(v1 != null)
+                                        {
+                                            v1.disconnect();
+                                            delete v1;
+                                            v1 = null;
+                                        }
+
+                                        v1 = H5sPlayerCreate(conf1);
+
+                                        console.log(v1);
+                                        v1.connect();
+
+                                        $(this).children(".playpause").fadeOut();
+                                    }else{
+                                        v1.disconnect();
+                                        delete v1;
+                                        v1 = null;
+                                        $(this).children(".h5video").get(0).pause();
+                                        $(this).children(".playpause").fadeIn();
                                     }
-                                };
-                                var playerOptions = {
-                                    socket: "ws://localhost:8088/ws/",
-                                    redirectNativeMediaErrors : true,
-                                    bufferDuration: 30,
-                                    errorHandler: errHandler,
-                                    infoHandler: infHandler
-                                };
-
-                                var player = Streamedian.player('test_video', playerOptions);
-                                var html5Player  = $("#test_video");
-                                player.destroy();
-                                player = null;
-                                html5Player.src = resulta.video.eq(0);
-                                player = Streamedian.player("test_video", playerOptions);
+                                });
                                 $('#choice_url').html('');
                                 for (var i=0; i<=resulta.video.length;i++){
                                     var choi = '<option value="'+resulta.video[i]+'">视频源'+(i)+'</option>';

@@ -79,7 +79,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
         .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
 
-        .video-js{width: 100%;height: 100%}
+        .h5video{width: 100%;height: 100%}
+        .playpause {
+            background-image:url(<?php echo STATIC_IMG?>dataIndex/media_play_pause_resume.png);
+            background-repeat:no-repeat;
+            width:9%;
+            position:absolute;
+            left:0%;
+            right:0%;
+            top:19%;
+            bottom:0%;
+            margin:auto;
+            background-size:contain;
+            background-position: center;
+        }
     </style>
 </head>
 <body>
@@ -160,10 +173,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php }?>
             </select>
             <div class="plane-person" id="gridsterBox" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
-                <video id="test_video" controls autoplay muted width="100%" height="100%">
-                    <!--                    <source src="--><?php //echo STATIC_IMG?><!--dataIndex/plane.mp4" type="video/mp4">-->
+                <video class="h5video" id="h5sVideo1"  autoplay webkit-playsinline playsinline controls autoplay muted width="100%" height="100%">
                     <source src="<?php if(isset($video_url) && !empty($video_url)) echo $video_url[0]?>" type="application/x-rtsp">
                 </video>
+                <div class="playpause" id="playpause1" ></div>
             </div>
         </div>
         <div class="air">
@@ -215,7 +228,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/num.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nVzaOG4nXU266Xgw2HZZvEyvfHIGlsmm"></script>
-<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/streamedian.min.js"></script>
+<script src="<?php echo STATIC_JS?>dataIndex/bootstrap.js"></script>
+<script src="<?php echo STATIC_JS?>dataIndex/adapter.js"></script>
+<script src="<?php echo STATIC_JS?>dataIndex/platform.js"></script>
+<script src="<?php echo STATIC_JS?>dataIndex/h5splayer.js"></script>
+<script src="<?php echo STATIC_JS?>dataIndex/h5splayerhelper.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/air.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/drag.js"></script>-->
@@ -224,49 +241,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </script>
 <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
 <script>
-    if (window.Streamedian) {
-        var errHandler = function(err){
-            alert(err.message);
-        };
-
-        var infHandler = function(inf) {
-            var sourcesNode = document.getElementById("sourcesNode");
-            var clients = inf.clients;
-            sourcesNode.innerHTML = "";
-
-            for (var client in clients) {
-                clients[client].forEach((sources) => {
-                    let nodeButton = document.createElement("button");
-                nodeButton.setAttribute('data', sources.url + ' ' + client);
-                nodeButton.appendChild(document.createTextNode(sources.description));
-                nodeButton.onclick = (event)=> {
-                    setPlayerSource(event.target.getAttribute('data'));
-                };
-                sourcesNode.appendChild(nodeButton);
-            });
-            }
-        };
-        var playerOptions = {
-            socket: "ws://localhost:8088/ws/",
-            redirectNativeMediaErrors : true,
-            bufferDuration: 30,
-            errorHandler: errHandler,
-            infoHandler: infHandler
-        };
-
-        var player = Streamedian.player('test_video', playerOptions);
-        $('#choice_url').change(function () {
-           var url = $(this).val();
-            setPlayerSource(url);
-        })
-        var html5Player  = $("#test_video");
-        function setPlayerSource(newSource) {
-            player.destroy();
-            player = null;
-            html5Player.src = newSource;
-            player = Streamedian.player("test_video", playerOptions);
-        }
+    if (H5siOS() === true
+        || H5sSafariBrowser() === true)
+    {
+        $('#h5sVideo1').prop("controls", true);
     }
+
+    var conf1 = {
+        videoid:'h5sVideo1',
+        protocol: window.location.protocol, //'http:' or 'https:'
+        host:  'localhost:8080', //'localhost:8080'
+        rootpath:'/', // '/' or window.location.pathname
+        token:'token2',
+        hlsver:'v1', //v1 is for ts, v2 is for fmp4
+        session:'c1782caf-b670-42d8-ba90-2244d0b0ee83' //session got from login
+    };
+
+    var v1 = H5sPlayerCreate(conf1);
+
+
+    $('#h5sVideo1').parent().click(function () {
+        if($(this).children(".h5video").get(0).paused){
+            if(v1 != null)
+            {
+                v1.disconnect();
+                delete v1;
+                v1 = null;
+            }
+
+            v1 = H5sPlayerCreate(conf1);
+
+            console.log(v1);
+            v1.connect();
+
+            $(this).children(".playpause").fadeOut();
+        }else{
+            v1.disconnect();
+            delete v1;
+            v1 = null;
+            $(this).children(".h5video").get(0).pause();
+            $(this).children(".playpause").fadeIn();
+        }
+    });
+
 
 
     function allowDrop(ev,divdom) {
