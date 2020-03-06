@@ -731,7 +731,7 @@ function dataMap() {
                                     protocol: window.location.protocol, //'http:' or 'https:'
                                     host: window.location.host, //'localhost:8080'
                                     rootpath:'/', // '/' or window.location.pathname
-                                    token:'token2',
+                                    token:'token0',
                                     hlsver:'v1', //v1 is for ts, v2 is for fmp4
                                     session:'c1782caf-b670-42d8-ba90-2244d0b0ee83' //session got from login
                                 };
@@ -764,7 +764,7 @@ function dataMap() {
                                 });
                                 $('#choice_url').html('');
                                 for (var i=0; i<=resulta.video.length;i++){
-                                    var choi = '<option value="'+resulta.video[i]+'">视频源'+(i)+'</option>';
+                                    var choi = '<option value="'+i-1+'">视频源'+(i)+'</option>';
                                 }
                                 $('#choice_url').append(choi);
                                 if (resulta.length != 0) {

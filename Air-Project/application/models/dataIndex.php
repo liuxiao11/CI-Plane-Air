@@ -20,6 +20,17 @@ class dataIndex extends CI_Model
     {
         $this->load->database();
     }
+
+    //读取json文件
+    public function get_json()
+    {
+        // 从文件中读取数据到PHP变量
+        $json_string = file_get_contents('F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/conf/h5ss.conf');
+
+        // 用参数true把JSON字符串强制转成PHP数组
+        $data = json_decode($json_string, true);
+        return $data;
+    }
     /**
      * 首页数据查询
      * @return mixed
@@ -129,6 +140,16 @@ class dataIndex extends CI_Model
         $data['planeStock'] = $planeStock;
         $video_url= $this ->video_url();
         $vul = array_slice($video_url,0,1);
+        $json_info = $this->get_json();
+        $i = 0;
+        foreach ($vul as $vulKey => $vulVal){
+            foreach ($vulVal['video'] as $vvK => $vvV){
+                $json_info['source']['src'][$vvK]['strUrl'] = $vvV;
+                $json_info['source']['src'][$vvK]['strToken'] = 'token'.$vvK;
+            }
+        }
+        $info = json_encode($json_info);
+        $edit = file_put_contents("F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/conf/h5ss.conf",$info);
         foreach ($vul as $vk => $vv){
             $vid = $vv['video'];
         }
@@ -227,7 +248,15 @@ class dataIndex extends CI_Model
     {
         $plane = $this->db->where('productID',$id)->order_by('serialNum', 'DESC')->get($this->airDataPack)->row_array();
         $planeStock = $this->db->select('video')->from($this->productStock)->where('productID',$id)->get()->row_array();
-        $data['video'] = explode(',',$planeStock['video']);
+        $video_url = explode(',',$planeStock['video']);
+        $json_info = $this->get_json();
+        foreach ($video_url as $vvK => $vvV){
+            $json_info['source']['src'][$vvK]['strUrl'] = $vvV;
+            $json_info['source']['src'][$vvK]['strToken'] = 'token'.$vvK;
+        }
+        $info = json_encode($json_info);
+        $edit = file_put_contents("F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/conf/h5ss.conf",$info);
+        $data['video'] = $video_url;
         if ($plane) {
             $data['lon'] = $plane['lGPS_lon'];
             $data['lat'] = $plane['lGPS_lat'];

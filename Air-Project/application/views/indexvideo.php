@@ -9,12 +9,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
-    <meta http-equiv="Content-Type" content="te xt/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>空气质量监控系统-首页</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/easyui.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/globle.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
+    <link href="<?php echo STATIC_CSS?>dataIndex/video-js.css" rel="stylesheet" type="text/css" >
     <style>
         .top{position:absolute;width:100%;height:93px;font-size: 37px;line-height: 93px;text-align: center;letter-spacing: 10px}
         .air-top{position:absolute;width:100%;height:93px;background:url(<?php echo STATIC_IMG?>dataIndex/top22.png) left top no-repeat;background-size: 100% 100%;}
@@ -79,20 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
         .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
 
-        .h5video{width: 100%;height: 100%}
-        .playpause {
-            background-image:url(<?php echo STATIC_IMG?>dataIndex/media_play_pause_resume.png);
-            background-repeat:no-repeat;
-            width:9%;
-            position:absolute;
-            left:0%;
-            right:0%;
-            top:19%;
-            bottom:0%;
-            margin:auto;
-            background-size:contain;
-            background-position: center;
-        }
+        .video-js{width: 100%;height: 100%}
     </style>
 </head>
 <body>
@@ -169,12 +157,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <p class="air-title">设备信息</p>
             <select id="choice_url" style="float: right;margin-right: 15px;margin-top: 21px;border: 1px solid #838383;background-color: #0d3154;color: #FFFFFF;height: 30px">
                 <?php if(isset($video_url) && !empty($video_url)) foreach ($video_url as $vk => $vv){?>
-                    <option value="<?php echo $vk?>">视频源<?php echo $vk+1?></option>
+                    <option value="<?php echo $vv?>">视频源<?php echo $vk+1?></option>
                 <?php }?>
             </select>
             <div class="plane-person" id="gridsterBox" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
-                <video class="h5video" id="h5sVideo1"  autoplay webkit-playsinline playsinline controls autoplay muted width="100%" height="100%">
+                <video class="video-js" id="my-video" data-setup="{}"  preload="auto"  controls autoplay muted width="100%" height="100%">
 <!--                    <source src="--><?php //if(isset($video_url) && !empty($video_url)) echo $video_url[0]?><!--" type="application/x-rtsp">-->
+                    <canvas id="video-canvas"></canvas>
+<!--                    <source src="rtmp://58.200.131.2:1935/livetv/hunantv"  type="rtmp/flv">-->
                 </video>
                 <div class="playpause" id="playpause1" ></div>
             </div>
@@ -218,7 +208,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-<div id="sourcesNode"></div>
+<embed width="300" height="70" class="openFlash" style="position:absolute;top:130px;left:225px;z-Index:9999;" type="application/x-shockwave-flash">
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/echarts.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.easyui.min.js"></script>
@@ -228,11 +218,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/num.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nVzaOG4nXU266Xgw2HZZvEyvfHIGlsmm"></script>
-<script src="<?php echo STATIC_JS?>dataIndex/bootstrap.js"></script>
-<script src="<?php echo STATIC_JS?>dataIndex/adapter.js"></script>
-<script src="<?php echo STATIC_JS?>dataIndex/platform.js"></script>
-<script src="<?php echo STATIC_JS?>dataIndex/h5splayer.js"></script>
-<script src="<?php echo STATIC_JS?>dataIndex/h5splayerhelper.js"></script>
+<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/video.js"></script>
+<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jsmpeg.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/air.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/drag.js"></script>-->
@@ -240,61 +227,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     WIDGET = {FID: 'jyA2dogNAb'}
 </script>
 <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
+<script type="text/javascript" language="JavaScript">
+    var canvas = document.getElementById('video-canvas');
+    var url = 'ws://127.0.0.1:8082/';
+    var player = new JSMpeg.Player(url, {canvas: canvas});
+</script>
 <script>
-    var conf1 = {
-        videoid:'h5sVideo1',
-        protocol: window.location.protocol, //'http:' or 'https:'
-        host:  'localhost:8080', //'localhost:8080'
-        rootpath:'/', // '/' or window.location.pathname
-        token:'token0',
-        hlsver:'v1', //v1 is for ts, v2 is for fmp4
-        session:'c1782caf-b670-42d8-ba90-2244d0b0ee83' //session got from login
-    };
-    videoChange(conf1);
-    $('#choice_url').change(function () {
-        $('#h5sVideo1').parent().children(".h5video").get(0).pause();
-        var url = $(this).val();
-        var conf2 = {
-            videoid:'h5sVideo1',
-            protocol: window.location.protocol, //'http:' or 'https:'
-            host:  'localhost:8080', //'localhost:8080'
-            rootpath:'/', // '/' or window.location.pathname
-            token:'token'+url,
-            hlsver:'v1', //v1 is for ts, v2 is for fmp4
-            session:'c1782caf-b670-42d8-ba90-2244d0b0ee83' //session got from login
-        };
-        videoChange(conf2)
-    });
 
 
-    function videoChange(conf) {
-        var v1 = H5sPlayerCreate(conf);
-        $('#h5sVideo1').parent().click(function () {
-            if($(this).children(".h5video").get(0).paused){
-                if(v1 != null)
-                {
-                    v1.disconnect();
-                    delete v1;
-                    v1 = null;
-                }
-                v1 = H5sPlayerCreate(conf1);
-                console.log('aaaa');
-                console.log($(this));
-                console.log(v1);
-                v1.connect();
-                $(this).children(".playpause").fadeOut();
-            }else{
-                v1.disconnect();
-                delete v1;
-                v1 = null;
-                console.log('bbb');
-                console.log($(this));
-                $(this).children(".h5video").get(0).pause();
-                $(this).children(".playpause").fadeIn();
-            }
-        });
 
-    }
     function allowDrop(ev,divdom) {
         ev.preventDefault();
     }
