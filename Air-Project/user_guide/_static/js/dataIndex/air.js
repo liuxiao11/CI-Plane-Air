@@ -439,7 +439,7 @@ $('#plane-data ul li').on('click',function () {
                     //折线图
                     var myChartPM10 = echarts.init(document.getElementById("PM10"));
                     var myChartaqi = echarts.init(document.getElementById("aqi"));
-                    var myChartPM2_5 = echarts.init(document.getElementById("PM2.5"));
+                    var myChartPM2_5 = echarts.init(document.getElementById("PM2_5"));
                     var myChartCO = echarts.init(document.getElementById("CO"));
 
                     var optionaqi = {
@@ -644,7 +644,7 @@ $('#plane-data ul li').on('click',function () {
                                 fontSize: 10,
                                 color: '#ffffff'
                             },
-                            data: ['PM10', 'PM2.5']
+                            data: ['PM2.5']
                         },
                         grid: {
                             left: '3%',
@@ -1206,7 +1206,7 @@ function dataIndex() {
                 //折线图
                 var myChartPM10 = echarts.init(document.getElementById("PM10"));
                 var myChartaqi = echarts.init(document.getElementById("aqi"));
-                var myChartPM2_5 = echarts.init(document.getElementById("PM2.5"));
+                var myChartPM2_5 = echarts.init(document.getElementById("PM2_5"));
                 var myChartCO = echarts.init(document.getElementById("CO"));
 
                 var optionaqi = {
@@ -1411,7 +1411,7 @@ function dataIndex() {
                             fontSize: 10,
                             color: '#ffffff'
                         },
-                        data: ['PM10', 'PM2.5']
+                        data: [ 'PM2.5']
                     },
                     grid: {
                         left: '3%',

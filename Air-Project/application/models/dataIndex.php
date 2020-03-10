@@ -158,16 +158,28 @@ class dataIndex extends CI_Model
     {
         $where = date('Y-m-d');
         $data['plane'] = $this->planeOnSelect();//正在飞行中无人机信息
-        $airWhere = array(
-            'recDAY' => $where,
-            'uPM2_5 < ' => 500,
-            'uPM10 < ' => 500,
-            'uSO2 < ' => 500,
-            'uCO < ' => 500,
-            'uO3 < ' => 500,
-            'uNO2 < ' => 500,
-            'productID' => $data['plane'][0]['productID']
-        );
+        if($data['plane']){
+            $airWhere = array(
+                'recDAY' => $where,
+                'uPM2_5 < ' => 500,
+                'uPM10 < ' => 500,
+                'uSO2 < ' => 500,
+                'uCO < ' => 500,
+                'uO3 < ' => 500,
+                'uNO2 < ' => 500,
+                'productID' => $data['plane'][0]['productID']
+            );
+        }else{
+            $airWhere = array(
+                'recDAY' => $where,
+                'uPM2_5 < ' => 500,
+                'uPM10 < ' => 500,
+                'uSO2 < ' => 500,
+                'uCO < ' => 500,
+                'uO3 < ' => 500,
+                'uNO2 < ' => 500,
+            );
+        }
         $airwWhere = array(
             'recDAY' => $where,
             'uPM2_5 < ' => 500,
