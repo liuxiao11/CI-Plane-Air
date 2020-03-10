@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta http-equiv="Content-Type" content="te xt/html; charset=UTF-8"/>
-    <title>空气质量监控系统-首页</title>
+    <title>空气质量监控平台-首页</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/easyui.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/globle.css" rel="stylesheet" type="text/css" >
@@ -21,9 +21,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-left{display: inline-block;width:420px;margin-top: 55px;position: absolute;left: 5px}
         .air-date{width: 388px;height: 59px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) left top no-repeat;background-size: contain;font-size: 22px;line-height: 59px;margin: 0 auto}
         .air-left .air-date .air-icon{width: 11px;height: 11px;background:url(<?php echo STATIC_IMG?>dataIndex/icon.png) left top no-repeat;background-size: contain;vertical-align:middle;margin-left: 11px}
-        .air-left .air-date .air-weather-icon{width: 47px;height: 37px;background:url(<?php echo STATIC_IMG?>dataIndex/weather-icon.png) left top no-repeat;background-size: contain;vertical-align:middle;margin-left: 35px}
-        .air{width: 415px;height: 226px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border1.png) left top no-repeat;background-size: contain;margin: 15px auto;overflow:hidden }
-        .air video{width: 430px;height: 243px;overflow:hidden;margin: 0 auto;display: block; }
+        .air{width: 415px;height: 226px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border1.png) left top no-repeat;background-size: contain;margin: 20px auto;overflow:hidden }
+        .air object{width: 430px;height: 243px;overflow:hidden;margin: 0 auto;display: block; }
         .air #allmap{width: 377px;height: 163px;margin: 50px 15px 0;}
         .air:last-child{margin-bottom: 0}
         .air-chart{margin: 0 auto}
@@ -32,12 +31,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .plane-data{width: 1033px;height: 167px;overflow: hidden;position: relative;}
         .air-center .plane-data ul{width: 918px;height: 150px;margin:17px auto 0;}
         .air-center .plane-data>ul>li{width: 274px;height: 150px;background:url(<?php echo STATIC_IMG?>dataIndex/plane-border2.png) left top no-repeat;background-size: contain;float: left;margin-left: 40px;margin-top: 13px}
-        .air-center .plane-data>ul>li:nth-child(1){margin-left: 0}
-        .air-center .plane-data>ul>li img{width: 63px;height: 29px;margin-left: 35px;vertical-align: top;margin-top: 35px ;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
+        .air-center .plane-data>ul>li:nth-child(1){margin-left: 0;}
+        .air-center .plane-data>ul>li img{width: 63px;height: 29px;vertical-align: top;margin-top: 35px ;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
         .air-center .plane-data>ul>li .carPlane{width: 63px;height: 50px;margin-top: 20px;vertical-align: top;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
-        .air-center .plane-data .plane-title{margin-left: 36px;position: absolute;top: 113px;color: #f9fbfb}
+        .air-center .plane-data .plane-title{color: #f9fbfb;margin-top: 10px}
+        .air-center .plane-data>ul>li.active .plane-title{color: #02FFFA;}
+        .air-center .plane-data .plane-img{width: 128px;height: 105px;text-align: center;display: inline-block;}
         .air-center .plane-data .plane-content{margin-top:8px;display: inline-block;}
-        .air-center .plane-data .plane-content .plane-text{display: inline-block;margin-left: 45px;margin-top: 27px}
+        .air-center .plane-data>ul>li.active .plane-content{color: #02FFFA}
+        .air-center .plane-data .plane-content .plane-text{display: inline-block;margin-left: 20px;margin-top: 15px}
         .air-center .plane-data .plane-content .plane-text p{line-height: 22px}
         .roll_row .roll__list::before, .roll_row .roll__list::after {content: "";display: table;line-height: 0;}
         .roll_row .roll__list::after {clear: both;}
@@ -46,11 +48,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*        .air-center .map-border{width: 960px;height: 467px;margin:0 auto 0;border: 20px ridge transparent;border-image:url(*/<?php //echo STATIC_IMG?>/*dataIndex/border.gif) 30 30 round ;}*/
         .air-center .center-top{width: 1033px;height: 700px;background:url(<?php echo STATIC_IMG?>dataIndex/center-top.png) left top no-repeat;background-size: cover;}
         .air-center .plane-map{width: 952px;height: 465px;margin:20px auto 0; border-radius: 25px;border: 5px ridge #00679c;}
-        .air-center video{width: 864px;display: block;margin:10px auto 0; border-radius: 25px;}
+        .air-center object{width: 864px;display: block;margin:10px auto 0; border-radius: 25px;}
         .air-center .map-border{width: 952px;height: 465px;display: block;margin:10px auto 0; border-radius: 25px;}
-        .air-bottom {width: 1033px;height: 222px;position: absolute;bottom: 0;background:url(<?php echo STATIC_IMG?>dataIndex/bottom-border.png) left top no-repeat;background-size: cover;}
-        .air-bottom .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
-        .air-bottom .air-title .title-icon{width: 12px;height: 9px;background: url(<?php echo STATIC_IMG?>dataIndex/title-icon.png) left top no-repeat;background-size: contain}
+        .air-bottom .air{display: inline-block;width: 341px;margin: 0;margin-top: 5px;background:url(<?php echo STATIC_IMG?>dataIndex/air_bottom_border.png) left top no-repeat;background-size: contain;}
+
         .air-right {display: inline-block;width:420px;margin-top: 55px;position: absolute;right: 1px;}
         .air-right .air-btn{text-align: center}
         .air-right .air-btn-border{width: 121px;height: 33px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg.png) left top no-repeat;background-size: contain;font-size: 16px;color: #fff363;text-align: center;line-height: 33px;display: inline-block}
@@ -60,15 +61,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-right .number{width: 318px;height: 50px;margin:20px auto 10px ;text-align: center;font-size: 16px;}
         .air-right .plane-person{width: 380px;height: 259px;margin:30px auto 0 ;font-size: 14px;}
         .air-right .plane-map{width: 374px;height: 259px;}
-        .air-right .plane-person .person{display: inline-block;margin-left: 25px;}
-        .air-right .plane-person .person img{width: 160px;height: 200px;border: 1px solid #00679c}
-        .air-right .plane-stock .stock{width: 153px;height: 62px;background:url(<?php echo STATIC_IMG?>dataIndex/plane1-border.png) left top no-repeat;background-size: contain;display: inline-block;float: left;overflow: hidden;margin-left: 45px;margin-bottom: 20px}
-        .air-right .plane-stock {width: 98%;height: 162px;overflow-y: auto;margin-top: 25px;}
-        .air-right .plane-stock>li:nth-of-type(odd){margin-left: 33px}
-        .air-right .plane-stock .stock img{width: 37px;height: 37px;float: left;margin: 10px 12px}
-        .air-right .plane-stock .stock p{float: left;margin: 10px 0 2px 15px}
-        .air-right .plane-stock .stock button{float: left;width: 60px;margin-left: 15px;font-size:11px;background-color: #e9873e;border: none;color: #ffffff}
-
         /*弹窗*/
         .alertPopBoxBg{display:none;position: fixed;bottom: 0;left: 0;top: 0;right: 0;width: 100%;height: 1080px;background-color: rgba(0,0,0,0.6);z-index: 102;}
         .alertPopBox{display:block;position:absolute;margin:auto;width:672px;height:520px;top: 0;left: 0;right: 0;bottom: 0;background: url(<?php echo STATIC_IMG?>dataIndex/alert-border.png) left top rgba(9,33,68,0.5);}
@@ -79,45 +71,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
         .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
 
-        .h5video{width: 100%;height: 100%}
-        .playpause {
-            background-image:url(<?php echo STATIC_IMG?>dataIndex/media_play_pause_resume.png);
-            background-repeat:no-repeat;
-            width:9%;
-            position:absolute;
-            left:0%;
-            right:0%;
-            top:19%;
-            bottom:0%;
-            margin:auto;
-            background-size:contain;
-            background-position: center;
-        }
     </style>
+    <script>
+        WIDGET = {ID: '82iyG2gmyN'};
+    </script>
+    <script type="text/javascript" src="https://apip.weatherdt.com/view/static/js/r.js?v=1111"></script>
 </head>
 <body>
 <div id="container">
-    <div class="top"><div class="air-top" id="upload-img"></div>空气质量监控系统</div>
+    <div class="top"><div class="air-top" id="upload-img"></div>空气质量监控平台</div>
     <div class="air-left">
         <div class="air-date">
             <i class="air-icon"></i>
             <span id="date">2019年10月26日 星期六</span>
         </div>
-        <div class="air air-SO2"  ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
-            <p class="air-title">SO2</p>
-            <div class="air-chart" id="SO2" style="width: 95%;height: 85%"></div>
+        <div class="weather" style="margin-top: 24px"  ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
+            <div id="weather-view-he"></div>
         </div>
-        <div class="air air-NO2" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
-            <p class="air-title">NO2</p>
-            <div class="air-chart" id="NO2" style="width: 95%;height: 85%"></div>
+        <div class="air air-aqi" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
+            <p class="air-title">AQI指数</p>
+            <div class="air-chart" id="aqi" style="width: 98%;height: 85%"></div>
         </div>
         <div class="air air-PM10" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
-            <p class="air-title">PM10/PM2.5</p>
-            <div class="air-chart"  id="PM" style="width: 95%;height: 85%"></div>
+            <p class="air-title">PM10</p>
+            <div class="air-chart"  id="PM10" style="width: 98%;height: 85%"></div>
         </div>
-        <div class="air air-CO" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
-            <p class="air-title">CO/O3</p>
-            <div class="air-chart" id="CO-O3" style="width: 95%;height: 85%"></div>
+        <div class="air air-PM2.5" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
+            <p class="air-title">PM2.5</p>
+            <div class="air-chart" id="PM2.5" style="width: 98%;height: 85%"></div>
         </div>
     </div>
 
@@ -125,6 +106,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="center-top">
             <div class="plane-data roll-wrap roll_row" id="plane-data">
                 <ul class="roll__list">
+                    <?php if($plane) foreach ($plane as $k => $v){?>
+                    <li>
+                        <div class="plane-content">
+                            <div class="plane-img">
+                                <?PHP if( $v['productType'] == "0"){?>
+                                    <img  src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
+                                <?php }else{?>
+                                <img class="carPlane" src="<?php echo STATIC_IMG?>dataIndex/carPlane.png" alt="无人机"><?php }?>
+                                <div class="plane-title" data-id="<?php echo $v['productID']?>">无人机<?php echo $v['productID']?></div>
+                                </div>
+                            <div class="plane-text">
+                                <p>湿度：<?php echo $v['uHumidity']?></p>
+                                <p>温度：<?php echo $v['iTempertrue']?></p>
+                                <p>高度：<?php echo $v['nGPS_alt']?>m</p>
+                                </div>
+                            </div>
+                        </li>
+                    <?php }?>
                 </ul>
             </div>
             <div class="map-border" id="gridsterBox1" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
@@ -132,12 +131,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
         <div class="air-bottom">
-            <p class="air-title">
-                CH4/SF6/H2O2/COCL2
-            </p>
-            <div class="air-chart" id="CH4" style="width: 100%;height: 85%"></div>
+            <div class="air air-O3"  ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
+                <p class="air-title">O3</p>
+                <div class="air-chart" id="O3" style="width: 95%;height: 85%"></div>
+            </div>
+            <div class="air air-SO2"  ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
+                <p class="air-title">SO2</p>
+                <div class="air-chart" id="SO2" style="width: 95%;height: 85%"></div>
+            </div>
+            <div class="air air-NO2" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
+                <p class="air-title">NO2</p>
+                <div class="air-chart" id="NO2" style="width: 95%;height: 85%"></div>
+            </div>
         </div>
     </div>
+
     <div class="air-right">
         <div class="air-date air-btn">
             <a href="<?php echo base_url()?>index/dataSet" class="air-btn-border"><img src="<?php echo STATIC_IMG?>dataIndex/btn-set.png">数据设置</a>
@@ -152,49 +160,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <div class="air-chart" id="warning" style="width: 95%;height: 63%"></div>
         </div>
-<!--            <div class="info1 gridsterBox" id="gridsterBox">-->
-        <!--                <p class="air-title">检测设备负责人</p>-->
-        <!--                <div class="plane-person">-->
-        <!--                    --><?php //if(isset($user) && !empty($user)) foreach ($user as $kk => $vv){?>
-        <!--                        <div class="person">-->
-        <!--                            <img src="--><?php //echo STATIC_IMG?><!--dataIndex/person.png" >-->
-        <!--                            <p>姓名：--><?php //echo $vv['username']?><!--</p>-->
-        <!--                            <p>负责内容：--><?php //echo $vv['charge']?><!--</p>-->
-        <!--                            <p>联系方式：--><?php //echo $vv['iphone']?><!--</p>-->
-        <!--                        </div>-->
-        <!--                    --><?php //}?>
-        <!--                </div>-->
-        <!--            </div>-->
         <div class="info1 gridsterBox">
             <p class="air-title">设备信息</p>
-            <select id="choice_url" style="float: right;margin-right: 15px;margin-top: 21px;border: 1px solid #838383;background-color: #0d3154;color: #FFFFFF;height: 30px">
-                <?php if(isset($video_url) && !empty($video_url)) foreach ($video_url as $vk => $vv){?>
-                    <option value="<?php echo $vk?>">视频源<?php echo $vk+1?></option>
-                <?php }?>
-            </select>
             <div class="plane-person" id="gridsterBox" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
-                <video class="h5video" id="h5sVideo1"  autoplay webkit-playsinline playsinline controls autoplay muted width="100%" height="100%">
-<!--                    <source src="--><?php //if(isset($video_url) && !empty($video_url)) echo $video_url[0]?><!--" type="application/x-rtsp">-->
-                </video>
-                <div class="playpause" id="playpause1" ></div>
+                <object classid="clsid:E23FE9C6-778E-49D4-B537-38FCDE4887D8"
+                        codebase="http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab"
+                        width="375"
+                        height="250"
+                        events="True"
+                        id="vlc2">
+                    <param name="MRL" value="udp://@239.255.1.1:1234" />
+                    <param name="ShowDisplay" value="True" />
+                    <param name="Loop" value="False" />
+                    <param name="AutoPlay" value="True" />
+                    <embed type="application/x-vlc-plugin"
+                           pluginspage="http://www.videolan.org"
+                           width="375"
+                           height="250"
+                           src="rtmp://58.200.131.2:1935/livetv/hunantv";
+                           id="vlc">
+                    </embed>
+                </object>
             </div>
         </div>
-        <div class="air">
-            <p class="air-title">检测设备库存</p>
-            <ul class="plane-stock">
-                <?php if(isset($planeStock) && !empty($planeStock)) foreach ($planeStock as $k => $v){?>
-                    <li class="stock">
-                        <img src="<?php echo STATIC_IMG?>dataIndex/plane1.png" >
-                        <i class="shu"></i>
-                        <p><?php echo $v['productId'] ?><br>
-                            <?php if($v['status'] == 1){ echo '状态:正常';}else{ echo '状态:异常';} ?></p>
-                    </li>
-                <?php }?>
-            </ul>
+        <div class="air air-CO" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
+            <p class="air-title">CO</p>
+            <div class="air-chart" id="CO" style="width: 95%;height: 85%"></div>
         </div>
     </div>
-
-
     <!--气体预警详情弹窗-->
     <div class="alertPopBoxBg" id="alert">
         <div class="alertPopBox">
@@ -218,7 +211,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 </div>
-<div id="sourcesNode"></div>
+
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/echarts.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.easyui.min.js"></script>
@@ -228,73 +221,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/num.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nVzaOG4nXU266Xgw2HZZvEyvfHIGlsmm"></script>
-<script src="<?php echo STATIC_JS?>dataIndex/bootstrap.js"></script>
-<script src="<?php echo STATIC_JS?>dataIndex/adapter.js"></script>
-<script src="<?php echo STATIC_JS?>dataIndex/platform.js"></script>
-<script src="<?php echo STATIC_JS?>dataIndex/h5splayer.js"></script>
-<script src="<?php echo STATIC_JS?>dataIndex/h5splayerhelper.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/air.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
-<!--<script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/drag.js"></script>-->
-<script type="text/javascript">
-    WIDGET = {FID: 'jyA2dogNAb'}
-</script>
-<script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
 <script>
-    var conf1 = {
-        videoid:'h5sVideo1',
-        protocol: window.location.protocol, //'http:' or 'https:'
-        host:  'localhost:8080', //'localhost:8080'
-        rootpath:'/', // '/' or window.location.pathname
-        token:'token0',
-        hlsver:'v1', //v1 is for ts, v2 is for fmp4
-        session:'c1782caf-b670-42d8-ba90-2244d0b0ee83' //session got from login
-    };
-    videoChange(conf1);
-    $('#choice_url').change(function () {
-        $('#h5sVideo1').parent().children(".h5video").get(0).pause();
-        var url = $(this).val();
-        var conf2 = {
-            videoid:'h5sVideo1',
-            protocol: window.location.protocol, //'http:' or 'https:'
-            host:  'localhost:8080', //'localhost:8080'
-            rootpath:'/', // '/' or window.location.pathname
-            token:'token'+url,
-            hlsver:'v1', //v1 is for ts, v2 is for fmp4
-            session:'c1782caf-b670-42d8-ba90-2244d0b0ee83' //session got from login
-        };
-        videoChange(conf2)
-    });
-
-
-    function videoChange(conf) {
-        var v1 = H5sPlayerCreate(conf);
-        $('#h5sVideo1').parent().click(function () {
-            if($(this).children(".h5video").get(0).paused){
-                if(v1 != null)
-                {
-                    v1.disconnect();
-                    delete v1;
-                    v1 = null;
-                }
-                v1 = H5sPlayerCreate(conf1);
-                console.log('aaaa');
-                console.log($(this));
-                console.log(v1);
-                v1.connect();
-                $(this).children(".playpause").fadeOut();
-            }else{
-                v1.disconnect();
-                delete v1;
-                v1 = null;
-                console.log('bbb');
-                console.log($(this));
-                $(this).children(".h5video").get(0).pause();
-                $(this).children(".playpause").fadeIn();
-            }
-        });
-
-    }
+    $('#vlc2').click(function () {
+        if($(this)[0].paused){
+            $(this)[0].play();
+        }else{
+            $(this)[0].pause();
+        }
+    })
     function allowDrop(ev,divdom) {
         ev.preventDefault();
     }
@@ -324,27 +260,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if (srcdiv !== divdom) {
             srcdiv.innerHTML = divdom.innerHTML;
             divdom.innerHTML = temp;
-
                 $('.air').find('.ditu').remove();
                 $.post('/index/indexPage', function (data) {
                     if (data.status == 'true') {
                         Time = data.data.time;
-                        Startpoint = data.data.Start_point;
-                        Endpoint = data.data.End_point;
-                        var plane = data.data.plane;
                         var dataAir = data.data.air;
-                        var total = data.data.total;
                         var SO2data = [];
                         var NO2data = [];
                         var PM2data = [];
                         var PM10data = [];
                         var COdata = [];
                         var O3data = [];
-                        var CH4data = [];
-                        var SF6data = [];
-                        var H2O2data = [];
-                        var COCL2data = [];
-                        if (dataAir && Startpoint && plane) {
+                        if (dataAir) {
                             for (var i = 0; i < dataAir.length; i++) {
                                 SO2data.push(dataAir[i].SO2);
                                 NO2data.push(dataAir[i].NO2);
@@ -352,10 +279,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 PM10data.push(dataAir[i].PM10);
                                 COdata.push(dataAir[i].CO);
                                 O3data.push(dataAir[i].O3);
-                                CH4data.push(dataAir[i].CH4);
-                                SF6data.push(dataAir[i].SF6);
-                                H2O2data.push(dataAir[i].H2O2);
-                                COCL2data.push(dataAir[i].H2S);
                             }
 
                             //柱状图
@@ -514,9 +437,104 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 ]
                             };
                             //折线图
-                            var myChartPM = echarts.init(document.getElementById("PM"));
-                            var myChartCO = echarts.init(document.getElementById("CO-O3"));
-                            var optionPM = {
+                            var myChartPM10 = echarts.init(document.getElementById("PM10"));
+                            var myChartPM25 = echarts.init(document.getElementById("PM2.5"));
+                            var myChartCO = echarts.init(document.getElementById("CO"));
+                            var myChartO3 = echarts.init(document.getElementById("O3"));
+                            var optionPM10 = {
+                                textStyle: {
+                                    color: '#f9fbfb',
+                                },
+                                tooltip: {
+                                    trigger: 'axis',
+                                    axisPointer: {
+                                        type: 'cross',
+                                        label: {
+                                            backgroundColor: '#6a7985'
+                                        }
+                                    }
+                                },
+                                legend: {
+                                    itemWidth: 13,
+                                    itemHeight: 10,
+                                    top: 10,
+                                    textStyle: {
+                                        fontSize: 10,
+                                        color: '#ffffff'
+                                    },
+                                    data: ['PM10', 'PM2.5']
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    data: Time,
+                                    axisTick:{
+                                        show:false,
+                                    },
+                                    boundaryGap: false,
+                                    axisTick:{
+                                        show:false,
+                                    },
+                                    axisLabel:{
+                                        color:'#fff'
+                                    },
+                                    axisLine:{
+                                        lineStyle:{
+                                            color:'rgba(12,102,173,.5)',
+                                            width:2,
+                                        }
+                                    }
+                                },
+                                yAxis: {
+                                    type: 'value',
+                                    axisTick:{
+                                        show:true,//不显示刻度线
+                                    },
+                                    axisLabel:{
+                                        color:'#fff'  //y轴上的字体颜色
+                                    },
+                                    axisLine:{
+                                        lineStyle:{
+                                            width:2,
+                                            color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
+                                        }
+                                    },
+                                    splitLine: {
+                                        show: false
+                                    }
+                                },
+                                series: [
+                                    {
+                                        name: 'PM10',
+                                        type:'line',
+                                        symbol: 'none',
+                                        smooth:true,
+                                        itemStyle: {
+                                            normal: {
+                                                color: '#00adb5',
+                                            }
+                                        },
+                                        areaStyle: {
+                                            normal: {
+                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                    offset: 0,
+                                                    color: '#00adb5'
+                                                }, {
+                                                    offset: 1,
+                                                    color: 'rgba(4,137,152,0.5)'
+                                                }])
+                                            }
+                                        },
+                                        data: PM10data
+                                    }
+                                ]
+                            };
+                            var optionPM25 = {
                                 textStyle: {
                                     color: '#f9fbfb',
                                 },
@@ -607,29 +625,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         },
                                         data: PM2data
                                     },
-                                    {
-                                        name: 'PM10',
-                                        type:'line',
-                                        symbol: 'none',
-                                        smooth:true,
-                                        itemStyle: {
-                                            normal: {
-                                                color: '#00adb5',
-                                            }
-                                        },
-                                        areaStyle: {
-                                            normal: {
-                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                                    offset: 0,
-                                                    color: '#00adb5'
-                                                }, {
-                                                    offset: 1,
-                                                    color: 'rgba(4,137,152,0.5)'
-                                                }])
-                                            }
-                                        },
-                                        data: PM10data
-                                    }
                                 ]
                             };
                             var optionCO = {
@@ -723,60 +718,117 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             }
                                         },
                                         data: COdata
+                                    }
+                                ]
+                            };
+                            var optionO3 = {
+                                textStyle: {
+                                    color: '#f9fbfb',
+                                },
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: '#ffc3a0'
+                                }, {
+                                    offset: 1,
+                                    color: 'rgba(105,96,79,0.5)'
+                                }]),
+                                tooltip: {
+                                    trigger: 'axis',
+                                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                                     },
+                                },
+                                legend: {
+                                    itemWidth: 13,
+                                    itemHeight: 10,
+                                    left: 210,
+                                    top: 25,
+                                    textStyle: {
+                                        fontSize: 10,
+                                        color: '#FFFFFF'
+                                    },
+                                    data: ['NO2']
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                xAxis: [
                                     {
-                                        name: 'O3',
-                                        type: 'line',
-                                        stack: '总量',
-                                        symbol: 'none',
-                                        smooth:true,
-                                        label: {
-                                            normal: {
-                                                show: true,
-                                                position: 'top'
+                                        type: 'category',
+                                        data: Time,
+                                        axisTick: {
+                                            alignWithLabel: true,
+                                        },
+                                        axisLine: {
+                                            lineStyle: {
+                                                color: ['#231e40'],
+                                                width: 1,
+                                            }
+                                        }
+                                    }
+                                ],
+                                yAxis: [
+                                    {
+                                        type: 'value',
+                                        axisLine: {
+                                            lineStyle: {
+                                                color: ['#231e40'],
+                                                width: 1,
                                             }
                                         },
-                                        itemStyle: {
-                                            normal: {
-                                                color: '#ffc3a0'
+                                        splitLine: {
+                                            show: true,
+                                            lineStyle: {
+                                                color: ['#231e40'],
+                                                width: 1,
+                                                type: 'solid'
                                             }
-                                        },
-                                        areaStyle: {
-                                            normal: {
-                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                                    offset: 0,
-                                                    color: '#ffc3a0'
-                                                }, {
-                                                    offset: 1,
-                                                    color: 'rgba(105,96,79,0.5)'
-                                                }])
-                                            }
-                                        },
-                                        data: O3data
+                                        }
+                                    }
+                                ],
+                                series: [
+                                    {
+                                        name: 'NO2',
+                                        type: 'bar',
+                                        barWidth: '40%',
+                                        data: NO2data
                                     }
                                 ]
                             };
                             var myChartSO22 = dis('SO2',myChartSO2);
                             var myChartNO22 = dis('NO2',myChartNO2);
-                            var myChartPM2 = dis('PM',myChartPM);
-                            var myChartCO2 = dis('CO-O3',myChartCO);
+                            var myChartPM102 = dis('PM10',myChartPM10);
+                            var myChartPM252 = dis('PM2.5',myChartPM25);
+                            var myChartCO2 = dis('CO',myChartCO);
+                            var myChartO32 = dis('O3',myChartO3);
                             if (myChartSO22){
                                 myChartSO22.setOption(optionSO2);
                             }
                             if (myChartNO22){
                                 myChartNO22.setOption(optionNO2);
                             }
-                            if (myChartPM2){
-                                myChartPM2.setOption(optionPM);
+                            if (myChartPM252){
+                                myChartPM252.setOption(optionPM25);
                             }
                             if (myChartCO2){
                                 myChartCO2.setOption(optionCO);
                             }
+                            if (myChartO32){
+                                myChartO32.setOption(optionO3);
+                            }
+                            if (myChartPM102){
+                                myChartPM102.setOption(optionPM10);
+                            }
                             window.onresize = function () {
                                 myChartSO22.resize();
                                 myChartNO22.resize();
-                                myChartPM2.resize();
+                                myChartPM102.resize();
+                                myChartPM252.resize();
                                 myChartCO2.resize();
+                                myChartO32.resize();
                             };
 
                         }

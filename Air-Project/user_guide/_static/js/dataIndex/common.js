@@ -1,8 +1,8 @@
 //获取屏幕缩放比例
 function getScale() {
     var width = 1920, height = 1080;
-    let ww = window.innerWidth / width;
-    let wh = window.innerHeight / height;
+    var ww = window.innerWidth/width;
+    var wh = window.innerHeight/height;
     return ww < wh ? ww : wh;
 }
 

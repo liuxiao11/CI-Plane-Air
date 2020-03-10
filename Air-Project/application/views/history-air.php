@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>空气质量监控系统-历史数据（气体）</title>
+    <title>空气质量监控平台-历史数据（气体）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/jquery.datetimepicker.min.css" rel="stylesheet">
@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .center-top .plane-form ul li .active{box-shadow: 0 0 8px #fcea00;color: #fff363;}
         .air-center .center-top .plane-form .submit{width: 120px;height: 40px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 22px;display: block;float: right;padding: 0;color: #d9d9d9}
         .air-bottom{padding-left: 75px;height: 555px;overflow-y: auto;margin-right: 52px;margin-top: 10px;}
-        .air{width: 420px;height: 231px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border.png) left top no-repeat;background-size: contain;margin-top: 15px;display: inline-block; margin-right: 10px}
+        .air{width: 1290px;height: 500px;margin-top: 15px;display: inline-block; margin-right: 10px}
         .air-chart{margin: 0 auto}
         .air .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
         .date-chose{margin-top: 15px;font-size: 18px;color: khaki;}
@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <div id="container">
-    <div class="air-top">空气质量监控系统-历史数据</div>
+    <div class="air-top">空气质量监控平台-历史数据</div>
     <div class="air-left">
         <a href="<?php echo base_url()?>index/indexPage" class="back">返回首页</a>
         <ul>
@@ -64,12 +64,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <ul>
                     <li>开始时间：<input type="text" class="datetimepicker" name="time" id="startTime" readonly value="<?php echo date('Y-m-d')?>"></li>
                     <li>结束时间：<input type="text" class="datetimepicker" name="time" id="endTime" readonly value="<?php echo date('Y-m-d')?>"></li>
-                    <li>区域筛选：<select name="area" id="area">
-                            <option value="1">未央区</option>
-                        </select></li>
                     <li class="air-list">气体：
                         <?php if(isset($airList) && !empty($airList)) foreach ($airList as $k => $v){?>
-                            <button type="button" class="button" data-id="<?php echo 'u'.$v['field']?>"><?php echo $v['field']?></button>
+                            <button type="button" class="button" data-name="<?php echo $v['field']?>" data-id="<?php echo 'u'.$v['field']?>"><?php echo $v['field']?></button>
                         <?php }?>
                         <button class="submit" id="submit" type="button" >搜索</button>
                     </li>
@@ -109,30 +106,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var url="<?php echo base_url() ?>index/airHis";
         var startTime=$("#startTime").val();
         var endTime=$("#endTime").val();
-        var area=$("#area").val();
         var air = [];
+        var airName = [];
         $('.plane-form .active').each(function () {
             air.push($(this).data('id'));
+            airName.push($(this).data('name'));
         });
-        var urlData={startTime:startTime,endTime:endTime,area:area,air:air};
+        var urlData={startTime:startTime,endTime:endTime,air:air};
         $.post(url,urlData,function(result){
-            console.log(result.status);
+            console.log(result);
             if(result.status == 'true'){
-                console.log(111)
                 $('#airList').html('');
                 for (var i=0;i<result.data.length;i++){
                     var str = '<div class="date-chose" id="date">'+result.data[i].time+'</div>';
                     $('#airList').append(str);
-                    for (var j=0;j<air.length;j++){
-                        var html ='<div class="air air-'+air[j]+'">' +
-                            '<p class="air-title">'+air[j]+'</p>' +
-                            '<div class="air-chart" id="'+air[j]+'-'+[i]+'" style="width: 95%;height: 88%"></div>' +
+                    for (var j=0;j<airName.length;j++){
+                        var html ='<div class="air air-'+airName[j]+'">' +
+                            '<p class="air-title">'+airName[j]+'</p>' +
+                            '<div class="air-chart" id="'+airName[j]+'-'+[i]+'" style="width: 95%;height: 88%"></div>' +
                             '</div>';
                         $('#airList').append(html);
                         var airData = [];
                         for (var x=0;x<result.data[i].air.air.length;x++){
-                            airData.push(result.data[i].air.air[x][air[j]]);
-                            bluetable(air[j]+'-'+[i],air[j],result.data[i].air.Time,airData);
+                            airData.push(result.data[i].air.air[x][airName[j]]);
+                            bluetable(airName[j]+'-'+[i],airName[j],result.data[i].air.Time,airData);
                         }
                     }
                 }

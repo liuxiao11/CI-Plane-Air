@@ -44,6 +44,38 @@ class Index extends CI_Controller
         }
         $this->load->view('index', $data);
     }
+   /*不同无人机查询不同气体数据*/
+    public function planeOneAir()
+    {
+
+        if ($this->input->post('productID')) {
+            $productID = $this->input->post('productID');
+            $data = $this->dataIndex->planeOneAir($productID);
+            if ($data) {
+                $this->show_message('true', '数据查询成功', $data);
+            } else {
+                $data = '';
+                $this->show_message('false', '暂无数据', $data);
+            }
+        }
+
+    }
+    /**
+     * 首页数据一条
+     */
+    public function airOne()
+    {
+        $data = $this->dataIndex->airOne();
+        if ($this->input->is_ajax_request()) {
+            if ($data) {
+                $this->show_message('true', '数据查询成功', $data);
+            } else {
+                $data = '';
+                $this->show_message('false', '暂无数据', $data);
+            }
+        }
+        $this->load->view('index', $data);
+    }
 
     /**
      * 数据设置(无人机设置)

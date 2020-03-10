@@ -1,34 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9d8382d9-cc7c-4dc1-850c-660710674147" name="Default" comment="1。14 更新图标">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Air-Project/user_guide/_static/images/dataIndex/carPlane.png" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10.rar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/core/compat/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/core/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/cubrid/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/ibase/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/mssql/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/mysql/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/mysqli/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/oci8/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/odbc/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/pdo/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/pdo/subdrivers/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/postgre/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/sqlite/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/sqlite3/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/drivers/sqlsrv/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/database/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/fonts/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CodeIgniter-3.1.10/system/helpers/index.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/application/config/database.php" afterPath="$PROJECT_DIR$/Air-Project/application/config/database.php" />
+    <list default="true" id="9d8382d9-cc7c-4dc1-850c-660710674147" name="Default" comment="更新页面视频等">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Air-Project/user_guide/_static/images/dataIndex/air_bottom_border.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Air-Project/user_guide/_static/images/dataIndex/video-img.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Air-Project/application/views/indexyi.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/air.sql" afterPath="$PROJECT_DIR$/Air-Project/air.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/application/controllers/Index.php" afterPath="$PROJECT_DIR$/Air-Project/application/controllers/Index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/application/models/dataIndex.php" afterPath="$PROJECT_DIR$/Air-Project/application/models/dataIndex.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/application/views/history-air.php" afterPath="$PROJECT_DIR$/Air-Project/application/views/history-air.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/application/views/history-plane.php" afterPath="$PROJECT_DIR$/Air-Project/application/views/history-plane.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/application/views/index.php" afterPath="$PROJECT_DIR$/Air-Project/application/views/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/application/views/set-air.php" afterPath="$PROJECT_DIR$/Air-Project/application/views/set-air.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/application/views/set-person.php" afterPath="$PROJECT_DIR$/Air-Project/application/views/set-person.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/application/views/set.php" afterPath="$PROJECT_DIR$/Air-Project/application/views/set.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/air.js" afterPath="$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/air.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/common.js" afterPath="$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/common.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -37,40 +25,53 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Air-Project/application/views/index.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="36" column="113" lean-forward="false" selection-start-line="36" selection-start-column="113" selection-end-line="36" selection-end-column="113" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#2;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Index.php" pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="Index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Air-Project/application/controllers/Index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="67" column="45" lean-forward="true" selection-start-line="67" selection-start-column="45" selection-end-line="67" selection-end-column="45" />
+            <state relative-caret-position="420">
+              <caret line="52" column="62" lean-forward="false" selection-start-line="52" selection-start-column="62" selection-end-line="52" selection-end-column="62" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dataIndex.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="dataIndex.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Air-Project/application/models/dataIndex.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-427">
-              <caret line="11" column="11" lean-forward="false" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+            <state relative-caret-position="204">
+              <caret line="100" column="37" lean-forward="false" selection-start-line="100" selection-start-column="37" selection-end-line="100" selection-end-column="37" />
               <folding>
-                <marker date="1579007875816" expanded="true" signature="5160:5305" ph="select p.* f... *" />
-                <marker date="1579007875816" expanded="true" signature="5178:5277" ph="select * fro... product" />
-                <marker date="1579007875816" expanded="true" signature="11126:11140" ph="select * fro... ${$this-&gt;tshTable}" />
+                <marker date="1583829093564" expanded="true" signature="18190:18435" ph="select p.* f... *" />
+                <marker date="1583829093564" expanded="true" signature="18208:18407" ph="select * fro... airdectectpack" />
+                <marker date="1583829093564" expanded="true" signature="24124:24399" ph="select AVG(u... ${$this-&gt;airDataPack}" />
+                <marker date="1583829093564" expanded="true" signature="24124:24400" ph="select AVG(u... ${$this-&gt;airDataPack}" />
+                <marker date="1583829093564" expanded="true" signature="24955:24969" ph="select * fro... ${$this-&gt;tshTable}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Air-Project/application/views/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="373">
+              <caret line="114" column="46" lean-forward="true" selection-start-line="114" selection-start-column="46" selection-end-line="114" selection-end-column="46" />
+              <folding>
+                <element signature="n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -79,29 +80,72 @@
       <file leaf-file-name="air.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/air.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="620" column="64" lean-forward="false" selection-start-line="620" selection-start-column="64" selection-end-line="620" selection-end-column="64" />
+            <state relative-caret-position="701">
+              <caret line="437" column="22" lean-forward="true" selection-start-line="437" selection-start-column="22" selection-end-line="437" selection-end-column="22" />
               <folding>
-                <element signature="e#1785#4633#0" expanded="false" />
-                <element signature="e#4667#7517#0" expanded="false" />
-                <element signature="e#7809#12172#0" expanded="false" />
-                <element signature="e#12205#16553#0" expanded="false" />
-                <element signature="e#16587#19345#0" expanded="false" />
-                <element signature="e#19527#20926#0" expanded="false" />
-                <element signature="e#20969#22183#0" expanded="false" />
-                <marker date="1579012085205" expanded="true" signature="27845:27867" ph="..." />
-                <marker date="1579012085205" expanded="true" signature="27957:28012" ph="..." />
-                <marker date="1579012085205" expanded="true" signature="28662:28717" ph="..." />
-                <marker date="1579012085205" expanded="true" signature="28911:29002" ph="..." />
-                <marker date="1579012085205" expanded="true" signature="29668:29690" ph="..." />
-                <marker date="1579012085205" expanded="true" signature="29780:29835" ph="..." />
-                <marker date="1579012085205" expanded="true" signature="31623:31652" ph="..." />
+                <element signature="e#438#1594#0" expanded="false" />
+                <element signature="e#2085#4857#0" expanded="false" />
+                <element signature="e#4883#7657#0" expanded="false" />
+                <element signature="e#7682#10449#0" expanded="false" />
+                <element signature="e#10499#12032#0" expanded="false" />
+                <element signature="e#13443#15159#0" expanded="false" />
+                <element signature="e#15745#19376#0" expanded="false" />
+                <element signature="e#19415#23237#0" expanded="false" />
+                <element signature="e#23277#27109#0" expanded="false" />
+                <element signature="e#27146#31007#0" expanded="false" />
+                <element signature="e#31159#32875#0" expanded="false" />
+                <element signature="e#33621#45339#0" expanded="false" />
+                <element signature="e#37129#40267#0" expanded="false" />
+                <element signature="e#43485#45146#0" expanded="false" />
+                <element signature="e#46576#49859#0" expanded="false" />
+                <element signature="e#49894#53348#0" expanded="false" />
+                <element signature="e#53384#56848#0" expanded="false" />
+                <element signature="e#56881#60370#0" expanded="false" />
+                <element signature="n#!!block;n#dataMap#0" expanded="false" />
+                <element signature="e#74133#74913#0" expanded="false" />
+                <marker date="1583829093587" expanded="true" signature="63988:64010" ph="..." />
+                <marker date="1583829093587" expanded="true" signature="64100:64155" ph="..." />
+                <marker date="1583829093587" expanded="true" signature="64805:64860" ph="..." />
+                <marker date="1583829093587" expanded="true" signature="65025:65116" ph="..." />
+                <marker date="1583829093587" expanded="true" signature="65782:65804" ph="..." />
+                <marker date="1583829093587" expanded="true" signature="65894:65949" ph="..." />
+                <marker date="1583829093587" expanded="true" signature="67684:67713" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>set_new_url</find>
+      <find>urlButton</find>
+      <find>buffer_duration</find>
+      <find>nativePlayer</find>
+      <find>errHandler</find>
+      <find>sourcesNode</find>
+      <find>planeStock</find>
+      <find>planeLatLon</find>
+      <find>planeOnSelect</find>
+      <find>test</find>
+      <find>h5sVideo1</find>
+      <find>console.log</find>
+      <find>upload-img</find>
+      <find>get_json</find>
+      <find>$info</find>
+      <find>airWarning</find>
+      <find>Warning</find>
+      <find>hisai</find>
+      <find>airList</find>
+      <find>$airN</find>
+      <find>airList()</find>
+      <find>cook</find>
+      <find>info1</find>
+      <find>video</find>
+      <find>object</find>
+      <find>airdataList</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -110,10 +154,34 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Air-Project/application/config/database.php" />
-        <option value="$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/air.js" />
+        <option value="$USER_HOME$/Desktop/streamedian/index.html" />
+        <option value="C:/Users/Public/Documents/Streamedian/WS RTSP Player/nginx/html/index.html" />
+        <option value="$USER_HOME$/Desktop/h5s-r9.13.1223.19-win64-release/h5s-r9.13.1223.19-win64-release/conf/h5ss.conf" />
+        <option value="$PROJECT_DIR$/Air-Project/H5Stream" />
+        <option value="$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/h5splayer.js" />
+        <option value="F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/www/index.html" />
+        <option value="F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/www/flv.html" />
+        <option value="F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-05_17-30.log" />
+        <option value="F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-05_17-42.log" />
+        <option value="F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-05_17-50.log" />
+        <option value="F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-05_18-04.log" />
+        <option value="F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/www/demo.html" />
+        <option value="D:/phpstudy_pro/Extensions/Nginx1.15.11/conf/nginx.conf" />
+        <option value="F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-06_17-11.log" />
+        <option value="F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-06_17-14.log" />
+        <option value="F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-06_17-17.log" />
+        <option value="F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/conf/h5ss.conf" />
+        <option value="$PROJECT_DIR$/Air-Project/application/views/set.php" />
+        <option value="$PROJECT_DIR$/Air-Project/application/views/set-air.php" />
+        <option value="$PROJECT_DIR$/Air-Project/application/views/set-person.php" />
+        <option value="D:/phpstudy_pro/WWW/index.html" />
+        <option value="$PROJECT_DIR$/Air-Project/application/views/history-air.php" />
+        <option value="$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/common.js" />
+        <option value="$PROJECT_DIR$/Air-Project/application/views/history-plane.php" />
         <option value="$PROJECT_DIR$/Air-Project/application/views/index.php" />
         <option value="$PROJECT_DIR$/Air-Project/application/controllers/Index.php" />
-        <option value="$PROJECT_DIR$/Air-Project/application/views/set.php" />
+        <option value="$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/air.js" />
+        <option value="$PROJECT_DIR$/Air-Project/application/models/dataIndex.php" />
       </list>
     </option>
   </component>
@@ -125,8 +193,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-19" />
-    <option name="y" value="11" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
     <option name="width" value="1382" />
     <option name="height" value="744" />
   </component>
@@ -145,7 +213,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -159,16 +226,171 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Air-Project" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Air-Project" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="user_guide" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Air-Project" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="user_guide" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="_static" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Air-Project" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="user_guide" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="_static" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Air-Project" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="user_guide" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="_static" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dataIndex" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Air-Project" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CI-Plane-Air" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Air-Project" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Fenghuan\aaa\CI-Plane-Air\Air-Project\application\views" />
+      <recent name="E:\Fenghuan\aaa\CI-Plane-Air\Air-Project\user_guide\_static\js\dataIndex" />
       <recent name="E:\Fenghuan\aaa\CI-Plane-Air\Air-Project\user_guide\_static\images\dataIndex" />
+      <recent name="E:\Fenghuan\aaa\CI-Plane-Air\Air-Project\user_guide\_static\css\dataIndex" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -223,6 +445,12 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -249,6 +477,9 @@
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="9d8382d9-cc7c-4dc1-850c-660710674147" name="Default" comment="" />
@@ -257,26 +488,73 @@
       <option name="presentableId" value="Default" />
       <updated>1579007921951</updated>
       <workItem from="1579007925130" duration="6548000" />
+      <workItem from="1583125503821" duration="655000" />
+      <workItem from="1583203854178" duration="91000" />
+      <workItem from="1583218613034" duration="1507000" />
+      <workItem from="1583289318716" duration="27533000" />
+      <workItem from="1583372574113" duration="20954000" />
+      <workItem from="1583461792143" duration="12533000" />
+      <workItem from="1583487329387" duration="3311000" />
+      <workItem from="1583493004748" duration="59000" />
+      <workItem from="1583675140832" duration="4040000" />
+      <workItem from="1583715886515" duration="49639000" />
+      <workItem from="1583801882233" duration="24821000" />
     </task>
+    <task id="LOCAL-00001" summary="对接无人机数据">
+      <created>1583203904253</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1583203904253</updated>
+    </task>
+    <task id="LOCAL-00002" summary="添加rtmp视频">
+      <created>1583219641510</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1583219641510</updated>
+    </task>
+    <task id="LOCAL-00003" summary="视频实时">
+      <created>1583327491124</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1583327491124</updated>
+    </task>
+    <task id="LOCAL-00004" summary="H5stream">
+      <created>1583399364265</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1583399364267</updated>
+    </task>
+    <task id="LOCAL-00005" summary="更新抓取H5Stream conf">
+      <created>1583491359536</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1583491359536</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6548000" />
+    <option name="totallyTimeSpent" value="151691000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-19" y="11" width="1382" height="744" extended-state="1" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25642964" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28921568" sideWeight="0.5060514" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.56792146" sideWeight="0.49394855" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.88707036" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -290,9 +568,60 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28921568" sideWeight="0.5060514" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="更改" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.56792146" sideWeight="0.49394855" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="运行" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25642964" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -300,36 +629,22 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1.14更新" />
     <MESSAGE value="1。14 更新图标" />
-    <option name="LAST_COMMIT_MESSAGE" value="1。14 更新图标" />
+    <MESSAGE value="对接无人机数据" />
+    <MESSAGE value="添加rtmp视频" />
+    <MESSAGE value="视频实时" />
+    <MESSAGE value="H5stream" />
+    <MESSAGE value="更新抓取H5Stream conf" />
+    <MESSAGE value="更新页面" />
+    <MESSAGE value="更新页面视频等" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新页面视频等" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="9" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Air-Project/application/config/database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="83" column="24" lean-forward="true" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Air-Project/localhost_80.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="35" column="25" lean-forward="false" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/images/dataIndex/plane.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/images/dataIndex/plane1.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -340,7 +655,211 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/video.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/css/dataIndex/video-js.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4620">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/streamedian.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/streamedian/style.css" />
+    <entry file="file://$USER_HOME$/Desktop/streamedian/index.html" />
+    <entry file="file://C:/Users/Public/Documents/Streamedian/WS RTSP Player/nginx/html/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="207" column="58" lean-forward="true" selection-start-line="207" selection-start-column="58" selection-end-line="207" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/platform.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/h5s-r9.13.1223.19-win64-release/h5s-r9.13.1223.19-win64-release/conf/h5ss.conf" />
+    <entry file="file://$USER_HOME$/Desktop/h5s-r9.13.1223.19-win64-release/h5s-r9.13.1223.19-win64-release/www/css/h5splayer.css" />
+    <entry file="file://$USER_HOME$/Desktop/h5s-r9.13.1223.19-win64-release/h5s-r9.13.1223.19-win64-release/www/demo.html" />
+    <entry file="file://F:/h5stream/h5s-r9.13.1223.19-win64-release/h5s-r9.13.1223.19-win64-release/conf/h5ss.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="219" column="33" lean-forward="true" selection-start-line="219" selection-start-column="33" selection-end-line="219" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/H5Stream">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="56" lean-forward="false" selection-start-line="0" selection-start-column="56" selection-end-line="0" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-05_13-24.log" />
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/www/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="30" lean-forward="false" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/www/flv.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="20" column="26" lean-forward="false" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/h5splayer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-34">
+          <caret line="17" column="338" lean-forward="false" selection-start-line="17" selection-start-column="338" selection-end-line="17" selection-end-column="338" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/h5splayerhelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="104" column="36" lean-forward="false" selection-start-line="104" selection-start-column="30" selection-end-line="104" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/www/tour.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1581">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-05_17-30.log" />
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-05_17-42.log" />
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-05_17-50.log" />
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-05_18-04.log" />
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/www/demo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="94" column="49" lean-forward="false" selection-start-line="94" selection-start-column="49" selection-end-line="94" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-05_18-13.log" />
+    <entry file="file://D:/phpstudy_pro/Extensions/Nginx1.15.11/conf/nginx.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/jsmpeg.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-06_17-14.log" />
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-06_17-11.log" />
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-06_17-17.log" />
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/logs/h5sslog_2020-03-06_17-42.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="43" column="0" lean-forward="true" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://F:/h5s-r10.6.0229.20-win64-release/h5s-r10.6.0229.20-win64-release/conf/h5ss.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="0" column="12036" lean-forward="false" selection-start-line="0" selection-start-column="12036" selection-end-line="0" selection-end-column="12036" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/application/views/set.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/application/views/set-air.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="51" column="33" lean-forward="false" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Air-Project/application/views/set-person.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="50" column="30" lean-forward="true" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/images/dataIndex/air-border.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/images/dataIndex/air-border1.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/images/dataIndex/air_bottom_border.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/application/views/indexvideo.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1241">
+          <caret line="166" column="45" lean-forward="false" selection-start-line="166" selection-start-column="45" selection-end-line="166" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/phpstudy_pro/WWW/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="8" lean-forward="true" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/application/views/history-air.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="40" column="23" lean-forward="false" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
+          <folding>
+            <marker date="1583808283354" expanded="true" signature="8241:8263" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/application/views/indexyi.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -348,72 +867,105 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Air-Project/application/views/set-air.php">
+    <entry file="file://F:/GoogleChrome_39.0.2171.95_PortableSoft/GoogleChrome_39.0.2171.95_PortableSoft/1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1683">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="425">
+          <caret line="24" column="18" lean-forward="true" selection-start-line="7" selection-start-column="8" selection-end-line="24" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/air.js">
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/common.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="620" column="64" lean-forward="false" selection-start-line="620" selection-start-column="64" selection-end-line="620" selection-end-column="64" />
-          <folding>
-            <element signature="e#1785#4633#0" expanded="false" />
-            <element signature="e#4667#7517#0" expanded="false" />
-            <element signature="e#7809#12172#0" expanded="false" />
-            <element signature="e#12205#16553#0" expanded="false" />
-            <element signature="e#16587#19345#0" expanded="false" />
-            <element signature="e#19527#20926#0" expanded="false" />
-            <element signature="e#20969#22183#0" expanded="false" />
-            <marker date="1579012085205" expanded="true" signature="27845:27867" ph="..." />
-            <marker date="1579012085205" expanded="true" signature="27957:28012" ph="..." />
-            <marker date="1579012085205" expanded="true" signature="28662:28717" ph="..." />
-            <marker date="1579012085205" expanded="true" signature="28911:29002" ph="..." />
-            <marker date="1579012085205" expanded="true" signature="29668:29690" ph="..." />
-            <marker date="1579012085205" expanded="true" signature="29780:29835" ph="..." />
-            <marker date="1579012085205" expanded="true" signature="31623:31652" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Air-Project/application/models/dataIndex.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-427">
-          <caret line="11" column="11" lean-forward="false" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
-          <folding>
-            <marker date="1579007875816" expanded="true" signature="5160:5305" ph="select p.* f... *" />
-            <marker date="1579007875816" expanded="true" signature="5178:5277" ph="select * fro... product" />
-            <marker date="1579007875816" expanded="true" signature="11126:11140" ph="select * fro... ${$this-&gt;tshTable}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Air-Project/application/views/set.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="34" column="106" lean-forward="false" selection-start-line="34" selection-start-column="106" selection-end-line="34" selection-end-column="106" />
+        <state relative-caret-position="34">
+          <caret line="2" column="20" lean-forward="false" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/application/views/history-plane.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="539">
+          <caret line="314" column="68" lean-forward="false" selection-start-line="314" selection-start-column="61" selection-end-line="314" selection-end-column="68" />
+          <folding>
+            <marker date="1583816150913" expanded="true" signature="12149:12202" ph="..." />
+            <marker date="1583816150913" expanded="true" signature="12397:12505" ph="..." />
+            <marker date="1583816150913" expanded="true" signature="17772:17825" ph="..." />
+            <marker date="1583816150913" expanded="true" signature="17983:18091" ph="..." />
+            <marker date="1583816150913" expanded="true" signature="18221:18274" ph="..." />
+            <marker date="1583816150913" expanded="true" signature="18424:18532" ph="..." />
+            <marker date="1583816150913" expanded="true" signature="19666:19690" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Air-Project/application/views/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="36" column="113" lean-forward="false" selection-start-line="36" selection-start-column="113" selection-end-line="36" selection-end-column="113" />
+        <state relative-caret-position="373">
+          <caret line="114" column="46" lean-forward="true" selection-start-line="114" selection-start-column="46" selection-end-line="114" selection-end-column="46" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/user_guide/_static/js/dataIndex/air.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="701">
+          <caret line="437" column="22" lean-forward="true" selection-start-line="437" selection-start-column="22" selection-end-line="437" selection-end-column="22" />
+          <folding>
+            <element signature="e#438#1594#0" expanded="false" />
+            <element signature="e#2085#4857#0" expanded="false" />
+            <element signature="e#4883#7657#0" expanded="false" />
+            <element signature="e#7682#10449#0" expanded="false" />
+            <element signature="e#10499#12032#0" expanded="false" />
+            <element signature="e#13443#15159#0" expanded="false" />
+            <element signature="e#15745#19376#0" expanded="false" />
+            <element signature="e#19415#23237#0" expanded="false" />
+            <element signature="e#23277#27109#0" expanded="false" />
+            <element signature="e#27146#31007#0" expanded="false" />
+            <element signature="e#31159#32875#0" expanded="false" />
+            <element signature="e#33621#45339#0" expanded="false" />
+            <element signature="e#37129#40267#0" expanded="false" />
+            <element signature="e#43485#45146#0" expanded="false" />
+            <element signature="e#46576#49859#0" expanded="false" />
+            <element signature="e#49894#53348#0" expanded="false" />
+            <element signature="e#53384#56848#0" expanded="false" />
+            <element signature="e#56881#60370#0" expanded="false" />
+            <element signature="n#!!block;n#dataMap#0" expanded="false" />
+            <element signature="e#74133#74913#0" expanded="false" />
+            <marker date="1583829093587" expanded="true" signature="63988:64010" ph="..." />
+            <marker date="1583829093587" expanded="true" signature="64100:64155" ph="..." />
+            <marker date="1583829093587" expanded="true" signature="64805:64860" ph="..." />
+            <marker date="1583829093587" expanded="true" signature="65025:65116" ph="..." />
+            <marker date="1583829093587" expanded="true" signature="65782:65804" ph="..." />
+            <marker date="1583829093587" expanded="true" signature="65894:65949" ph="..." />
+            <marker date="1583829093587" expanded="true" signature="67684:67713" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Air-Project/application/controllers/Index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="67" column="45" lean-forward="true" selection-start-line="67" selection-start-column="45" selection-end-line="67" selection-end-column="45" />
+        <state relative-caret-position="420">
+          <caret line="52" column="62" lean-forward="false" selection-start-line="52" selection-start-column="62" selection-end-line="52" selection-end-column="62" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Air-Project/application/models/dataIndex.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="100" column="37" lean-forward="false" selection-start-line="100" selection-start-column="37" selection-end-line="100" selection-end-column="37" />
+          <folding>
+            <marker date="1583829093564" expanded="true" signature="18190:18435" ph="select p.* f... *" />
+            <marker date="1583829093564" expanded="true" signature="18208:18407" ph="select * fro... airdectectpack" />
+            <marker date="1583829093564" expanded="true" signature="24124:24399" ph="select AVG(u... ${$this-&gt;airDataPack}" />
+            <marker date="1583829093564" expanded="true" signature="24124:24400" ph="select AVG(u... ${$this-&gt;airDataPack}" />
+            <marker date="1583829093564" expanded="true" signature="24955:24969" ph="select * fro... ${$this-&gt;tshTable}" />
+          </folding>
         </state>
       </provider>
     </entry>

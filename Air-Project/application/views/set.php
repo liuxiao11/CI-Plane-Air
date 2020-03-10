@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>空气质量监控系统-数据设置（无人机）</title>
+    <title>空气质量监控平台-数据设置（无人机）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
 <!--    <script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/px2rem.js"></script>-->
@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <div id="container">
-    <div class="air-top">空气质量监控系统-数据设置</div>
+    <div class="air-top">空气质量监控平台-数据设置</div>
     <div class="air-left">
         <a href="<?php echo base_url()?>index/indexPage" class="back">返回首页</a>
         <ul>

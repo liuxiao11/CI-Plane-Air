@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>空气质量监控系统-历史数据（无人机）</title>
+    <title>空气质量监控平台-历史数据（无人机）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/jquery.datetimepicker.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <div id="container">
-    <div class="air-top">空气质量监控系统-历史数据</div>
+    <div class="air-top">空气质量监控平台-历史数据</div>
     <div class="air-left">
         <a href="<?php echo base_url()?>index/indexPage" class="back">返回首页</a>
         <ul>
@@ -174,7 +174,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 if(res.status === "true"){
                     $('#alert').hide();
                     PointArr = res.data.point;
-                    speed = res.data.speed;
                     alt = res.data.alt;
                     var points = [];
                     var pointStart = new BMap.Point(PointArr[0].BLng, PointArr[0].BLat);
@@ -234,9 +233,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             '</div>'+
                             '<div>'+
                             '<span class="cric ccolor_g"></span><span>平均高度:'+alt+'m</span>'+
-                            '</div>'+
-                            '<div>'+
-                            '<span class="cric ccolor_b"></span><span>平均速度:'+speed+'m/s</span>'+
                             '</div>'+
                             '</div>';
                         div.innerHTML = div1;
