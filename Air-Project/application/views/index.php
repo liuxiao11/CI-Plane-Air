@@ -185,7 +185,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                            pluginspage="http://www.videolan.org"
                            width="100%"
                            height="100%"
-                           src="rtmp://58.200.131.2:1935/livetv/hunantv"
+                           src="<?php if(isset($video_url) && !empty($video_url)) echo $video_url[0]?>"
                            id="vlc">
                     </embed>
                 </object>
@@ -290,9 +290,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             PM10data.push(dataAir[i].uPM10);
                             COdata.push(dataAir[i].uCO);
                         }
-                        console.log(PM2data)
-                        console.log(PM10data)
-                        console.log(COdata)
                         //折线图
                         var myChartPM10 = echarts.init(document.getElementById("PM10"));
                         var myChartPM2_5 = echarts.init(document.getElementById("PM2_5"));

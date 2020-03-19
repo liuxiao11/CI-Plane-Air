@@ -43,10 +43,10 @@ class dataIndex extends CI_Model
             'uO3 < ' => 500,
             'uNO2 < ' => 500,
         );
-        $air = $this->db->from($this->airDataPack)->where($airWhere)->order_by('serialNum', 'DESC')->limit(5)->get()->result_array();//首页所需气体包信息
-        $airWarning = $this->db->from($this->airDataPack)->where($airwWhere)->order_by('serialNum', 'DESC')->get()->result_array();//今日所有气体预警信息
+        $air = $this->db->from($this->airDataPack)->where($airWhere)->order_by('recTime', 'DESC')->limit(5)->get()->result_array();//首页所需气体包信息
+        $airWarning = $this->db->from($this->airDataPack)->where($airwWhere)->order_by('recTime', 'DESC')->get()->result_array();//今日所有气体预警信息
         $airlist = $this->airList();//所有气体列表
-        $last_names = array_column($air,'serialNum');
+        $last_names = array_column($air,'recTime');
         array_multisort($last_names,SORT_ASC,$air);
         if (!empty($air) && !empty($airlist)) {
             foreach ($air as $k => $v) {
@@ -159,27 +159,29 @@ class dataIndex extends CI_Model
         $where = date('Y-m-d');
         $data['plane'] = $this->planeOnSelect();//正在飞行中无人机信息
         if($data['plane']){
-            $airWhere = array(
-                'recDAY' => $where,
-                'uPM2_5 < ' => 500,
-                'uPM10 < ' => 500,
-                'uSO2 < ' => 500,
-                'uCO < ' => 500,
-                'uO3 < ' => 500,
-                'uNO2 < ' => 500,
-                'productID' => $data['plane'][0]['productID']
-            );
+        	$airWhere = array(
+	            'recDAY' => $where,
+	            'uPM2_5 < ' => 500,
+	            'uPM10 < ' => 500,
+	            'uSO2 < ' => 500,
+	            'uCO < ' => 500,
+	            'uO3 < ' => 500,
+	            'uNO2 < ' => 500,
+	            'productID' => $data['plane'][0]['productID']
+        	);
         }else{
-            $airWhere = array(
-                'recDAY' => $where,
-                'uPM2_5 < ' => 500,
-                'uPM10 < ' => 500,
-                'uSO2 < ' => 500,
-                'uCO < ' => 500,
-                'uO3 < ' => 500,
-                'uNO2 < ' => 500,
-            );
+        	$airWhere = array(
+	            'recDAY' => $where,
+	            'uPM2_5 < ' => 500,
+	            'uPM10 < ' => 500,
+	            'uSO2 < ' => 500,
+	            'uCO < ' => 500,
+	            'uO3 < ' => 500,
+	            'uNO2 < ' => 500,
+	           
+	        );
         }
+
         $airwWhere = array(
             'recDAY' => $where,
             'uPM2_5 < ' => 500,
@@ -189,15 +191,15 @@ class dataIndex extends CI_Model
             'uO3 < ' => 500,
             'uNO2 < ' => 500,
         );
-        $air = $this->db->from($this->airDataPack)->where($airWhere)->order_by('serialNum', 'DESC')->limit(5)->get()->result_array();//首页所需气体包信息
-        $airWarning = $this->db->from($this->airDataPack)->where($airwWhere)->order_by('serialNum', 'DESC')->get()->result_array();//今日所有气体预警信息
+        $air = $this->db->from($this->airDataPack)->where($airWhere)->order_by('recTime', 'DESC')->limit(5)->get()->result_array();//首页所需气体包信息
+        $airWarning = $this->db->from($this->airDataPack)->where($airwWhere)->order_by('recTime', 'DESC')->get()->result_array();//今日所有气体预警信息
         $airlist = $this->airList();//所有气体列表
-        $plane_new2 = $this->db->where('recDAY', $where)->order_by('serialNum', 'DESC')->get($this->airDataPack)->row_array();//无人机开始GPS数据
+        $plane_new2 = $this->db->where('recDAY', $where)->order_by('recTime', 'DESC')->get($this->airDataPack)->row_array();//无人机开始GPS数据
         $planeWhere = array(
             'recDAY' => $where,
             'productID' => $plane_new2['productID']
         );
-        $plane_new = $this->db->where($planeWhere)->order_by('serialNum', 'DESC')->get($this->airDataPack)->row_array();//无人机新GPS数据
+        $plane_new = $this->db->where($planeWhere)->order_by('recTime', 'DESC')->get($this->airDataPack)->row_array();//无人机新GPS数据
         if (!empty($plane_new)) {
             $data['End_point']['lng'] = $plane_new['lGPS_lon'];
             $data['End_point']['lat'] = $plane_new['lGPS_lat'];
@@ -206,7 +208,7 @@ class dataIndex extends CI_Model
             $data['Start_point']['lng'] = $plane_new2['lGPS_lon'];
             $data['Start_point']['lat'] = $plane_new2['lGPS_lat'];
         }
-        $last_names = array_column($air,'serialNum');
+        $last_names = array_column($air,'recTime');
         array_multisort($last_names,SORT_ASC,$air);
         if (!empty($air) && !empty($airlist)) {
             foreach ($air as $k => $v) {
@@ -447,8 +449,8 @@ class dataIndex extends CI_Model
             'uO3 < ' => 500,
             'uNO2 < ' => 500,
         );
-        $air = $this->db->from($this->airDataPack)->where($airWhere)->order_by('serialNum', 'DESC')->limit(1)->get()->result_array();//首页所需气体包信息
-        $last_names = array_column($air,'serialNum');
+        $air = $this->db->from($this->airDataPack)->where($airWhere)->order_by('recTime', 'DESC')->limit(1)->get()->result_array();//首页所需气体包信息
+        $last_names = array_column($air,'recTime');
         array_multisort($last_names,SORT_ASC,$air);
         foreach ($air as $v){
             $Time[] = $v['recTime'];
@@ -522,7 +524,7 @@ class dataIndex extends CI_Model
     public function planeOnSelect()
     {
         $where = date('Y-m-d');
-        $data = $this->db->query('select p.* from  (select a.*,l.productType from airdectectpack as a INNER JOIN plane as l ON a.productID = l.productId where `recDAY` = ' . '"' . $where . '"' . ' and uPM2_5 < 500  ORDER BY serialNum DESC LIMIT 999999 ) as p group by p.productID ')->result_array();//正在飞行中无人机信息
+        $data = $this->db->query('select p.* from  (select a.*,l.productType from airdectectpack as a INNER JOIN plane as l ON a.productID = l.productId where `recDAY` = ' . '"' . $where . '"' . ' and uPM2_5 < 500  ORDER BY recTime DESC LIMIT 999999 ) as p group by p.productID ')->result_array();//正在飞行中无人机信息
         if ($data) {
             return $data;
         } else {
@@ -548,7 +550,7 @@ class dataIndex extends CI_Model
      */
     public function planeLatLon($id)
     {
-        $plane = $this->db->where('productID',$id)->order_by('serialNum', 'DESC')->get($this->airDataPack)->row_array();
+        $plane = $this->db->where('productID',$id)->order_by('recTime', 'DESC')->get($this->airDataPack)->row_array();
         $planeStock = $this->db->select('video')->from($this->productStock)->where('productID',$id)->get()->row_array();
         $video_url = explode(',',$planeStock['video']);
 //        $json_info = $this->get_json();
@@ -675,8 +677,8 @@ class dataIndex extends CI_Model
      */
     public function hisPlane($where)
     {
-        $plane = $this->db->where($where)->order_by('serialNum', 'DESC')->get($this->airDataPack)->result_array();
-        $alt = $this->db->select_avg('nGPS_alt')->where($where)->order_by('serialNum', 'DESC')->get($this->airDataPack)->row_array();
+        $plane = $this->db->select('DATE_FORMAT( recTime, "%H" ) as time,lGPS_lat,lGPS_lon,recDAY,recTime')->where($where)->group_by('time')->order_by('recTime', 'DESC')->get($this->airDataPack)->result_array();
+        $alt = $this->db->select('DATE_FORMAT( recTime, "%H" ) as time,AVG(nGPS_alt) as nGPS_alt')->where($where)->order_by('recTime', 'DESC')->get($this->airDataPack)->row_array();
         if ($plane) {
             foreach ($plane as $k => $v) {
                 $data['point'][$k]['BLng'] = $v['lGPS_lon'];
@@ -700,7 +702,7 @@ class dataIndex extends CI_Model
     public function hisAir($where, $field)
     {
         $joinField = "`" . join("`,`", $field) . "`";
-        $air = $this->db->query('select ' . $joinField . ',`recDAY` from ' . $this->airDataPack . ' where recDAY >=' . '"' . $where['startTime'] . '"' . ' and recDAY <= ' . '"' . $where['endTime'] . '"' . ' and uSO2 < 500 order by serialNum DESC')->result_array();
+        $air = $this->db->query('select ' . $joinField . ',`recDAY` from ' . $this->airDataPack . ' where recDAY >=' . '"' . $where['startTime'] . '"' . ' and recDAY <= ' . '"' . $where['endTime'] . '"' . ' and uSO2 < 500 order by recTime DESC')->result_array();
         if ($air) {
             foreach ($air as $k => $v) {
                 $time[$k] = $v['recDAY'];
@@ -750,7 +752,7 @@ class dataIndex extends CI_Model
             'uO3 < ' => 500,
             'uNO2 < ' => 500,
         );
-        $air = $this->db->from($this->airDataPack)->where($airWhere)->order_by('serialNum', 'DESC')->get()->result_array();//气体信息
+        $air = $this->db->from($this->airDataPack)->where($airWhere)->order_by('recTime', 'DESC')->get()->result_array();//气体信息
         $airlist = $this->airList();//所有气体名称列表
         if (!empty($air)) {
             foreach ($airlist as $key => $val) {

@@ -6,13 +6,14 @@ var m;
 var arrInterval = [];
 //开始定时刷新
 dataIndex();
-var IndexData = setInterval(dataIndex, 1000);
+var IndexData = setInterval(dataIndex, 2100);
 dataMap();
 if($.cookie('id') == 'null'){
-    m = setInterval(dataMap, 100000);
+    m = setInterval(dataMap, 60000);
 }else{
     clearTimeout(m)
 }
+//饼图
 $.post('/index/indexPage', function (data) {
     //饼图
     var myChartWarning = echarts.init(document.getElementById("warning"));
@@ -58,317 +59,727 @@ $.post('/index/indexPage', function (data) {
         myChartWarning.resize();
     };
 },'json');
-$.post('/index/indexPage', function (data) {
-    if (data.status == 'true'){
-        Time = data.data.time;
-        //柱状图
-        var myChartSO2 = echarts.init(document.getElementById("SO2"));
-        var myChartNO2 = echarts.init(document.getElementById("NO2"));
-        var myChartO3 = echarts.init(document.getElementById("O3"));
-        var optionSO2 = {
-            textStyle: {
-                color: '#f9fbfb',
-            },
-            color: new echarts.graphic.LinearGradient(
-                0, 0, 0, 1,
-                [
-                    {offset: 0, color: '#00e3fc'},
-                    {offset: 1, color: 'rgba(0,105,255,0.1)'}
-                ]),
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                },
-            },
-            legend: {
-                itemWidth: 13,
-                itemHeight: 10,
-                left: 210,
-                top: 25,
-                textStyle: {
-                    fontSize: 10,
-                    color: '#ffffff'
-                },
-                data: ['SO2']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: Time,
-                    axisTick: {
-                        alignWithLabel: true,
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: ['#231e40'],
-                            width: 1,
-                        }
-                    }
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    axisLine: {
-                        lineStyle: {
-                            color: ['#231e40'],
-                            width: 1,
-                        }
-                    },
-                    splitLine: {
-                        show: true,
-                        lineStyle: {
-                            color: ['#231e40'],
-                            width: 1,
-                            type: 'solid'
-                        }
-                    }
-                }
-            ],
-            series: [
-                {
-                    name: 'SO2',
-                    type: 'bar',
-                    barWidth: '40%',
-                    data: (function (){
-                        var SO2data = [];
-                        $.post('/index/indexPage', function (info) {
-                            var dataAir = info.data.air;
-                            if (dataAir) {
-                                for (var i = 0; i < dataAir.length; i++) {
-                                    SO2data.push(dataAir[i].uSO2);
-                                }
-                            }
-                        }, 'json');
-                        return SO2data;
-                    })()
-                }
-            ]
-        };
-        var optionNO2 = {
-            textStyle: {
-                color: '#f9fbfb',
-            },
-            color: new echarts.graphic.LinearGradient(
-                0, 0, 0, 1,
-                [
-                    {offset: 0, color: '#ffdf81'},
-                    {offset: 1, color: 'rgba(255,223,129,0.1)'}
-                ]),
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                },
-            },
-            legend: {
-                itemWidth: 13,
-                itemHeight: 10,
-                left: 210,
-                top: 25,
-                textStyle: {
-                    fontSize: 10,
-                    color: '#FFFFFF'
-                },
-                data: ['NO2']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: Time,
-                    axisTick: {
-                        alignWithLabel: true,
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: ['#231e40'],
-                            width: 1,
-                        }
-                    }
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    axisLine: {
-                        lineStyle: {
-                            color: ['#231e40'],
-                            width: 1,
-                        }
-                    },
-                    splitLine: {
-                        show: true,
-                        lineStyle: {
-                            color: ['#231e40'],
-                            width: 1,
-                            type: 'solid'
-                        }
-                    }
-                }
-            ],
-            series: [
-                {
-                    name: 'NO2',
-                    type: 'bar',
-                    barWidth: '40%',
-                    data: (function (){
-                        var NO2data = [];
-                        $.post('/index/indexPage', function (info) {
-                            var dataAir = info.data.air;
-                            if (dataAir) {
-                                for (var i = 0; i < dataAir.length; i++) {
-                                    NO2data.push(dataAir[i].uNO2);
-                                }
-                            }
-                        }, 'json');
-                        return NO2data;
-                    })()
-                }
-            ]
-        };
-        var optionO3 = {
-            textStyle: {
-                color: '#f9fbfb',
-            },
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: '#ffc3a0'
-            }, {
-                offset: 1,
-                color: 'rgba(105,96,79,0.5)'
-            }]),
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                },
-            },
-            legend: {
-                itemWidth: 13,
-                itemHeight: 10,
-                left: 210,
-                top: 25,
-                textStyle: {
-                    fontSize: 10,
-                    color: '#FFFFFF'
-                },
-                data: ['O3']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: Time,
-                    axisTick: {
-                        alignWithLabel: true,
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: ['#231e40'],
-                            width: 1,
-                        }
-                    }
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    axisLine: {
-                        lineStyle: {
-                            color: ['#231e40'],
-                            width: 1,
-                        }
-                    },
-                    splitLine: {
-                        show: true,
-                        lineStyle: {
-                            color: ['#231e40'],
-                            width: 1,
-                            type: 'solid'
-                        }
-                    }
-                }
-            ],
-            series: [
-                {
-                    name: 'O3',
-                    type: 'bar',
-                    barWidth: '40%',
-                    data: (function (){
-                        var O3data = [];
-                        $.post('/index/indexPage', function (info) {
-                            var dataAir = info.data.air;
-                            if (dataAir) {
-                                for (var i = 0; i < dataAir.length; i++) {
-                                    O3data.push(dataAir[i].uO3);
-                                }
-                            }
-                        }, 'json');
-                        return O3data;
-                    })()
-                }
-            ]
-        };
-        arrInterval.push(setInterval(function (){
-            var data0 = optionSO2.series[0].data;
-            var data1 = optionNO2.series[0].data;
-            var data2 = optionO3.series[0].data;
-            $.post('/index/airOne', function (info) {
-                var dataAir = info.data.air;
-                var Time = info.data.Time;
-                if($.cookie('Time') != Time && $.cookie('Time') != undefined){
-                    $.cookie('Time',Time);
-                    if (dataAir) {
-                        for (var i = 0; i < dataAir.length; i++) {
-                            data0.shift();
-                            data1.shift();
-                            data2.shift();
-                            data0.push(dataAir[i].uSO2);
-                            data1.push(dataAir[i].uNO2);
-                            data2.push(dataAir[i].uO3);
-                        }
-                        for (var t = 0; i < Time.length; t++) {
-                            optionSO2.xAxis[0].data.shift();
-                            optionSO2.xAxis[0].data.push(Time[t]);
-                            optionNO2.xAxis[0].data.shift();
-                            optionNO2.xAxis[0].data.push(Time[t]);
-                            optionO3.xAxis[0].data.shift();
-                            optionO3.xAxis[0].data.push(Time[t]);
-                        }
-                    }
-                }
-            }, 'json');
+echartsData();
+//定时刷新一条echart数据
+function echartsData() {
+    //柱状图
+    var myChartPM10 = echarts.init(document.getElementById("PM10"));
+    var myChartSO2 = echarts.init(document.getElementById("SO2"));
+    var myChartNO2 = echarts.init(document.getElementById("NO2"));
+    var myChartO3 = echarts.init(document.getElementById("O3"));
+    var myChartPM2_5 = echarts.init(document.getElementById("PM2_5"));
+    var myChartCO = echarts.init(document.getElementById("CO"));
 
-            myChartSO2.setOption(optionSO2);
-            myChartNO2.setOption(optionNO2, true);
-            myChartO3.setOption(optionO3, true);
-        }, 1000));
-        window.onresize = function () {
-            myChartSO2.resize();
-            myChartNO2.resize();
-            myChartO3.resize();
-        };
-    }
-}, 'json');
+    var optionPM2_5 = {
+        textStyle: {
+            color: '#f9fbfb',
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            }
+        },
+        legend: {
+            itemWidth: 13,
+            itemHeight: 10,
+            top: 10,
+            textStyle: {
+                fontSize: 10,
+                color: '#ffffff'
+            },
+            data: [ 'PM2.5']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data: (function (){
+                var Time = [];
+                $.post('/index/indexPage', function (info) {
+                    var dataTime = info.data.time;
+                    if (dataTime) {
+                        for (var i = 0; i < dataTime.length; i++) {
+                            Time.push(dataTime[i]);
+                        }
+                    }
+                }, 'json');
+                return Time;
+            })(),
+            axisTick:{
+                show:false,
+            },
+            boundaryGap: false,
+
+            axisLabel:{
+                color:'#fff'
+            },
+            axisLine:{
+                lineStyle:{
+                    color:'rgba(12,102,173,.5)',
+                    width:2,
+                }
+            }
+        },
+        yAxis: {
+            type: 'value',
+            axisTick:{
+                show:true,//不显示刻度线
+            },
+            axisLabel:{
+                color:'#fff'  //y轴上的字体颜色
+            },
+            axisLine:{
+                lineStyle:{
+                    width:2,
+                    color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
+                }
+            },
+            splitLine: {
+                show: false
+            }
+        },
+        series: [
+            {
+                name: 'PM2.5',
+                type:'line',
+                symbol: 'none',
+                smooth:true,
+                itemStyle: {
+                    normal: {
+                        color: '#09b0f5',
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#09b0f5'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(12,102,173,.5)'
+                        }])
+                    }
+                },
+                data: (function (){
+                    var PM2data = [];
+                    $.post('/index/indexPage', function (info) {
+                        var dataAir = info.data.air;
+                        if (dataAir) {
+                            for (var i = 0; i < dataAir.length; i++) {
+                                PM2data.push(dataAir[i].uPM2_5);
+                            }
+                        }
+                    }, 'json');
+                    return PM2data;
+                })()
+            },
+        ]
+    };
+    var optionCO = {
+        textStyle: {
+            color: '#f9fbfb',
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            }
+        },
+        legend: {
+            itemWidth: 13,
+            itemHeight: 10,
+            top: 10,
+            textStyle: {
+                fontSize: 10,
+                color: '#ffffff'
+            },
+            data: ['CO']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data: (function (){
+                var Time = [];
+                $.post('/index/indexPage', function (info) {
+                    var dataTime = info.data.time;
+                    if (dataTime) {
+                        for (var i = 0; i < dataTime.length; i++) {
+                            Time.push(dataTime[i]);
+                        }
+                    }
+                }, 'json');
+                return Time;
+            })(),
+            axisTick:{
+                show:false,
+            },
+            boundaryGap: false,
+            axisTick:{
+                show:false,
+            },
+            axisLabel:{
+                color:'#fff'
+            },
+            axisLine:{
+                lineStyle:{
+                    color:'rgba(12,102,173,.5)',
+                    width:2,
+                }
+            }
+        },
+        yAxis: {
+            type: 'value',
+            axisTick:{
+                show:true,//不显示刻度线
+            },
+            axisLabel:{
+                color:'#fff'  //y轴上的字体颜色
+            },
+            axisLine:{
+                lineStyle:{
+                    width:2,
+                    color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
+                }
+            },
+            splitLine: {
+                show: false
+            }
+        },
+        series: [
+            {
+                name: 'CO',
+                type: 'line',
+                stack: '总量',
+                symbol: 'none',
+                smooth:true,
+                itemStyle: {
+                    normal: {
+                        color: '#c5796d'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#c5796d'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(138,70,51,0.5)'
+                        }])
+                    }
+                },
+                data: (function (){
+                    var COdata = [];
+                    $.post('/index/indexPage', function (info) {
+                        var dataAir = info.data.air;
+                        if (dataAir) {
+                            for (var i = 0; i < dataAir.length; i++) {
+                                COdata.push(dataAir[i].uCO);
+                            }
+                        }
+                    }, 'json');
+                    return COdata;
+                })()
+            }
+        ]
+    };
+    var optionPM10 = {
+        textStyle: {
+            color: '#f9fbfb',
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            }
+        },
+        legend: {
+            itemWidth: 13,
+            itemHeight: 10,
+            top: 10,
+            textStyle: {
+                fontSize: 10,
+                color: '#ffffff'
+            },
+            data: ['PM10']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data: (function (){
+                var Time = [];
+                $.post('/index/indexPage', function (info) {
+                    var dataTime = info.data.time;
+                    if (dataTime) {
+                        for (var i = 0; i < dataTime.length; i++) {
+                            Time.push(dataTime[i]);
+                        }
+                    }
+                }, 'json');
+                return Time;
+            })(),
+            axisTick:{
+                show:false,
+            },
+            boundaryGap: false,
+            axisTick:{
+                show:false,
+            },
+            axisLabel:{
+                color:'#fff'
+            },
+            axisLine:{
+                lineStyle:{
+                    color:'rgba(12,102,173,.5)',
+                    width:2,
+                }
+            }
+        },
+        yAxis: {
+            type: 'value',
+            axisTick:{
+                show:true,//不显示刻度线
+            },
+            axisLabel:{
+                color:'#fff'  //y轴上的字体颜色
+            },
+            axisLine:{
+                lineStyle:{
+                    width:2,
+                    color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
+                }
+            },
+            splitLine: {
+                show: false
+            }
+        },
+        series: [
+            {
+                name: 'PM10',
+                type:'line',
+                symbol: 'none',
+                smooth:true,
+                itemStyle: {
+                    normal: {
+                        color: '#00b576',
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#00b576'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(4,137,152,0.5)'
+                        }])
+                    }
+                },
+                data: (function (){
+                    var PM10data = [];
+                    $.post('/index/indexPage', function (info) {
+                        var dataAir = info.data.air;
+                        if (dataAir) {
+                            for (var i = 0; i < dataAir.length; i++) {
+                                PM10data.push(dataAir[i].uPM10);
+                            }
+                        }
+                    }, 'json');
+                    return PM10data;
+                })()
+            }
+        ]
+    };
+    var optionSO2 = {
+        textStyle: {
+            color: '#f9fbfb',
+        },
+        color: new echarts.graphic.LinearGradient(
+            0, 0, 0, 1,
+            [
+                {offset: 0, color: '#00e3fc'},
+                {offset: 1, color: 'rgba(0,105,255,0.1)'}
+            ]),
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            },
+        },
+        legend: {
+            itemWidth: 13,
+            itemHeight: 10,
+            left: 210,
+            top: 25,
+            textStyle: {
+                fontSize: 10,
+                color: '#ffffff'
+            },
+            data: ['SO2']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: (function (){
+                    var Time = [];
+                    $.post('/index/indexPage', function (info) {
+                        var dataTime = info.data.time;
+                        if (dataTime) {
+                            for (var i = 0; i < dataTime.length; i++) {
+                                Time.push(dataTime[i]);
+                            }
+                        }
+                    }, 'json');
+                    return Time;
+                })(),
+                axisTick: {
+                    alignWithLabel: true,
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: ['#231e40'],
+                        width: 1,
+                    }
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLine: {
+                    lineStyle: {
+                        color: ['#231e40'],
+                        width: 1,
+                    }
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: ['#231e40'],
+                        width: 1,
+                        type: 'solid'
+                    }
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'SO2',
+                type: 'bar',
+                barWidth: '40%',
+                data: (function (){
+                    var SO2data = [];
+                    $.post('/index/indexPage', function (info) {
+                        var dataAir = info.data.air;
+                        if (dataAir) {
+                            for (var i = 0; i < dataAir.length; i++) {
+                                SO2data.push(dataAir[i].uSO2);
+                            }
+                        }
+                    }, 'json');
+                    return SO2data;
+                })()
+            }
+        ]
+    };
+    var optionNO2 = {
+        textStyle: {
+            color: '#f9fbfb',
+        },
+        color: new echarts.graphic.LinearGradient(
+            0, 0, 0, 1,
+            [
+                {offset: 0, color: '#ffdf81'},
+                {offset: 1, color: 'rgba(255,223,129,0.1)'}
+            ]),
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            },
+        },
+        legend: {
+            itemWidth: 13,
+            itemHeight: 10,
+            left: 210,
+            top: 25,
+            textStyle: {
+                fontSize: 10,
+                color: '#FFFFFF'
+            },
+            data: ['NO2']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: (function (){
+                    var Time = [];
+                    $.post('/index/indexPage', function (info) {
+                        var dataTime = info.data.time;
+                        if (dataTime) {
+                            for (var i = 0; i < dataTime.length; i++) {
+                                Time.push(dataTime[i]);
+                            }
+                        }
+                    }, 'json');
+                    return Time;
+                })(),
+                axisTick: {
+                    alignWithLabel: true,
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: ['#231e40'],
+                        width: 1,
+                    }
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLine: {
+                    lineStyle: {
+                        color: ['#231e40'],
+                        width: 1,
+                    }
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: ['#231e40'],
+                        width: 1,
+                        type: 'solid'
+                    }
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'NO2',
+                type: 'bar',
+                barWidth: '40%',
+                data: (function (){
+                    var NO2data = [];
+                    $.post('/index/indexPage', function (info) {
+                        var dataAir = info.data.air;
+                        if (dataAir) {
+                            for (var i = 0; i < dataAir.length; i++) {
+                                NO2data.push(dataAir[i].uNO2);
+                            }
+                        }
+                    }, 'json');
+                    return NO2data;
+                })()
+            }
+        ]
+    };
+    var optionO3 = {
+        textStyle: {
+            color: '#f9fbfb',
+        },
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            offset: 0,
+            color: '#ffc3a0'
+        }, {
+            offset: 1,
+            color: 'rgba(105,96,79,0.5)'
+        }]),
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            },
+        },
+        legend: {
+            itemWidth: 13,
+            itemHeight: 10,
+            left: 210,
+            top: 25,
+            textStyle: {
+                fontSize: 10,
+                color: '#FFFFFF'
+            },
+            data: ['O3']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: (function (){
+                    var Time = [];
+                    $.post('/index/indexPage', function (info) {
+                        var dataTime = info.data.time;
+                        if (dataTime) {
+                            for (var i = 0; i < dataTime.length; i++) {
+                                Time.push(dataTime[i]);
+                            }
+                        }
+                    }, 'json');
+                    return Time;
+                })(),
+                axisTick: {
+                    alignWithLabel: true,
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: ['#231e40'],
+                        width: 1,
+                    }
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLine: {
+                    lineStyle: {
+                        color: ['#231e40'],
+                        width: 1,
+                    }
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: ['#231e40'],
+                        width: 1,
+                        type: 'solid'
+                    }
+                }
+            }
+        ],
+        series: [
+            {
+                name: 'O3',
+                type: 'bar',
+                barWidth: '40%',
+                data: (function (){
+                    var O3data = [];
+                    $.post('/index/indexPage', function (info) {
+                        var dataAir = info.data.air;
+                        if (dataAir) {
+                            for (var i = 0; i < dataAir.length; i++) {
+                                O3data.push(dataAir[i].uO3);
+                            }
+                        }
+                    }, 'json');
+                    return O3data;
+                })()
+            }
+        ]
+    };
+    arrInterval.push(setInterval(function aaaecharts (){
+        // var axisData = (new Date()).toLocaleTimeString().replace(/^\D*/, '');
+        // (Math.random() * 10 + 5).toFixed(1) - 0
+        var data0 = optionSO2.series[0].data;
+        var data1 = optionNO2.series[0].data;
+        var data2 = optionO3.series[0].data;
+        var data3 = optionPM10.series[0].data;
+        var data4 = optionPM2_5.series[0].data;
+        var data5 = optionCO.series[0].data;
+        $.post('/index/airOne', function (info) {
+            var dataAir = info.data.air;
+            var Time = info.data.Time;
+            if($.cookie('Time') != Time[0]){
+                $.cookie('Time',Time);
+                if (dataAir) {
+                    optionSO2.xAxis[0].data.shift();
+                    optionSO2.xAxis[0].data.push(Time[0]);
+                    optionNO2.xAxis[0].data.shift();
+                    optionNO2.xAxis[0].data.push(Time[0]);
+                    optionO3.xAxis[0].data.shift();
+                    optionO3.xAxis[0].data.push(Time[0]);
+                    optionPM10.xAxis.data.shift();
+                    optionPM10.xAxis.data.push(Time[0]);
+                    optionPM2_5.xAxis.data.shift();
+                    optionPM2_5.xAxis.data.push(Time[0]);
+                    optionCO.xAxis.data.shift();
+                    optionCO.xAxis.data.push(Time[0]);
+
+                    myChartSO2.setOption(optionSO2);
+                    myChartPM10.setOption(optionPM10);
+                    myChartNO2.setOption(optionNO2);
+                    myChartO3.setOption(optionO3);
+                    myChartPM2_5.setOption(optionPM2_5);
+                    myChartCO.setOption(optionCO);
+
+                    data0.shift();
+                    data0.push(dataAir[0]['uSO2']);
+                    data1.shift();
+                    data1.push(dataAir[0]['uNO2']);
+                    data2.shift();
+                    data2.push(dataAir[0]['uO3']);
+                    data3.shift();
+                    data3.push(dataAir[0]['uPM10']);
+                    data4.shift();
+                    data4.push(dataAir[0]['uPM2_5']);
+                    data5.shift();
+                    data5.push(dataAir[0]['uCO']);
+
+
+                    myChartSO2.setOption(optionSO2);
+                    myChartPM10.setOption(optionPM10);
+                    myChartNO2.setOption(optionNO2);
+                    myChartO3.setOption(optionO3);
+                    myChartPM2_5.setOption(optionPM2_5);
+                    myChartCO.setOption(optionCO);
+
+                }
+            }
+        }, 'json');
+        myChartSO2.setOption(optionSO2);
+        myChartPM10.setOption(optionPM10);
+        myChartNO2.setOption(optionNO2);
+        myChartO3.setOption(optionO3);
+        myChartPM2_5.setOption(optionPM2_5);
+        myChartCO.setOption(optionCO);
+    }, 2100));
+
+}
+
 $('#plane-data ul li').eq(0).addClass('active');
+//切换无人机
 $('#plane-data ul li').on('click',function () {
     $(this).addClass('active');
     $(this).siblings().removeClass('active');
@@ -867,7 +1278,7 @@ $('#plane-data ul li').on('click',function () {
             }
         }, 'json');
 
-    }, 1000));
+    }, 3000));
     $.post('/index/planeOneAir',{productID:proId}, function (data) {
         if (data.status == 'true'){
             Time = data.data.time;
@@ -1170,7 +1581,7 @@ $('#plane-data ul li').on('click',function () {
                 myChartSO2.setOption(optionSO2);
                 myChartNO2.setOption(optionNO2, true);
                 myChartO3.setOption(optionO3, true);
-            }, 1000))
+            }, 3000))
             window.onresize = function () {
                 myChartSO2.resize();
                 myChartNO2.resize();
@@ -1190,25 +1601,15 @@ function dataIndex() {
             var plane = data.data.plane;
             var dataAir = data.data.air;
             var total = data.data.total;
-            var NO2data = [];
-            var PM2data = [];
-            var PM10data = [];
-            var COdata = [];
+
             if (dataAir && Startpoint && plane) {
-                for (var i = 0; i < dataAir.length; i++) {
-                    NO2data.push(dataAir[i].uNO2);
-                    PM2data.push(dataAir[i]['uPM2_5']);
-                    PM10data.push(dataAir[i].uPM10);
-                    COdata.push(dataAir[i].uCO);
-                }
+
 
 
                 //折线图
-                var myChartPM10 = echarts.init(document.getElementById("PM10"));
+                
                 var myChartaqi = echarts.init(document.getElementById("aqi"));
-                var myChartPM2_5 = echarts.init(document.getElementById("PM2_5"));
-                var myChartCO = echarts.init(document.getElementById("CO"));
-
+               
                 var optionaqi = {
                     textStyle: {
                         color: '#f9fbfb',
@@ -1297,296 +1698,14 @@ function dataIndex() {
                         }
                     ]
                 };
-                var optionPM10 = {
-                    textStyle: {
-                        color: '#f9fbfb',
-                    },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'cross',
-                            label: {
-                                backgroundColor: '#6a7985'
-                            }
-                        }
-                    },
-                    legend: {
-                        itemWidth: 13,
-                        itemHeight: 10,
-                        top: 10,
-                        textStyle: {
-                            fontSize: 10,
-                            color: '#ffffff'
-                        },
-                        data: ['PM10']
-                    },
-                    grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
-                        containLabel: true
-                    },
-                    xAxis: {
-                        type: 'category',
-                        data: Time,
-                        axisTick:{
-                            show:false,
-                        },
-                        boundaryGap: false,
-                        axisTick:{
-                            show:false,
-                        },
-                        axisLabel:{
-                            color:'#fff'
-                        },
-                        axisLine:{
-                            lineStyle:{
-                                color:'rgba(12,102,173,.5)',
-                                width:2,
-                            }
-                        }
-                    },
-                    yAxis: {
-                        type: 'value',
-                        axisTick:{
-                            show:true,//不显示刻度线
-                        },
-                        axisLabel:{
-                            color:'#fff'  //y轴上的字体颜色
-                        },
-                        axisLine:{
-                            lineStyle:{
-                                width:2,
-                                color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
-                            }
-                        },
-                        splitLine: {
-                            show: false
-                        }
-                    },
-                    series: [
-                        {
-                            name: 'PM10',
-                            type:'line',
-                            symbol: 'none',
-                            smooth:true,
-                            itemStyle: {
-                                normal: {
-                                    color: '#00b576',
-                                }
-                            },
-                            areaStyle: {
-                                normal: {
-                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                        offset: 0,
-                                        color: '#00b576'
-                                    }, {
-                                        offset: 1,
-                                        color: 'rgba(4,137,152,0.5)'
-                                    }])
-                                }
-                            },
-                            data: PM10data
-                        }
-                    ]
-                };
-                var optionPM2_5 = {
-                    textStyle: {
-                        color: '#f9fbfb',
-                    },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'cross',
-                            label: {
-                                backgroundColor: '#6a7985'
-                            }
-                        }
-                    },
-                    legend: {
-                        itemWidth: 13,
-                        itemHeight: 10,
-                        top: 10,
-                        textStyle: {
-                            fontSize: 10,
-                            color: '#ffffff'
-                        },
-                        data: [ 'PM2.5']
-                    },
-                    grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
-                        containLabel: true
-                    },
-                    xAxis: {
-                        type: 'category',
-                        data: Time,
-                        axisTick:{
-                            show:false,
-                        },
-                        boundaryGap: false,
-                        axisTick:{
-                            show:false,
-                        },
-                        axisLabel:{
-                            color:'#fff'
-                        },
-                        axisLine:{
-                            lineStyle:{
-                                color:'rgba(12,102,173,.5)',
-                                width:2,
-                            }
-                        }
-                    },
-                    yAxis: {
-                        type: 'value',
-                        axisTick:{
-                            show:true,//不显示刻度线
-                        },
-                        axisLabel:{
-                            color:'#fff'  //y轴上的字体颜色
-                        },
-                        axisLine:{
-                            lineStyle:{
-                                width:2,
-                                color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
-                            }
-                        },
-                        splitLine: {
-                            show: false
-                        }
-                    },
-                    series: [
-                        {
-                            name: 'PM2.5',
-                            type:'line',
-                            symbol: 'none',
-                            smooth:true,
-                            itemStyle: {
-                                normal: {
-                                    color: '#09b0f5',
-                                }
-                            },
-                            areaStyle: {
-                                normal: {
-                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                        offset: 0,
-                                        color: '#09b0f5'
-                                    }, {
-                                        offset: 1,
-                                        color: 'rgba(12,102,173,.5)'
-                                    }])
-                                }
-                            },
-                            data: PM2data
-                        },
-                    ]
-                };
-                var optionCO = {
-                    textStyle: {
-                        color: '#f9fbfb',
-                    },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'cross',
-                            label: {
-                                backgroundColor: '#6a7985'
-                            }
-                        }
-                    },
-                    legend: {
-                        itemWidth: 13,
-                        itemHeight: 10,
-                        top: 10,
-                        textStyle: {
-                            fontSize: 10,
-                            color: '#ffffff'
-                        },
-                        data: ['CO']
-                    },
-                    grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
-                        containLabel: true
-                    },
-                    xAxis: {
-                        type: 'category',
-                        data: Time,
-                        axisTick:{
-                            show:false,
-                        },
-                        boundaryGap: false,
-                        axisTick:{
-                            show:false,
-                        },
-                        axisLabel:{
-                            color:'#fff'
-                        },
-                        axisLine:{
-                            lineStyle:{
-                                color:'rgba(12,102,173,.5)',
-                                width:2,
-                            }
-                        }
-                    },
-                    yAxis: {
-                        type: 'value',
-                        axisTick:{
-                            show:true,//不显示刻度线
-                        },
-                        axisLabel:{
-                            color:'#fff'  //y轴上的字体颜色
-                        },
-                        axisLine:{
-                            lineStyle:{
-                                width:2,
-                                color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
-                            }
-                        },
-                        splitLine: {
-                            show: false
-                        }
-                    },
-                    series: [
-                        {
-                            name: 'CO',
-                            type: 'line',
-                            stack: '总量',
-                            symbol: 'none',
-                            smooth:true,
-                            itemStyle: {
-                                normal: {
-                                    color: '#c5796d'
-                                }
-                            },
-                            areaStyle: {
-                                normal: {
-                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                        offset: 0,
-                                        color: '#c5796d'
-                                    }, {
-                                        offset: 1,
-                                        color: 'rgba(138,70,51,0.5)'
-                                    }])
-                                }
-                            },
-                            data: COdata
-                        }
-                    ]
-                };
+
 
                 myChartaqi.setOption(optionaqi, true);
-                myChartPM10.setOption(optionPM10, true);
-                myChartPM2_5.setOption(optionPM2_5, true);
-                myChartCO.setOption(optionCO, true);
+
                 window.onresize = function () {
-                    myChartPM10.resize();
-                    myChartPM2_5.resize();
+    
                     myChartaqi.resize();
-                    myChartCO.resize();
+
                 };
                 $("#dataNums").html('');
                 $("#dataNums").rollNum({
@@ -1831,7 +1950,7 @@ function dataMap() {
         }
     });
 }
-
+//详细预警信息
 $('#warningDis').click(function () {
     $('#alert').show();
     var url="/index/warningDis";
