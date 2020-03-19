@@ -214,13 +214,14 @@ class dataIndex extends CI_Model
             foreach ($air as $k => $v) {
                 $Time[] = $v['recTime'];
                 $air1[] = $v;
-                $SO2[] = $v['uSO2'];
-                $NO2[] = $v['uNO2'];
-                $CO[] = $v['uCO'];
-                $O3[] = $v['uO3'];
-                $PM10[] = $v['uPM10'];
-                $PM2_5[] = $v['uPM2_5'];
+                $SO2[] = intval($v['uSO2']);
+                $NO2[] = intval($v['uNO2']);
+                $CO[] = intval($v['uCO']);
+                $O3[] = intval($v['uO3']);
+                $PM10[] = intval($v['uPM10']);
+                $PM2_5[] = intval($v['uPM2_5']);
             }
+
             $SO2i = array_sum($SO2)/count($SO2);
             $NO2i = array_sum($NO2)/count($NO2);
             $COi = array_sum($CO)/count($CO);
@@ -335,7 +336,7 @@ class dataIndex extends CI_Model
             $Cl = 800 ;$Ch = 1600; $Il = 200; $Ih=300;
         }elseif($SO2i >= 1600 && $SO2i < 2100){
             $Cl = 1600 ;$Ch = 2100; $Il = 300; $Ih=400;
-        }elseif($SO2i >= 2100 && $SO2i < 2620){
+        }else{
             $Cl = 2100 ;$Ch = 2620; $Il = 400; $Ih=500;
         }
         $SO2aqi = round((($Ih-$Il)/($Ch-$Cl)*($SO2i-$Cl))+$Il);
@@ -354,7 +355,7 @@ class dataIndex extends CI_Model
             $Cl = 280 ;$Ch = 565; $Il = 200; $Ih=300;
         }elseif($NO2i >= 565 && $NO2i < 750){
             $Cl = 565 ;$Ch = 750; $Il = 300; $Ih=400;
-        }elseif($NO2i >= 750 && $NO2i < 940){
+        }else{
             $Cl = 750 ;$Ch = 940; $Il = 400; $Ih=500;
         }
         $NO2aqi = round((($Ih-$Il)/($Ch-$Cl)*($NO2i-$Cl))+$Il);
@@ -373,7 +374,7 @@ class dataIndex extends CI_Model
             $Cl = 24 ;$Ch = 36; $Il = 200; $Ih=300;
         }elseif($COi >= 36 && $COi < 48){
             $Cl = 36 ;$Ch = 48; $Il = 300; $Ih=400;
-        }elseif($COi >= 48 && $COi < 60){
+        }else{
             $Cl = 48 ;$Ch = 60; $Il = 400; $Ih=500;
         }
         $COaqi = round((($Ih-$Il)/($Ch-$Cl)*($COi-$Cl))+$Il);
@@ -392,7 +393,7 @@ class dataIndex extends CI_Model
             $Cl = 265 ;$Ch = 800; $Il = 200; $Ih=300;
         }elseif($O3i >= 800 && $O3i < 1000){
             $Cl = 800 ;$Ch = 1000; $Il = 300; $Ih=400;
-        }elseif($O3i >= 1000 && $O3i < 1200){
+        }else{
             $Cl = 1000 ;$Ch = 1200; $Il = 400; $Ih=500;
         }
         $O3aqi = round((($Ih-$Il)/($Ch-$Cl)*($O3i-$Cl))+$Il);
@@ -411,7 +412,7 @@ class dataIndex extends CI_Model
             $Cl = 350 ;$Ch = 420; $Il = 200; $Ih=300;
         }elseif($PM10i >= 420 && $PM10i < 500){
             $Cl = 420 ;$Ch = 500; $Il = 300; $Ih=400;
-        }elseif($PM10i >= 500 && $PM10i < 600){
+        }else{
             $Cl = 500 ;$Ch = 600; $Il = 400; $Ih=500;
         }
         $PM10aqi = round((($Ih-$Il)/($Ch-$Cl)*($PM10i-$Cl))+$Il);
@@ -430,7 +431,7 @@ class dataIndex extends CI_Model
             $Cl = 150 ;$Ch = 250; $Il = 200; $Ih=300;
         }elseif($PM2_5i >= 250 && $PM2_5i < 350){
             $Cl = 250 ;$Ch = 350; $Il = 300; $Ih=400;
-        }elseif($PM2_5i >= 350 && $PM2_5i < 500){
+        }else{
             $Cl = 350 ;$Ch = 500; $Il = 400; $Ih=500;
         }
         $PM2_5aqi = round((($Ih-$Il)/($Ch-$Cl)*($PM2_5i-$Cl))+$Il);
