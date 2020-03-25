@@ -206,7 +206,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if ($('#userForm ul li').hasClass('has-error')){
             alert('提交有误');
         }else{
-            var url="<?php echo base_url() ?>index/personSet";
+            var url="/index/personSet";
             var username=$("#username").val();
             var id=$("#id").val();
             var charge=$("#charge").val();

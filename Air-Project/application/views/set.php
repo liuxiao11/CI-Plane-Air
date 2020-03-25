@@ -41,9 +41,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-bottom .air-title{width: 699px;height: 37px;margin: 20px 0 0 30px;display: inline-block;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff }
         .air-bottom .plane-form{margin: 0 0 0 50px;display: inline-block;font-size: 22px; }
         .air-bottom .plane-form ul li{display: inline-block;margin-right: 50px;margin-top: 10px}
-        .air-bottom .plane-form input,select{width: 275px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
-        .air-bottom .plane-form ul select{width: 275px}
-        .air-bottom .plane-form .submit{width: 180px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 24px;display: block;float: right;padding: 0;color: #d9d9d9;margin-left: 166px}
+        .air-bottom .plane-form input,select{width: 200px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
+        .air-bottom .plane-form ul select{width: 221px}
+        .air-bottom .plane-form .submit{width: 120px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 24px;display: block;float: right;padding: 0;color: #d9d9d9;margin-left: 100px}
         .form-error{color: red;font-size: 16px;display: table-cell;}
     </style>
 </head>
@@ -63,15 +63,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="plane-data" id="plane-data">
             <ul>
                 <?php if(!empty($plane) && isset($plane))  foreach ($plane as $k => $v){?>
-                <li>
+                <li class="planeDes">
                     <a class="close-btn" id="<?php echo $v['id']?>" href="javascript:void (0)"></a>
-                    <div class="plane-title">无人机<?php echo $v['productId']?></div>
-                    <div class="plane-content">
+                    <div class="plane-title" data-id="<?php echo $v['productId']?>"><?php echo $v['name']?></div>
+                    <div class="plane-content" data-video="<?php echo $v['video']?>">
                         <?php if($v['productType'] == '0'){ echo "<img src='".STATIC_IMG."dataIndex/plane.png'>";}else{ echo "<img class='carPlane' src='".STATIC_IMG."dataIndex/carPlane.png'>";} ?>
                         <div class="plane-text">
-                            <p>设备类型：<?php if($v['productType'] == 1){ echo '车载';}else{ echo '无人机';} ?></p>
-                            <p>飞行速度：<?php echo $v['speed']?>m/s</p>
-                            <p>飞行高度：<?php echo $v['alt']?>m</p>
+                            <p>设备类型：<span  class="type" data-type="<?php echo $v['productType']?>"><?php if($v['productType'] == 1){ echo '车载';}else{ echo '无人机';} ?></span></p>
+                            <p>飞行速度：<span class="speed"><?php echo $v['speed']?></span>m/s</p>
+                            <p>飞行高度：<span class="alt"><?php echo $v['alt']?></span>m</p>
                         </div>
                     </div>
                 </li>
@@ -86,13 +86,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <form class="plane-form" method="post" id="userForm" onsubmit="return false;">
                 <ul>
                     <li>产品编号：<input type="text" class="plane-number" name="productId" id="productId" data-validation="length" data-validation-length="2-10" data-validation-error-msg="产品编号须为2至10个字符"></li>
+                    <li>产品名称：<input type="text" class="plane-number" name="name" id="name" data-validation="length" data-validation-length="2-6" data-validation-error-msg="产品名称须为2至6个字符"></li>
                     <li>产品类型：<select name="status" id="status">
                         <option value="1">车载</option>
                         <option value="0">无人机</option></select>
                     </li>
                     <li>平均速度：<input type="text" class="plane-number" name="speed" id="speed"  data-validation="number" data-validation-allowing="float"  data-validation-error-msg="速度须为数字"></li>
                     <li>平均高度：<input type="text" class="plane-number" name="alt" id="alt"  data-validation="number" data-validation-allowing="float"  data-validation-error-msg="高度须为数字"></li>
-                    <li>视频源：<input type="text" class="plane-video" name="video" id="video" placeholder="rtsp(多个用英文逗号分隔)">
+                    <li>&nbsp;&nbsp;&nbsp;视频源：<input type="text" class="plane-video" name="video" id="video" placeholder="rtsp(多个用英文逗号分隔)">
                         <input class="submit" id="submit" type="submit" value="提交"></li>
                 </ul>
             </form>
@@ -108,15 +109,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         if ($('#userForm ul li').hasClass('has-error')){
             alert('提交有误');
         }else{
-            var url="<?php echo base_url() ?>index/dataSet";
+            var url="/index/dataSet";
             var productId=$("#productId").val();
             var status=$("#status").val();
             var speed=$("#speed").val();
             var alt=$("#alt").val();
             var video=$("#video").val();
-            var urlData={productId:productId,status:status,speed:speed,alt:alt,video:video};
+            var name=$("#name").val();
+            var urlData={productId:productId,status:status,speed:speed,alt:alt,video:video,name:name};
             $.post(url,urlData,function(result){
-               console.log(result.status);
                if(result.status == 'true'){
                    alert(result.tips);
                    window.location.reload();
@@ -143,6 +144,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },"json");
         }
 
+    });
+    $(document).on('click','.planeDes',function () {
+        var name = $(this).find('.plane-title').text();
+        var speed = $(this).find('.speed').text();
+        var alt = $(this).find('.alt').text();
+        var productId = $(this).find('.plane-title').data('id');
+        var video = $(this).find('.plane-content').data('video');
+        var type = $(this).find('.type').data('type');
+
+            $('#name').val('');
+            $('#productId').val('');
+            $('#speed').val('');
+            $('#alt').val('');
+            $('#video').val('');
+            $('#status').children('option').eq(0).removeAttr('selected');
+            $('#status').children('option').eq(1).removeAttr('selected');
+
+        $('#name').val(name);
+        $('#productId').val(productId);
+        $('#speed').val(speed);
+        $('#alt').val(alt);
+        if(type == 1){
+            $('#status').children('option').eq(0).attr('selected','selected');
+        }else{
+            $('#status').children('option').eq(1).attr('selected','selected');
+        }
+        $('#video').val(video);
     });
 </script>
 </body>

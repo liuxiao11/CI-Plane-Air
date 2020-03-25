@@ -4,63 +4,12 @@ var Endpoint;
 var cxt = "/user_guide/_static/images/";
 var m;
 var arrInterval = [];
-//开始定时刷新
-dataIndex();
-var IndexData = setInterval(dataIndex, 2100);
-dataMap();
-if($.cookie('id') == 'null'){
-    m = setInterval(dataMap, 60000);
-}else{
-    clearTimeout(m)
-}
-//饼图
-$.post('/index/indexPage', function (data) {
-    //饼图
-    var myChartWarning = echarts.init(document.getElementById("warning"));
-    var optionW = {
-        textStyle: {
-            fontSize: 12   // 调节字体大小
+var total;
+var plane;
+var dataAir;
 
-        },
-        title : {
-            text: '',       // 主标题名称
-            subtext: '',    // 副标题名称
-            x:'center'      // 标题的位置
-        },
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        // legend: {
-        //     orient: 'vertical',         // 标签名称垂直排列
-        //     x: 'right',                 // 标签的位置
-        //     data:['CO','SO2','NO2','O3','PM2.5','PM10']
-        // },                              // 标签变量名称
-        calculable : true,
-        series : [
-            {
-                name:'今日风险数量',                    // 图表名称
-                type:'pie',                         // 图表类型
-                radius : [20, 70],                 // 图表内外半径大小
-                center : ['50%', '50%'],            // 图表位置
-                roseType : 'area',
-                label: {
-                    normal: {
-                        show: true,
-                        formatter: '{b}({d}%)'      // 显示百分比
-                    }
-                },
-                data:data.data.pie
-            }
-        ]
-    };
-    myChartWarning.setOption(optionW, true);
-    window.onresize = function () {
-        myChartWarning.resize();
-    };
-},'json');
 echartsData();
-//定时刷新一条echart数据
+//定时两秒刷新一条echart数据
 function echartsData() {
     //柱状图
     var myChartPM10 = echarts.init(document.getElementById("PM10"));
@@ -709,9 +658,7 @@ function echartsData() {
             }
         ]
     };
-    arrInterval.push(setInterval(function aaaecharts (){
-        // var axisData = (new Date()).toLocaleTimeString().replace(/^\D*/, '');
-        // (Math.random() * 10 + 5).toFixed(1) - 0
+    arrInterval.push(setInterval(function (){
         var data0 = optionSO2.series[0].data;
         var data1 = optionNO2.series[0].data;
         var data2 = optionO3.series[0].data;
@@ -764,7 +711,6 @@ function echartsData() {
                     myChartO3.setOption(optionO3);
                     myChartPM2_5.setOption(optionPM2_5);
                     myChartCO.setOption(optionCO);
-
                 }
             }
         }, 'json');
@@ -775,7 +721,7 @@ function echartsData() {
         myChartPM2_5.setOption(optionPM2_5);
         myChartCO.setOption(optionCO);
     }, 2100));
-
+        
 }
 
 $('#plane-data ul li').eq(0).addClass('active');
@@ -788,6 +734,55 @@ $('#plane-data ul li').on('click',function () {
     for (var i = arrInterval.length - 1; i >= 0; i--) {
         clearInterval(arrInterval[i]);
     };
+    arrInterval.push(setInterval(function () {
+        $.post('/index/planeOneAir',{productID:proId}, function (data) {
+            if (data.status == 'true') {
+                Time = data.data.time;
+                total = data.data.total;
+                //饼图
+                var myChartWarning = echarts.init(document.getElementById("warning"));
+                var optionW = {
+                    textStyle: {
+                        fontSize: 12   // 调节字体大小
+
+                    },
+                    title: {
+                        text: '',       // 主标题名称
+                        subtext: '',    // 副标题名称
+                        x: 'center'      // 标题的位置
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    calculable: true,
+                    series: [
+                        {
+                            name: '今日风险数量',                    // 图表名称
+                            type: 'pie',                         // 图表类型
+                            radius: [20, 70],                 // 图表内外半径大小
+                            center: ['50%', '50%'],            // 图表位置
+                            roseType: 'area',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter: '{b}({d}%)'      // 显示百分比
+                                }
+                            },
+                            data: data.data.pie
+                        }
+                    ]
+                };
+                myChartWarning.setOption(optionW, true);
+                window.onresize = function () {
+                    myChartWarning.resize();
+                };
+                $("#dataNums").html('');
+                $("#dataNums").rollNum({
+                    deVal:total
+                });
+            }},'json');
+    }),10000)
     arrInterval.push(setInterval(function () {
         $.post('/index/planeOneAir',{productID:proId}, function (data){
             if (data.status == 'true') {
@@ -804,49 +799,6 @@ $('#plane-data ul li').on('click',function () {
                         PM10data.push(dataAir[i].uPM10);
                         COdata.push(dataAir[i].uCO);
                     }
-                    //饼图
-                    var myChartWarning = echarts.init(document.getElementById("warning"));
-                    var optionW = {
-                        textStyle: {
-                            fontSize: 12   // 调节字体大小
-
-                        },
-                        title : {
-                            text: '',       // 主标题名称
-                            subtext: '',    // 副标题名称
-                            x:'center'      // 标题的位置
-                        },
-                        tooltip : {
-                            trigger: 'item',
-                            formatter: "{a} <br/>{b} : {c} ({d}%)"
-                        },
-                        // legend: {
-                        //     orient: 'vertical',         // 标签名称垂直排列
-                        //     x: 'right',                 // 标签的位置
-                        //     data:['CO','SO2','NO2','O3','PM2.5','PM10']
-                        // },                              // 标签变量名称
-                        calculable : true,
-                        series : [
-                            {
-                                name:'今日风险数量',                    // 图表名称
-                                type:'pie',                         // 图表类型
-                                radius : [20, 70],                 // 图表内外半径大小
-                                center : ['50%', '50%'],            // 图表位置
-                                roseType : 'area',
-                                label: {
-                                    normal: {
-                                        show: true,
-                                        formatter: '{b}({d}%)'      // 显示百分比
-                                    }
-                                },
-                                data:data.data.pie
-                            }
-                        ]
-                    };
-                    myChartWarning.setOption(optionW, true);
-                    window.onresize = function () {
-                        myChartWarning.resize();
-                    };
                     //折线图
                     var myChartPM10 = echarts.init(document.getElementById("PM10"));
                     var myChartaqi = echarts.init(document.getElementById("aqi"));
@@ -1590,26 +1542,68 @@ $('#plane-data ul li').on('click',function () {
         }
     }, 'json');
 });
+//首页饼图、aqi指数10秒刷新一次
+dataIndex();
+var IndexData = setInterval(dataIndex, 10000);
 function dataIndex() {
-
-    var myDate = new Date();
     $.post('/index/indexPage', function (data) {
         if (data.status == 'true') {
             Time = data.data.time;
             Startpoint = data.data.Start_point;
             Endpoint = data.data.End_point;
-            var plane = data.data.plane;
-            var dataAir = data.data.air;
-            var total = data.data.total;
+            plane = data.data.plane;
+            dataAir = data.data.air;
+            total = data.data.total;
+            if (dataAir ) {
+                //饼图
+                var myChartWarning = echarts.init(document.getElementById("warning"));
+                var optionW = {
+                    textStyle: {
+                        fontSize: 12   // 调节字体大小
 
-            if (dataAir && Startpoint && plane) {
-
-
-
+                    },
+                    title : {
+                        text: '',       // 主标题名称
+                        subtext: '',    // 副标题名称
+                        x:'center'      // 标题的位置
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    // legend: {
+                    //     orient: 'vertical',         // 标签名称垂直排列
+                    //     x: 'right',                 // 标签的位置
+                    //     data:['CO','SO2','NO2','O3','PM2.5','PM10']
+                    // },                              // 标签变量名称
+                    calculable : true,
+                    series : [
+                        {
+                            name:'今日风险数量',                    // 图表名称
+                            type:'pie',                         // 图表类型
+                            radius : [20, 70],                 // 图表内外半径大小
+                            center : ['50%', '50%'],            // 图表位置
+                            roseType : 'area',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter: '{b}({d}%)'      // 显示百分比
+                                }
+                            },
+                            data:data.data.pie
+                        }
+                    ]
+                };
+                myChartWarning.setOption(optionW, true);
+                window.onresize = function () {
+                    myChartWarning.resize();
+                };
+                $("#dataNums").html('');
+                $("#dataNums").rollNum({
+                    deVal:total
+                });
                 //折线图
-                
                 var myChartaqi = echarts.init(document.getElementById("aqi"));
-               
                 var optionaqi = {
                     textStyle: {
                         color: '#f9fbfb',
@@ -1698,25 +1692,23 @@ function dataIndex() {
                         }
                     ]
                 };
-
-
                 myChartaqi.setOption(optionaqi, true);
-
                 window.onresize = function () {
-    
                     myChartaqi.resize();
-
                 };
-                $("#dataNums").html('');
-                $("#dataNums").rollNum({
-                    deVal:total
-                });
             }
         } else if (data.status == 'false') {
             console.log('暂无数据');
         }
     }, 'json');
 
+}
+//地图一分钟刷新一次初始定位
+dataMap();
+if($.cookie('id') == 'null'){
+    m = setInterval(dataMap, 60000);
+}else{
+    clearTimeout(m)
 }
 function dataMap() {
     $.ajax({
@@ -1728,7 +1720,6 @@ function dataMap() {
             $.cookie('id',null);
             var result = JSON.parse(result);
             var point = result.data;
-            console.log(point)
             if (point != undefined && point.length > 0) {
                 // 百度地图API功能
                 var map = new BMap.Map("allmap");// 创建Map实例
@@ -1747,7 +1738,7 @@ function dataMap() {
                         imageSize: new BMap.Size(32, 32), // 引用图片实际大小　
                     }
                 );
-                var len = point.length;
+                
                 var longitude = [], latitude = [], vehicleID = [], alarm = [];
                 for (var i = 0; i < point.length; i++) {
                     //获取每个无人机的位置信息及无人机的捆包号信息，位置信息用来在地图上显示无人机，捆包号用来通过捆包号查询无人机详细信息，以在鼠标滑过此无人机时显示无人机的详细信息。
@@ -1756,7 +1747,7 @@ function dataMap() {
                     vehicleID[i] = point[i].id;//id号
                     alarm[i] = point[i].serialNum;//报警标志信息
                     var goodsId, goodsName, goodsAlt;
-                    map.panTo(new BMap.Point(point[i].lGPS_lon, point[i].lGPS_lat));	//将地图的中心点更改为从接口获取的指定的点。
+                    map.panTo(new BMap.Point(point[i].lGPS_lon, point[i].lGPS_lat));    //将地图的中心点更改为从接口获取的指定的点。
                     /*** 通过无人机捆包号获取无人机详情信息 ***/
                     $.ajax({
                         async: false,
@@ -1988,13 +1979,11 @@ function showTime() {
     var hour = time.getHours();
     var minutes = time.getMinutes();
     var second = time.getSeconds();
-    /*  month<10?month='0'+month:month;  */
     hour < 10 ? hour = '0' + hour : hour;
     minutes < 10 ? minutes = '0' + minutes : minutes;
     second < 10 ? second = '0' + second : second;
     var now_time = year + '年' + month + '月' + date + '日' + ' ' + show_day[day] + '';
     document.getElementById('date').innerHTML = now_time;
-    /* setTimeout("showTime();",1000);  */
 }
 
 showTime();

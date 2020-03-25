@@ -89,6 +89,7 @@ class Index extends CI_Controller
                 $data['alt'] = $this->input->post('alt');
                 $data['speed'] = $this->input->post('speed');
                 $data['video'] = $this->input->post('video');
+                $data['name'] = $this->input->post('name');
                 if ($this->dataIndex->planeSet($data)) {
                     $this->show_message('true', '数据添加成功');
                 } else {
