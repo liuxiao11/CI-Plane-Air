@@ -72,7 +72,7 @@ class dataIndex extends CI_Model
             $PM10aqi = $this->PM10aqi($PM10i);
             $PM2_5aqi = $this->PM2_5aqi($PM2_5i);
             $aqi = [$SO2aqi,$NO2aqi,$COaqi,$PM2_5aqi,$PM10aqi,$O3aqi];
-            $aqix = ['SO2','NO2','CO','PM2_5','PM10','O3'];
+            $aqix = ['SO2','NO2','CO','PM2.5','PM10','O3'];
             $data['aqi'] = $aqi;
             $data['aqix'] = $aqix;
             $data['time'] = $Time;
@@ -235,7 +235,7 @@ class dataIndex extends CI_Model
             $PM10aqi = $this->PM10aqi($PM10i);
             $PM2_5aqi = $this->PM2_5aqi($PM2_5i);
             $aqi = [$SO2aqi,$NO2aqi,$COaqi,$PM2_5aqi,$PM10aqi,$O3aqi];
-            $aqix = ['SO2','NO2','CO','PM2_5','PM10','O3'];
+            $aqix = ['SO2','NO2','CO','PM2.5','PM10','O3'];
             $data['aqi'] = $aqi;
             $data['aqix'] = $aqix;
             $data['time'] = $Time;
@@ -525,7 +525,7 @@ class dataIndex extends CI_Model
     public function planeOnSelect()
     {
         $where = date('Y-m-d');
-        $data = $this->db->query('select p.* from  (select a.*,l.productType from airdectectpack as a INNER JOIN plane as l ON a.productID = l.productId where `recDAY` = ' . '"' . $where . '"' . ' and uPM2_5 < 500  ORDER BY recTime DESC LIMIT 999999 ) as p group by p.productID ')->result_array();//正在飞行中无人机信息
+        $data = $this->db->query('select p.* from  (select a.*,l.productType from airdectectpack as a INNER JOIN plane as l ON a.productID = l.productId where `recDAY` = ' . '"' . $where . '"' . ' and uPM2_5 < 500   ORDER BY recTime DESC LIMIT 999999 ) as p group by p.productID ')->result_array();//正在飞行中无人机信息
         if ($data) {
             return $data;
         } else {

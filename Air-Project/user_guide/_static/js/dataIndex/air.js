@@ -1732,7 +1732,7 @@ function dataMap() {
             if (point != undefined && point.length > 0) {
                 // 百度地图API功能
                 var map = new BMap.Map("allmap");// 创建Map实例
-                map.centerAndZoom(new BMap.Point('西安市'), 12);// 初始化地图,设置中心点坐标和地图级别
+                map.centerAndZoom(new BMap.Point('西安市'), 18);// 初始化地图,设置中心点坐标和地图级别
                 map.enableScrollWheelZoom(true);//开启鼠标滚轮缩放
                 var mapStyle ={
                     features: ["road","building","water","land"],//隐藏地图上的"poi",
@@ -1747,7 +1747,7 @@ function dataMap() {
                         imageSize: new BMap.Size(32, 32), // 引用图片实际大小　
                     }
                 );
-                map.panTo(new BMap.Point(point[0].lGPS_lon, point[0].lGPS_lat));	//将地图的中心点更改为从接口获取的指定的点。
+                var len = point.length;
                 var longitude = [], latitude = [], vehicleID = [], alarm = [];
                 for (var i = 0; i < point.length; i++) {
                     //获取每个无人机的位置信息及无人机的捆包号信息，位置信息用来在地图上显示无人机，捆包号用来通过捆包号查询无人机详细信息，以在鼠标滑过此无人机时显示无人机的详细信息。
@@ -1756,6 +1756,7 @@ function dataMap() {
                     vehicleID[i] = point[i].id;//id号
                     alarm[i] = point[i].serialNum;//报警标志信息
                     var goodsId, goodsName, goodsAlt;
+                    map.panTo(new BMap.Point(point[i].lGPS_lon, point[i].lGPS_lat));	//将地图的中心点更改为从接口获取的指定的点。
                     /*** 通过无人机捆包号获取无人机详情信息 ***/
                     $.ajax({
                         async: false,
@@ -1779,7 +1780,7 @@ function dataMap() {
                                 }
                                 /**** 创建无人机图标，并在地图上显示无人机图标，且鼠标经过无人机图标时，显示无人机的详细信息 ***/
                                 var steelMarker = new BMap.Marker(new BMap.Point(longitude[i], latitude[i]), {icon: myIcon2});	//创建无人机图标
-                                var steelContent = '<div><p style="margin:0;line-height:1.5;font-size:13px;text-indent:2em"><br/>无人机：' + goodsName + '<br/>高度：' + goodsAlt + 'm<br/>' +
+                                var steelContent = '<div><p style="margin:0;line-height:1.5;font-size:13px;text-indent:2em"><br/>无人机：' + goodsName + '<br/>高度：' + goodsAlt/100 + 'm<br/>' +
                                     '<button type="button" onclick="getCars(' + goodsName + ')" style="width: 80px;height: 25px;float: right;background-color: #e9873e;border: none;color: #ffffff">跟踪路径</button></p></div>';//无人机详情弹出框
                                 map.addOverlay(steelMarker); // 将无人机图标添加到地图中
                                 addMouseoverHandler(steelContent, steelMarker); //添加鼠标滑过无人机图标时显示无人机详情的事件
@@ -1801,7 +1802,7 @@ function dataMap() {
                         clearInterval(m)
                         map.clearOverlays();
                         map.panTo(trackMap[trackMap.length - 1]);//将地图的中心点更改为给定的点。
-                        map.setZoom(14);//将视图切换到指定的缩放等级，中心点坐标不变。
+                        map.setZoom(18);//将视图切换到指定的缩放等级，中心点坐标不变。
                         $.ajax({
                             async: false,
                             cache: true,

@@ -76,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     </style>
     <script>
-        WIDGET = {ID: '82iyG2gmyN'};
+        WIDGET = {ID: '8RUMVsdyyt'};
     </script>
     <script type="text/javascript" src="https://apip.weatherdt.com/view/static/js/r.js?v=1111"></script>
 </head>
@@ -115,16 +115,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="plane-img">
                                 <?PHP if( $v['productType'] == "0"){?>
                                     <img  src="<?php echo STATIC_IMG?>dataIndex/plane.png" alt="无人机">
+                                    <div class="plane-title" data-id="<?php echo $v['productID']?>">无人机</div>
                                 <?php }else{?>
-                                <img class="carPlane" src="<?php echo STATIC_IMG?>dataIndex/carPlane.png" alt="无人机"><?php }?>
-                                <div class="plane-title" data-id="<?php echo $v['productID']?>">无人机<?php echo $v['productID']?></div>
-                                </div>
+                                    <img class="carPlane" src="<?php echo STATIC_IMG?>dataIndex/carPlane.png" alt="车载">
+                                    <div class="plane-title" data-id="<?php echo $v['productID']?>">车载<?php echo $v['productID']?></div>
+                                <?php }?>
+                            </div>
                             <div class="plane-text">
                                 <p>湿度：<?php echo $v['uHumidity']?></p>
                                 <p>温度：<?php echo $v['iTempertrue']?></p>
-                                <p>高度：<?php echo $v['nGPS_alt']?>m</p>
-                                </div>
+                                <p>高度：<?php echo $v['nGPS_alt']/100?>m</p>
                             </div>
+                        </div>
                         </li>
                     <?php }?>
                 </ul>

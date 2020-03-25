@@ -232,7 +232,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             '<span class="cric ccolor_r"></span><span>时间:'+startTime+'至'+endTime+'</span>'+
                             '</div>'+
                             '<div>'+
-                            '<span class="cric ccolor_g"></span><span>平均高度:'+alt+'m</span>'+
+                            '<span class="cric ccolor_g"></span><span>平均高度:'+alt/100+'m</span>'+
                             '</div>'+
                             '</div>';
                         div.innerHTML = div1;
