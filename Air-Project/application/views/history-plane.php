@@ -22,10 +22,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-left{display: inline-block;width:384px;position: absolute;left: 30px;top: 64px;}
         .air-left .back{padding-left: 60px;line-height: 40px;background:url(<?php echo STATIC_IMG?>dataIndex/back.png) left top no-repeat;background-size: 40px 40px;font-size: 30px;color: #29c4fd}
         .air-left ul li:nth-child(1){margin-top: 60px}
-        .air-date{width: 260px;height: 60px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) left top no-repeat;background-size: 260px 60px;font-size: 20px;line-height: 60px;margin-top:40px;}
+        .air-date{width: 280px;height: 60px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) left top no-repeat;background-size: 280px 60px;font-size: 20px;line-height: 60px;margin-top:40px;}
         .air-date img{width: 28px;height: 28px;vertical-align: sub;margin-left: 20px;margin-right: 20px}
         .air-date a{color: #b8c5c8}
-        .air-left .active{color: #fff363;background:url(<?php echo STATIC_IMG?>dataIndex/date-active.png) left top no-repeat;background-size: 260px 60px;}
+        .air-left .active{color: #fff363;background:url(<?php echo STATIC_IMG?>dataIndex/date-active.png) left top no-repeat;background-size: 280px 60px;}
         .air-left .active a{color: #fff363}
         .air-center{width: 1442px;height: 928px;background:url(<?php echo STATIC_IMG?>dataIndex/history-border.png) left top no-repeat;background-size: 1442px 928px;    position: absolute;top: 150px;right: 50px;}
         .air-center .center-top {width: 1442px;height: 299px}
@@ -47,8 +47,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         /*气体详情*/
         .airDesBox{float: left;display: none}
         .airBox{margin-left: 20px}
-        .air{width: 460px;height: 460px;margin: 60px 0 0 10px;}
+        .air{width: 460px;height: 460px;margin: 0 0 0 10px;}
         .air-chart{margin: 0 auto;display: block}
+        /*定义航线*/
+        .plane-line{display: none;font-size: 20px;margin-top: 15px}
+        .plane-line input{width: auto;}
     </style>
 </head>
 <body>
@@ -58,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <a href="<?php echo base_url()?>index/indexPage" class="back">返回首页</a>
         <ul>
             <li class="air-date active"><a href="<?php echo base_url()?>index/planeHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机数据查询分析</a></li>
-            <li class="air-date"><a href="<?php echo base_url()?>index/airHis"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">气体车载数据查询分析</a></li>
+            <li class="air-date"><a href="<?php echo base_url()?>index/airHis"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">车载数据查询分析</a></li>
         </ul>
     </div>
     <div class="air-center">
@@ -68,11 +71,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </p>
             <form class="plane-form">
                 <ul>
-                    <li>开始时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="<?php echo date('Y-m-d')?>"></li>
-                    <li>结束时间：<input type="text" class="plane-name" name="time" id="endTime" readonly value="<?php echo date('Y-m-d')?>"></li>
+                    <li>开始时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="<?php echo date('Y-m-d 00:00')?>"></li>
+                    <li>结束时间：<input type="text" class="plane-name" name="time" id="endTime" readonly value="<?php echo date('Y-m-d 00:00')?>"></li>
                     <li class="plane-list">无人机：
                         <?php if(!empty($planeList) && isset($planeList)) foreach ($planeList as $k => $v){?>
-                            <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['productId']?></button>
+                            <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['name']?></button>
                         <?php }?>
                         <button class="submit" id="submit" type="button" >搜索</button>
                     </li>
@@ -80,6 +83,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </form>
         </div>
         <div class="mapPlaneBox" id="mapPlaneBox"><div id="allmap" class="plane-map"></div></div>
+        <div class="plane-line" id="planeLine">定义该段航线名称：<input type="text" name="lineName" id="lineName">
+            <button id="lineSubmit">确定</button></div>
         <!--气体详情弹窗-->
         <div class="airDesBox" id="alert">
             <div class="airBox">
@@ -118,8 +123,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             endDateTimeId="#"+endDateTimeId;
             $(startDateTimeId).datetimepicker({
                 lang:'ch',
-                format: 'Y-m-d',
-                timepicker:false,
+                format: 'Y-m-d H:i',
+                timepicker:true,
                 onChangeDateTime: function(dp, $input) {
                     startDate = $(startDateTimeId).val();
                 },
@@ -132,8 +137,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
             $(endDateTimeId).datetimepicker({
                 lang:'ch',
-                format: 'Y-m-d',
-                timepicker:false,
+                format: 'Y-m-d H:i',
+                timepicker:true,
                 onClose: function(current_time, $input) {
                     endDate = $(endDateTimeId).val();
                     if (startDate > endDate) {
@@ -152,7 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript">
     //搜索
     $('#submit').click(function () {
-        var url="<?php echo base_url() ?>index/planeHis";
+        var url="/index/planeHis";
         var startTime=$("#startTime").val();
         var endTime=$("#endTime").val();
         var planeId=$('.plane-form .active').data('id');
@@ -161,8 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
         var urlData={startTime:startTime,endTime:endTime,planeId:planeId};
         var PointArr;
-        var speed;
-        var alt;
+
         $.ajax({
             type : "post",
             url :url,
@@ -174,7 +178,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 if(res.status === "true"){
                     $('#alert').hide();
                     PointArr = res.data.point;
-                    alt = res.data.alt;
                     var points = [];
                     var pointStart = new BMap.Point(PointArr[0].BLng, PointArr[0].BLat);
                     var pointStartTime = PointArr[0].time;
@@ -184,7 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     var cxt = "/user_guide/_static/images/";
                     var clng,clat;
                     var imei= "";
-                    var map = new BMap.Map("allmap",{minZoom:8,maxZoom:17});     //百度地图对象
+                    var map = new BMap.Map("allmap",{minZoom:8,maxZoom:18});     //百度地图对象
                     var car;   //飞机图标
                     var centerPoint;
                     var timer;     //定时器
@@ -199,6 +202,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             imageSize: new BMap.Size(35,35), // 引用图片实际大小　
                         }
                     );
+                    map.setZoom(18);//将视图切换到指定的缩放等级，中心点坐标不变。
                     for(var i=0;i<PointArr.length;i++){
                         var pointTemp = new BMap.Point(PointArr[i].BLng, PointArr[i].BLat);
                         points.push(pointTemp);
@@ -230,9 +234,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var div1 = '<div class="fleft">'+
                             '<div>'+
                             '<span class="cric ccolor_r"></span><span>时间:'+startTime+'至'+endTime+'</span>'+
-                            '</div>'+
-                            '<div>'+
-                            '<span class="cric ccolor_g"></span><span>平均高度:'+alt/100+'m</span>'+
                             '</div>'+
                             '</div>';
                         div.innerHTML = div1;
@@ -469,6 +470,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象
                         map.openInfoWindow(infoWindow, point); //开启信息窗口
                     }
+                    $('#planeLine').css('display','inline-block');
                 }else{
                     $('#alert').hide();
                     $('#mapPlaneBox').html("<div id='allmap' class='plane-map'><p class='map-p'>没有相关数据...</p></div>");
@@ -476,6 +478,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
     });
+    //定义航线
+    $('#lineSubmit').click(function () {
+        var startTime=$("#startTime").val();
+        var endTime=$("#endTime").val();
+        var planeId=$('.plane-form .active').data('id');
+        var lineName=$("#lineName").val();
+        if(lineName)
+        {
+            var urlData={startTime:startTime,endTime:endTime,planeId:planeId,lineName:lineName};
+            $.ajax({
+                type : "post",
+                url :"/index/planeLine",
+                data : urlData,
+                async : false, //重点
+                dataType:'json',
+                success : function(res){
+                    console.log(res);
+                    if(res.status === "true"){
+                        $("#lineName").val('');
+                        alert('此段航线自定义成功')
+                    }else{
+                        alert('此段航线自定义失败')
+                    }
+                }
+            });
+        }
+    })
 </script>
 </body>
 </html>

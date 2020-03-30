@@ -212,11 +212,15 @@ class Index extends CI_Controller
             $planeId = $this->input->post('planeId');
             if ($startTime && $endTime && $planeId) {
                 $where = array(
-                    "recDAY >= " => $startTime,
-                    "recDAY <= " => $endTime,
-                    "productID = " => $planeId,
+                    "sDAY" => substr($startTime,0,10),
+                    "eDAY" => substr($endTime,0,10),
+                    "productID" => $planeId,
                 );
-                $data = $this->dataIndex->hisPlane($where);
+                $dateTime =array(
+                    'startTime' =>substr($startTime,11),
+                    'endTime' =>substr($endTime,11),
+                );
+                $data = $this->dataIndex->hisPlane($where,$dateTime);
                 if ($data) {
                     $this->show_message('true', '数据查询成功', $data);
                 } else {
@@ -226,41 +230,63 @@ class Index extends CI_Controller
                 $this->show_message('false', '搜索数据为空');
             }
         }
-        $data['planeList'] = $this->dataIndex->planeSelect();
+        $data['planeList'] = $this->dataIndex->plane_Select();
         $this->load->view('history-plane', $data);
     }
-
+    public function planeLine(){
+        if ($this->input->is_ajax_request()) {
+            $lineName = $this->input->post('lineName');
+            $startTime = $this->input->post('startTime');
+            $endTime = $this->input->post('endTime');
+            $planeId = $this->input->post('planeId');
+            if ($lineName) {
+                $info = array(
+                    "lineName" => $lineName,
+                    'startTime' =>$startTime,
+                    'endTime' =>$endTime,
+                    "productID" => $planeId,
+                );
+                $data = $this->dataIndex->planeLine($info);
+                if ($data) {
+                    $this->show_message('true', '数据更新成功', $data);
+                } else {
+                    $this->show_message('false', '数据更新失败', '');
+                }
+            } else {
+                $this->show_message('false', '输入数据为空');
+            }
+        }
+    }
     /**
-     * 历史记录(气体)
+     * 历史记录(车载)
      */
     public function airHis()
     {
         if ($this->input->is_ajax_request()) {
             $startTime = $this->input->post('startTime');
             $endTime = $this->input->post('endTime');
-            $field = $this->input->post('air');
-            foreach ($field as $fk => $fv){
-                if($fv == 'uPM2.5'){
-                    $fv = 'uPM2_5';
-                }
-                $fields[] = $fv;
-            }
-            if ($startTime && $endTime && $fields) {
+            $planeId = $this->input->post('planeId');
+            if ($startTime && $endTime && $planeId) {
                 $where = array(
-                    "startTime" => $startTime,
-                    "endTime" => $endTime,
+                    "sDAY" => substr($startTime,0,10),
+                    "eDAY" => substr($endTime,0,10),
+                    "productID" => $planeId,
                 );
-                $data = $this->dataIndex->hisAir($where, $fields);
+                $dateTime =array(
+                    'startTime' =>substr($startTime,11),
+                    'endTime' =>substr($endTime,11),
+                );
+                $data = $this->dataIndex->hisPlane($where,$dateTime);
                 if ($data) {
                     $this->show_message('true', '数据查询成功', $data);
                 } else {
-                    $this->show_message('true', '未查到相应数据', '');
+                    $this->show_message('false', '未查到相应数据', '');
                 }
             } else {
                 $this->show_message('false', '搜索数据为空');
             }
         }
-        $data['airList'] = $this->dataIndex->airList();
+        $data['planeList'] = $this->dataIndex->carSelect();
         $this->load->view('history-air', $data);
     }
 

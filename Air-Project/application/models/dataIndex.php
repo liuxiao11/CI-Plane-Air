@@ -13,6 +13,7 @@ class dataIndex extends CI_Model
     public $airTable = 'air';
     public $userTable = 'user';
     public $tshTable = 'air_threshold';
+    public $lineTable = 'planeLine';
     public $field = '`CO`,`SO2`,`NO2`,`O3`,`PM2.5`,`PM10`';
     public $airDataPack = 'airdectectpack';
 
@@ -72,10 +73,17 @@ class dataIndex extends CI_Model
             $O3aqi = $this->O3aqi($O3i);
             $PM10aqi = $this->PM10aqi($PM10i);
             $PM2_5aqi = $this->PM2_5aqi($PM2_5i);
-            $aqi = [$SO2aqi,$NO2aqi,$COaqi,$PM2_5aqi,$PM10aqi,$O3aqi];
-            $aqix = ['SO2','NO2','CO','PM2.5','PM10','O3'];
+            $aqi = array(
+                'PM2.5'=>$PM2_5aqi,
+                'PM10'=>$PM10aqi,
+                'CO'=>$COaqi,
+                'O3'=>$O3aqi,
+                'NO2'=>$NO2aqi,
+                'SO2'=>$SO2aqi,
+            );
+            $data['aqiMax']['value'] = max($aqi);
+            $data['aqiMax']['name'] = array_search(max($aqi),$aqi);
             $data['aqi'] = $aqi;
-            $data['aqix'] = $aqix;
             $data['time'] = $Time;
             $data['air'] = $air1;
 
@@ -248,10 +256,18 @@ class dataIndex extends CI_Model
             $O3aqi = $this->O3aqi($O3i);
             $PM10aqi = $this->PM10aqi($PM10i);
             $PM2_5aqi = $this->PM2_5aqi($PM2_5i);
-            $aqi = [$SO2aqi,$NO2aqi,$COaqi,$PM2_5aqi,$PM10aqi,$O3aqi];
-            $aqix = ['SO2','NO2','CO','PM2.5','PM10','O3'];
+            $aqi = array(
+                'PM2.5'=>$PM2_5aqi,
+                'PM10'=>$PM10aqi,
+                'CO'=>$COaqi,
+                'O3'=>$O3aqi,
+                'NO2'=>$NO2aqi,
+                'SO2'=>$SO2aqi,
+            );
+
+            $data['aqiMax']['value'] = max($aqi);
+            $data['aqiMax']['name'] = array_search(max($aqi),$aqi);
             $data['aqi'] = $aqi;
-            $data['aqix'] = $aqix;
             $data['time'] = $Time;
             $data['air'] = $air1;
 
@@ -543,6 +559,32 @@ class dataIndex extends CI_Model
         }
     }
     /**
+     * 无人机
+     * @return bool
+     */
+    public function plane_Select()
+    {
+        $planeStock = $this->db->select('*')->from($this->productStock)->where('productType','0')->get()->result_array();
+        if ($planeStock) {
+            return $planeStock;
+        } else {
+            return '';
+        }
+    }
+    /**
+     * 车载
+     * @return bool
+     */
+    public function carSelect()
+    {
+        $planeStock = $this->db->select('*')->from($this->productStock)->where('productType','1')->get()->result_array();
+        if ($planeStock) {
+            return $planeStock;
+        } else {
+            return '';
+        }
+    }
+    /**
      * 正在飞无人机数据查询
      * @return bool
      */
@@ -700,25 +742,36 @@ class dataIndex extends CI_Model
      * @param $where
      * @return string
      */
-    public function hisPlane($where)
+    public function hisPlane($where,$dataTime)
     {
-        $plane = $this->db->select('DATE_FORMAT( recTime, "%H" ) as time,lGPS_lat,lGPS_lon,recDAY,recTime')->where($where)->group_by('time')->order_by('recTime', 'DESC')->get($this->airDataPack)->result_array();
-        $alt = $this->db->select('DATE_FORMAT( recTime, "%H" ) as time,AVG(nGPS_alt) as nGPS_alt')->where($where)->order_by('recTime', 'DESC')->get($this->airDataPack)->row_array();
+        $start = $dataTime['startTime'];
+        $dayS = $where['sDAY'];
+        $id = $where['productID'];
+        $end = $dataTime['endTime'];
+        $dayD = $where['eDAY'];
+        $plane = $this->db->query("select  DATE_FORMAT(recTime, '%i' ) as time,lGPS_lat,lGPS_lon,recDAY,recTime from  (select a.* from airdectectpack  as a   where `recTime` >= '$start' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayD' and recTime  <= '$end' AND lGPS_lat != '0.000000' and productID = '$id' group by time")->result_array();
         if ($plane) {
             foreach ($plane as $k => $v) {
-                $data['point'][$k]['BLng'] = $v['lGPS_lon'];
-                $data['point'][$k]['BLat'] = $v['lGPS_lat'];
-                $data['point'][$k]['time'] = $v['recDAY'].' '.$v['recTime'];
+                if($v['recTime'] >= $dataTime['startTime'] && $v['recTime'] <= $dataTime['endTime']){
+                    $data['point'][$k]['BLng'] = $v['lGPS_lon'];
+                    $data['point'][$k]['BLat'] = $v['lGPS_lat'];
+                    $data['point'][$k]['time'] = $v['recDAY'].' '.$v['recTime'];
+                }
             }
-            $data['speed'] = sprintf("%01.2f", 0);
-            $data['alt'] = sprintf("%01.2f", $alt['nGPS_alt']);
+
             return $data;
         } else {
             return false;
         }
 
     }
-
+    public function planeLine($data){
+        if ($this->db->insert($this->lineTable, $data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     /**
      * 历史气体数据查询
      * @param $where

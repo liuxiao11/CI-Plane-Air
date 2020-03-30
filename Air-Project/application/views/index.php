@@ -75,6 +75,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
         .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
 
+        .aqi i{
+            width: 38px;
+            height: 44px;
+            margin: 0px 3px;
+            text-align: center;
+            background: url(<?php echo STATIC_IMG?>dataIndex/num-bg.png) no-repeat left top;
+            background-size: contain;display: block;
+            font-size: 20px;line-height: 44px;margin: 5px auto 0}
+        .aqi table{margin-top: 12px}
+        .aqi table tr td{}
     </style>
     <script>
         WIDGET = {ID: '8RUMVsdyyt'};
@@ -93,8 +103,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div id="weather-view-he"></div>
         </div>
         <div class="air air-aqi" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
-            <p class="air-title">AQI指数</p>
-            <div class="air-chart" id="aqi" style="width: 98%;height: 85%"></div>
+            <p class="air-title">实时AQI指数</p>
+            <div class="aqi" >
+                <table width="97%" style="text-align: center;">
+                    <tr>
+                        <td rowspan="2">AQI<i><?php if ($aqi) echo $aqiMax['value']?></i><span style="display: block;margin: 15px 0 10px">首要污染物</span><p><?php echo $aqiMax['name']?></p></td>
+                        <td>PM2.5<i><?php if ($aqi) echo $aqi['PM2.5']?></i></td>
+                        <td>PM10<i><?php if ($aqi) echo $aqi['PM10']?></i></td>
+                        <td>CO<i><?php if ($aqi) echo $aqi['CO']?></i></td>
+                    </tr>
+                    <tr>
+                        <td>O3<i><?php if ($aqi) echo $aqi['O3']?></i></td>
+                        <td>NO2<i><?php if ($aqi) echo $aqi['NO2']?></i></td>
+                        <td>SO2<i><?php if ($aqi) echo $aqi['SO2']?></i></td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="air air-PM10" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
             <p class="air-title">PM10</p>
