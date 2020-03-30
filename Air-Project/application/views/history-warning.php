@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>空气质量监控平台-历史数据（气体）</title>
+    <title>空气质量监控平台-历史数据（气体预警）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/jquery.datetimepicker.min.css" rel="stylesheet">
@@ -43,6 +43,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
         .date-chose{margin-top: 15px;font-size: 18px;color: khaki;}
         .air-list{height: 111px;overflow-y: auto;padding-top: 5px;}
+
+        .air-table{width: 1218px;height: 526px;margin:0px auto 0;font-size: 20px;overflow-y: auto;}
+        .air-table table{width: 95%;text-align: center;border-spacing: 0;border-collapse: collapse;}
+        .air-table table th,td{text-align: center;padding: 8px}
+        .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
+        .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
     </style>
 </head>
 <body>
@@ -52,21 +58,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <a href="<?php echo base_url()?>index/indexPage" class="back">返回首页</a>
         <ul>
             <li class="air-date"><a href="<?php echo base_url()?>index/planeHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机数据查询分析</a></li>
-            <li class="air-date active"><a href="<?php echo base_url()?>index/airHis"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">车载数据查询分析</a></li>
+            <li class="air-date"><a href="<?php echo base_url()?>index/airHis"><img src="<?php echo STATIC_IMG?>dataIndex/carPlane.png" alt="">车载数据查询分析</a></li>
+            <li class="air-date active"><a href="<?php echo base_url()?>index/hisWarning"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">报警记录查询</a></li>
         </ul>
     </div>
     <div class="air-center">
         <div class="center-top">
             <p class="air-title">
-                车载历史数据查看
+                报警历史数据查看
             </p>
             <form action="" class="plane-form">
                 <ul>
                     <li>开始时间：<input type="text" class="datetimepicker" name="time" id="startTime" readonly value="<?php echo date('Y-m-d')?>"></li>
                     <li>结束时间：<input type="text" class="datetimepicker" name="time" id="endTime" readonly value="<?php echo date('Y-m-d')?>"></li>
-                    <li class="air-list">气体：
-                        <?php if(isset($airList) && !empty($airList)) foreach ($airList as $k => $v){?>
-                            <button type="button" class="button" data-name="<?php echo $v['field']?>" data-id="<?php echo 'u'.$v['field']?>"><?php echo $v['field']?></button>
+                    <li class="plane-list">设备：
+                        <?php if(!empty($planeList) && isset($planeList)) foreach ($planeList as $k => $v){?>
+                            <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['name']?></button>
                         <?php }?>
                         <button class="submit" id="submit" type="button" >搜索</button>
                     </li>
@@ -74,7 +81,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </form>
         </div>
         <div class="air-bottom">
-            <div id="airList">
+            <div id="airList" class="air-table">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>设备id</th>
+                        <th>气体名称</th>
+                        <th>采集值</th>
+                        <th>阈值</th>
+                        <th>报警时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -90,49 +110,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
     //选择
     $('.plane-form .button').click(function () {
-        if ($(this).hasClass('active')){
-            $(this).removeClass('active');
-        } else{
-            $(this).addClass('active');
-            // var actLen = $('.plane-form .active').length;
-            // if(actLen > 6){
-            //     $(this).removeClass('active');
-            //     alert('一次最多可选6项')
-            // }
-        }
+        $(this).addClass('active').siblings().removeClass('active');
     });
     //提交
     $('#submit').click(function () {
-        var url="<?php echo base_url() ?>index/airHis";
+        var url="/index/hisWarning";
         var startTime=$("#startTime").val();
         var endTime=$("#endTime").val();
-        var air = [];
-        var airName = [];
-        $('.plane-form .active').each(function () {
-            air.push($(this).data('id'));
-            airName.push($(this).data('name'));
-        });
-        var urlData={startTime:startTime,endTime:endTime,air:air};
+        var planeId=$('.plane-form .active').data('id');
+        if(!planeId){
+            alert('请选择设备');
+        }
+        var urlData={startTime:startTime,endTime:endTime,planeId:planeId};
         $.post(url,urlData,function(result){
-            console.log(result);
+            var res = result.data;
             if(result.status == 'true'){
-                $('#airList').html('');
-                for (var i=0;i<result.data.length;i++){
-                    var str = '<div class="date-chose" id="date">'+result.data[i].time+'</div>';
-                    $('#airList').append(str);
-                    for (var j=0;j<airName.length;j++){
-                        var html ='<div class="air air-'+airName[j]+'">' +
-                            '<p class="air-title">'+airName[j]+'</p>' +
-                            '<div class="air-chart" id="'+airName[j]+'-'+[i]+'" style="width: 95%;height: 88%"></div>' +
-                            '</div>';
-                        $('#airList').append(html);
-                        var airData = [];
-                        for (var x=0;x<result.data[i].air.air.length;x++){
-                            airData.push(result.data[i].air.air[x][airName[j]]);
-                            bluetable(airName[j]+'-'+[i],airName[j],result.data[i].air.Time,airData);
-                        }
-                    }
+                $('#airList table tbody').html('');
+                for (var i=0;i<=res.length;i++){
+                    var html= '<tr>' +
+                        '<td>'+res[i].productID+'</td>' +
+                        '<td>'+res[i].airName+'</td>' +
+                        '<td>'+res[i].airNum+'</td>' +
+                        '<td>'+res[i].airTsh+'</td>' +
+                        '<td>'+res[i].time+'</td>' +
+                        '</tr>';
+                    $('#airList table tbody').append(html);
                 }
+
             }else if(result.status == 'false'){
                 alert(result.tips);
             }

@@ -816,6 +816,41 @@ class dataIndex extends CI_Model
             return $airlist;
         }
     }
+    /*气体预警详情*/
+    public function hisWarning($where)
+    {
+        $air = $this->db->from($this->airDataPack)->where($where)->order_by('recTime', 'DESC')->get()->result_array();//气体信息
+        $airlist = $this->airList();//所有气体名称列表
+        if (!empty($air)) {
+            foreach ($airlist as $key => $val) {
+                if($val['field'] == 'PM2.5'){
+                    $val['field'] = 'PM2_5';
+                    $airdataList[$val['field']] = $val['threshold'];
+                }
+                $airdataList[$val['field']] = $val['threshold'];
+            }
+            $i = 0;
+            foreach ($airdataList as $kk => $vv) {
+                foreach ($air as $kkk => $vvv) {
+                    if (!empty($airdataList[$kk])) {
+                        if ($vvv['u'.$kk] >= $airdataList[$kk]) {
+                            $i++;
+                            $data[$i]['productID'] = $vvv['productID'];
+                            $data[$i]['airName'] = $kk;
+                            $data[$i]['airNum'] = $vvv['u'.$kk];
+                            $data[$i]['airTsh'] = $airdataList[$kk];
+                            $data[$i]['time'] = $vvv['recDAY'].$vvv['recTime'];
+                        }
+                    }
+                }
+            }
+        }
+        if(isset($data) && !empty($data)){
+            return array_values($data);
+        }else{
+            return false;
+        }
+    }
 
     /*气体预警详情*/
     public function warningDis()

@@ -200,7 +200,41 @@ class Index extends CI_Controller
         $data['airList'] = $this->dataIndex->airList();
         $this->load->view('set-air',$data);
     }
+    /*气体预警历史数据*/
+    public function hisWarning()
+    {
 
+        if ($this->input->is_ajax_request()) {
+            $startTime = $this->input->post('startTime');
+            $endTime = $this->input->post('endTime');
+            $planeId = $this->input->post('planeId');
+            if ($startTime && $endTime && $planeId) {
+                $where = array(
+                    "recDAY >= " => $startTime,
+                    "recDAY <= " => $endTime,
+                    "productID" => $planeId,
+                    'uPM2_5 < ' => 500,
+                    'uPM10 < ' => 500,
+                    'uSO2 < ' => 500,
+                    'uCO < ' => 500,
+                    'uO3 < ' => 500,
+                    'uNO2 < ' => 500,
+                );
+
+                $data = $this->dataIndex->hisWarning($where);
+                if ($data) {
+                    $this->show_message('true', '数据查询成功', $data);
+                } else {
+                    $this->show_message('false', '未查到相应数据', '');
+                }
+            } else {
+                $this->show_message('false', '搜索数据为空');
+            }
+        }
+        $data['planeList'] = $this->dataIndex->planeSelect();
+        $this->load->view('history-warning', $data);
+
+    }
     /**
      * 历史记录(无人机)
      */
