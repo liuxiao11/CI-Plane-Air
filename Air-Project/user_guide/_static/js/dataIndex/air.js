@@ -7,6 +7,8 @@ var arrInterval = [];
 var total;
 var plane;
 var dataAir;
+var aqi;
+var aqiMax;
 
 echartsData();
 //定时两秒刷新一条echart数据
@@ -788,6 +790,8 @@ $('#plane-data ul li').on('click',function () {
             if (data.status == 'true') {
                 Time = data.data.time;
                 var dataAir = data.data.air;
+                aqi = data.data.aqi;
+                aqiMax = data.data.aqiMax;
                 var NO2data = [];
                 var PM2data = [];
                 var PM10data = [];
@@ -801,98 +805,9 @@ $('#plane-data ul li').on('click',function () {
                     }
                     //折线图
                     var myChartPM10 = echarts.init(document.getElementById("PM10"));
-                    var myChartaqi = echarts.init(document.getElementById("aqi"));
                     var myChartPM2_5 = echarts.init(document.getElementById("PM2_5"));
                     var myChartCO = echarts.init(document.getElementById("CO"));
 
-                    var optionaqi = {
-                        textStyle: {
-                            color: '#f9fbfb',
-                        },
-                        tooltip: {
-                            trigger: 'axis',
-                            axisPointer: {
-                                type: 'cross',
-                                label: {
-                                    backgroundColor: '#6a7985'
-                                }
-                            }
-                        },
-                        legend: {
-                            itemWidth: 13,
-                            itemHeight: 10,
-                            top: 10,
-                            textStyle: {
-                                fontSize: 10,
-                                color: '#ffffff'
-                            },
-                            data: ['aqi']
-                        },
-                        grid: {
-                            left: '3%',
-                            right: '4%',
-                            bottom: '3%',
-                            containLabel: true
-                        },
-                        xAxis: {
-                            type: 'category',
-                            data: data.data.aqix,
-                            boundaryGap: false,
-                            axisTick:{
-                                show:false,
-                            },
-                            axisLabel:{
-                                color:'#fff'
-                            },
-                            axisLine:{
-                                lineStyle:{
-                                    color:'rgba(12,102,173,.5)',
-                                    width:2,
-                                }
-                            }
-                        },
-                        yAxis: {
-                            type: 'value',
-                            axisTick:{
-                                show:true,//不显示刻度线
-                            },
-                            axisLabel:{
-                                color:'#fff'  //y轴上的字体颜色
-                            },
-                            axisLine:{
-                                lineStyle:{
-                                    width:2,
-                                    color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
-                                }
-                            },
-                            splitLine: {
-                                show: false
-                            }
-                        },
-                        series: [
-                            {
-                                name: 'PM10',
-                                type:'line',
-                                itemStyle: {
-                                    normal: {
-                                        color: '#ffdf81',
-                                    }
-                                },
-                                areaStyle: {
-                                    normal: {
-                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                            offset: 0,
-                                            color: '#ffdf81'
-                                        }, {
-                                            offset: 1,
-                                            color: 'rgba(255,223,129,0.1)'
-                                        }])
-                                    }
-                                },
-                                data: data.data.aqi
-                            }
-                        ]
-                    };
                     var optionPM10 = {
                         textStyle: {
                             color: '#f9fbfb',
@@ -1213,8 +1128,22 @@ $('#plane-data ul li').on('click',function () {
                         ]
                     };
 
+                    $('#aqi').html('');
+                    var htmlAqi = '<table>' +
+                        '<tr>' +
+                        '<td rowspan="2">AQI<i>'+aqiMax["value"]+'</i><span>首要污染物</span><p>'+aqiMax["name"]+'</p></td>' +
+                        '<td>PM2.5<i>'+aqi["PM2.5"]+'</i></td>' +
+                        '<td>PM10<i>'+aqi["PM10"]+'</i></td>' +
+                        '<td>CO<i>'+aqi["CO"]+'</i></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td>O3<i>'+aqi["O3"]+'</i></td>' +
+                        '<td>NO2<i>'+aqi["NO2"]+'</i></td>' +
+                        '<td>SO2<i>'+aqi["SO2"]+'</i></td>' +
+                        '</tr>' +
+                        '</table>';
+                    $('#aqi').append(htmlAqi);
 
-                    myChartaqi.setOption(optionaqi, true);
                     myChartPM10.setOption(optionPM10, true);
                     myChartPM2_5.setOption(optionPM2_5, true);
                     myChartCO.setOption(optionCO, true);
@@ -1222,7 +1151,6 @@ $('#plane-data ul li').on('click',function () {
                     window.onresize = function () {
                         myChartPM10.resize();
                         myChartPM2_5.resize();
-                        myChartaqi.resize();
                         myChartCO.resize();
                         myChartWarning.resize();
                     };
@@ -1510,30 +1438,29 @@ $('#plane-data ul li').on('click',function () {
                     if($.cookie('Time') != Time && $.cookie('Time') != undefined){
                         $.cookie('Time',Time);
                         if (dataAir) {
-                            for (var i = 0; i < dataAir.length; i++) {
+
                                 data0.shift();
                                 data1.shift();
                                 data2.shift();
                                 data0.push(dataAir[i].uSO2);
                                 data1.push(dataAir[i].uNO2);
                                 data2.push(dataAir[i].uO3);
-                            }
-                            for (var t = 0; i < Time.length; t++) {
                                 optionSO2.xAxis[0].data.shift();
                                 optionSO2.xAxis[0].data.push(Time[t]);
                                 optionNO2.xAxis[0].data.shift();
                                 optionNO2.xAxis[0].data.push(Time[t]);
                                 optionO3.xAxis[0].data.shift();
                                 optionO3.xAxis[0].data.push(Time[t]);
-                            }
+                                myChartSO2.setOption(optionSO2);
+                                myChartNO2.setOption(optionNO2);
+                                myChartO3.setOption(optionO3);
                         }
                     }
                 }, 'json');
-
                 myChartSO2.setOption(optionSO2);
-                myChartNO2.setOption(optionNO2, true);
-                myChartO3.setOption(optionO3, true);
-            }, 3000))
+                myChartNO2.setOption(optionNO2);
+                myChartO3.setOption(optionO3);
+            }, 2100))
             window.onresize = function () {
                 myChartSO2.resize();
                 myChartNO2.resize();
@@ -1554,6 +1481,8 @@ function dataIndex() {
             plane = data.data.plane;
             dataAir = data.data.air;
             total = data.data.total;
+            aqi = data.data.aqi;
+            aqiMax = data.data.aqiMax;
             if (dataAir ) {
                 //饼图
                 var myChartWarning = echarts.init(document.getElementById("warning"));
@@ -1602,7 +1531,21 @@ function dataIndex() {
                 $("#dataNums").rollNum({
                     deVal:total
                 });
-
+                $('#aqi').html('');
+                var htmlAqi = '<table>' +
+                    '<tr>' +
+                    '<td rowspan="2">AQI<i>'+aqiMax["value"]+'</i><span>首要污染物</span><p>'+aqiMax["name"]+'</p></td>' +
+                    '<td>PM2.5<i>'+aqi["PM2.5"]+'</i></td>' +
+                    '<td>PM10<i>'+aqi["PM10"]+'</i></td>' +
+                    '<td>CO<i>'+aqi["CO"]+'</i></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>O3<i>'+aqi["O3"]+'</i></td>' +
+                    '<td>NO2<i>'+aqi["NO2"]+'</i></td>' +
+                    '<td>SO2<i>'+aqi["SO2"]+'</i></td>' +
+                    '</tr>' +
+                    '</table>';
+                $('#aqi').append(htmlAqi);
             }
         } else if (data.status == 'false') {
             console.log('暂无数据');

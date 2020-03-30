@@ -83,8 +83,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             background: url(<?php echo STATIC_IMG?>dataIndex/num-bg.png) no-repeat left top;
             background-size: contain;display: block;
             font-size: 20px;line-height: 44px;margin: 5px auto 0}
-        .aqi table{margin-top: 12px}
-        .aqi table tr td{}
+        .aqi table{margin-top: 12px;text-align: center;width: 97%}
+        .aqi table tr td span{display: block;margin: 15px 0 10px}
     </style>
     <script>
         WIDGET = {ID: '8RUMVsdyyt'};
@@ -104,10 +104,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <div class="air air-aqi" ondrop="drop(event,this)" ondragover="allowDrop(event,this)" draggable="true" ondragstart="drag(event,this)">
             <p class="air-title">实时AQI指数</p>
-            <div class="aqi" >
-                <table width="97%" style="text-align: center;">
+            <div class="aqi" id="aqi">
+                <table>
                     <tr>
-                        <td rowspan="2">AQI<i><?php if ($aqi) echo $aqiMax['value']?></i><span style="display: block;margin: 15px 0 10px">首要污染物</span><p><?php echo $aqiMax['name']?></p></td>
+                        <td rowspan="2">AQI<i><?php if ($aqi) echo $aqiMax['value']?></i><span>首要污染物</span><p><?php echo $aqiMax['name']?></p></td>
                         <td>PM2.5<i><?php if ($aqi) echo $aqi['PM2.5']?></i></td>
                         <td>PM10<i><?php if ($aqi) echo $aqi['PM10']?></i></td>
                         <td>CO<i><?php if ($aqi) echo $aqi['CO']?></i></td>
