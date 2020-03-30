@@ -85,6 +85,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             font-size: 20px;line-height: 44px;margin: 5px auto 0}
         .aqi table{margin-top: 12px;text-align: center;width: 97%}
         .aqi table tr td span{display: block;margin: 15px 0 10px}
+
+        .alertPopBoxBg-loader{display:none;position: fixed;bottom: 0;left: 0;top: 0;right: 0;width: 100%;height: 1080px;background-color: rgba(0,0,0,0.6);z-index: 102;}
+        .loader-17 {
+            position: relative;
+            background-color: currentcolor;
+            border-radius: 50%;
+            text-align: center;
+            left: 50%;
+            top: 50%;
+        }
+        .loader-17:after,
+        .loader-17:before {
+            content: "";
+            position: absolute;
+            width: 5.25em;
+            height: 5.25em;
+            border-radius: 50%;
+            opacity: .8;
+        }
+        .loader-17:after {
+            left: -.5em;
+            top: -.25em;
+            background-color: currentcolor;
+            -webkit-transform-origin: .75em 1em;
+            transform-origin: .75em 1em;
+            -webkit-animation: loader-17 1s linear infinite;
+            animation: loader-17 1s linear infinite;
+            opacity: .6;
+        }
+        .loader-17:before {
+            left: -1.25em;
+            top: -.75em;
+            background-color: currentcolor;
+            -webkit-transform-origin: 1.5em 1em;
+            transform-origin: 1.5em 1em;
+            -webkit-animation: loader-17 2s linear infinite;
+            animation: loader-17 2s linear infinite;
+        }
+        @-webkit-keyframes loader-17 {
+            0% {
+                -webkit-transform: rotateZ(0deg) translate3d(0, 0, 0);
+                transform: rotateZ(0deg) translate3d(0, 0, 0);
+            }
+            100% {
+                -webkit-transform: rotateZ(360deg) translate3d(0, 0, 0);
+                transform: rotateZ(360deg) translate3d(0, 0, 0);
+            }
+        }
+        @keyframes loader-17 {
+            0% {
+                -webkit-transform: rotateZ(0deg) translate3d(0, 0, 0);
+                transform: rotateZ(0deg) translate3d(0, 0, 0);
+            }
+            100% {
+                -webkit-transform: rotateZ(360deg) translate3d(0, 0, 0);
+                transform: rotateZ(360deg) translate3d(0, 0, 0);
+            }
+        }
     </style>
     <script>
         WIDGET = {ID: '8RUMVsdyyt'};
@@ -93,6 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <div id="container">
+    <div class="alertPopBoxBg-loader" id="loading"><div class="loader-17"></div></div>
     <div class="top"><div class="air-top" id="upload-img"></div>空气质量监控平台</div>
     <div class="air-left">
         <div class="air-date">

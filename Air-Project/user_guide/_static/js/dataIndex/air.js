@@ -729,6 +729,7 @@ function echartsData() {
 $('#plane-data ul li').eq(0).addClass('active');
 //切换无人机
 $('#plane-data ul li').on('click',function () {
+    $("#loading").show();
     $(this).addClass('active');
     $(this).siblings().removeClass('active');
     var proId = $(this).find('.plane-title').data('id');
@@ -1468,6 +1469,7 @@ $('#plane-data ul li').on('click',function () {
             };
         }
     }, 'json');
+    $("#loading").fadeOut(3000);
 });
 //首页饼图、aqi指数10秒刷新一次
 dataIndex();
