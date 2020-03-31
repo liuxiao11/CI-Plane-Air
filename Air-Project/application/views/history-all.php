@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .center-top .plane-form ul li button:focus{outline:none}
         .air-center .center-top .plane-form ul li .active{box-shadow: 0 0 8px #fcea00;color: #fff363;}
         .air-center .center-top .plane-form .submit{width: 120px !important;height: 40px !important;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 22px;display: block;float: right;padding: 0 !important;color: #d9d9d9;margin-top: -25px;position: relative;z-index: 10;}
-        .air-center .mapPlaneBox{float: left;width: 890px;}
+        .air-center .mapPlaneBox{float: left;width: 100%;}
         .air-center .plane-map{width: 790px;height: 515px;margin:40px 20px 0 90px;border-radius: 25px;}
         .air-center .plane-map .fleft{color: #13227a;font-size: 14px;font-weight: bold}
         .air-center .plane-map .playcss{width: 32px;height: 32px;background:url(<?php echo STATIC_IMG?>dataIndex/action.png) left top no-repeat;background-size: contain}
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .airDesBox{float: left;display: none}
         .airBox{margin-left: 20px}
         .air{width: 460px;height: 460px;margin: 0 0 0 10px;}
-        .air-chart{margin: 0 auto;display: block}
+        .air-chart{margin: 0 auto;display: block;width: 1260px;height: 550px;margin-top: 30px;}
         /*定义航线*/
         .plane-line{display: inline-block;font-size: 20px;margin-top: 15px}
         .plane-line input{width: 210px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
@@ -87,15 +87,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </ul>
             </form>
         </div>
-        <div class="mapPlaneBox" id="mapPlaneBox"><div id="allmap" class="plane-map"></div></div>
-        <div class="plane-line" id="planeLine"></div>
-        <!--气体详情弹窗-->
-        <div class="airDesBox" id="alert">
-            <div class="airBox">
-                <div class="air" id="airBox">
-                </div>
-            </div>
-        </div>
+        <div class="mapPlaneBox" id="mapPlaneBox"><div id="air" class="air-chart">
+
+            </div></div>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
@@ -109,6 +103,182 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/planeMap.js"></script>-->
 <script>
+
+    //饼图
+    var myChartWarning = echarts.init(document.getElementById("air"));
+    var optionW = {
+
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#283b56'
+                    }
+                }
+            },
+            legend: {
+                data:['最新成交价', '预购队列']
+            },
+
+            dataZoom: {
+                show: false,
+                start: 0,
+                end: 100
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    boundaryGap: true,
+                    axisTick:{
+                        show:false,
+                    },
+                    axisLabel:{
+                        color:'#fff'
+                    },
+                    axisLine:{
+                        lineStyle:{
+                            color:'rgba(12,102,173,.5)',
+                            width:2,
+                        }
+                    },
+                    data: (function (){
+                        var now = new Date();
+                        var res = [];
+                        var len = 10;
+                        while (len--) {
+                            res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
+                            now = new Date(now - 2000);
+                        }
+                        return res;
+                    })()
+                },
+                {
+                    type: 'category',
+                    boundaryGap:  true,
+                    axisTick:{
+                        show:false,
+                    },
+                    axisLabel:{
+                        color:'#fff'
+                    },
+                    axisLine:{
+                        lineStyle:{
+                            color:'rgba(12,102,173,.5)',
+                            width:2,
+                        }
+                    },
+                    data: (function (){
+                        var res = [];
+                        var len = 10;
+                        while (len--) {
+                            res.push(10 - len - 1);
+                        }
+                        return res;
+                    })()
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    scale: true,
+                    name: '价格',
+                    max: 30,
+                    min: 0,
+                    boundaryGap: [0.2, 0.2],
+                    axisTick:{
+                        show:true,//不显示刻度线
+                    },
+                    axisLabel:{
+                        color:'#fff'  //y轴上的字体颜色
+                    },
+                    axisLine:{
+                        lineStyle:{
+                            width:2,
+                            color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                },
+                {
+                    type: 'value',
+                    scale: true,
+                    name: '预购量',
+                    max: 1200,
+                    min: 0,
+                    boundaryGap: [0.2, 0.2],
+                    axisTick:{
+                        show:true,//不显示刻度线
+                    },
+                    axisLabel:{
+                        color:'#fff'  //y轴上的字体颜色
+                    },
+                    axisLine:{
+                        lineStyle:{
+                            width:2,
+                            color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+
+                {name: '预购队列',
+                    type: 'bar',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    data: [12,54,88,111],
+                },
+                {name: '预购ass列',
+                    type: 'bar',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    data:  [12,54,88,111],
+
+                },
+                {
+                    name: '最新成交价',
+                    type: 'line',
+                    data:  [12,54,88,111],
+                },
+                {
+                    name: '最新价',
+                    type: 'line',
+                    data:  [12,5344,843,1555],
+                },{
+                    name: '最新成交价',
+                    type: 'line',
+                    data:  [12,54,88,111],
+                },
+                {
+                    name: '最新dda价',
+                    type: 'bar',
+                    data:  [12,5344,843,1555],
+                },{
+                    name: '最新asdas成交价',
+                    type: 'bar',
+                    data:  [12,54,88,111],
+                },
+                {
+                    name: '最新dada价',
+                    type: 'bar',
+                    data:  [12,5344,843,1555],
+                }
+            ]
+        };
+
+
+    myChartWarning.setOption(optionW, true);
+    window.onresize = function () {
+        myChartWarning.resize();
+    };
+
+
     $('#closeBtn').click(function () {
         $('.alertPopBoxBg').hide();
     });
