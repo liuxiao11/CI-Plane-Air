@@ -166,15 +166,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="aqi" id="aqi">
                 <table>
                     <tr>
-                        <td rowspan="2">AQI<i><?php if ($aqi) echo $aqiMax['value']?></i><span>首要污染物</span><p><?php echo $aqiMax['name']?></p></td>
-                        <td>PM2.5<i><?php if ($aqi) echo $aqi['PM2.5']?></i></td>
-                        <td>PM10<i><?php if ($aqi) echo $aqi['PM10']?></i></td>
-                        <td>CO<i><?php if ($aqi) echo $aqi['CO']?></i></td>
+                        <td rowspan="2">AQI<i><?php if (isset($aqiMax)) echo $aqiMax['value']?></i><span>首要污染物</span><p><?php if (isset($aqiMax)) echo $aqiMax['name']?></p></td>
+                        <td>PM2.5<i><?php if (isset($aqi)) echo $aqi['PM2.5']?></i></td>
+                        <td>PM10<i><?php if (isset($aqi)) echo $aqi['PM10']?></i></td>
+                        <td>CO<i><?php if (isset($aqi)) echo $aqi['CO']?></i></td>
                     </tr>
                     <tr>
-                        <td>O3<i><?php if ($aqi) echo $aqi['O3']?></i></td>
-                        <td>NO2<i><?php if ($aqi) echo $aqi['NO2']?></i></td>
-                        <td>SO2<i><?php if ($aqi) echo $aqi['SO2']?></i></td>
+                        <td>O3<i><?php if (isset($aqi)) echo $aqi['O3']?></i></td>
+                        <td>NO2<i><?php if (isset($aqi)) echo $aqi['NO2']?></i></td>
+                        <td>SO2<i><?php if (isset($aqi)) echo $aqi['SO2']?></i></td>
                     </tr>
                 </table>
             </div>

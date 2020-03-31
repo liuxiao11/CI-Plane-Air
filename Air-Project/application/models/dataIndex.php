@@ -816,6 +816,36 @@ class dataIndex extends CI_Model
             return $airlist;
         }
     }
+    /*所有航线名称*/
+    public function lineList($id)
+    {
+        if($id){
+            $lineOne = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,p.name,l.productID from '.$this->lineTable.' as l INNER join '.$this->productStock.' as p on l.productID = p.productId where l.id = '.$id)->row_array();
+            $data['lineOne'] = $lineOne;
+        }else{
+            $air_querylist = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,p.name,l.productID from '.$this->lineTable.' as l INNER join '.$this->productStock.' as p on l.productID = p.productId');
+            $lineOne = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,p.name,l.productID from '.$this->lineTable.' as l INNER join '.$this->productStock.' as p on l.productID = p.productId limit 1')->row_array();
+            $airlist = $air_querylist->result_array();
+            $data['lineList'] = $airlist;
+            $data['lineOne'] = $lineOne;
+        }
+        if (!empty($data)) {
+            return $data;
+        }
+    }
+    /**
+     * 航线数据删除
+     * @param $id
+     * @return bool
+     */
+    public function delLine($id)
+    {
+        if ($this->db->where('id', $id)->delete($this->lineTable)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     /*气体预警详情*/
     public function hisWarning($where)
     {

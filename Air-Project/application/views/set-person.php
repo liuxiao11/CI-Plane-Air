@@ -55,6 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li class="air-date"><a href="<?php echo base_url()?>index/dataSet"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机</a></li>
             <li class="air-date active"><a href="<?php echo base_url()?>index/personSet"><img src="<?php echo STATIC_IMG?>dataIndex/set-person.png" alt="">操作人员</a></li>
             <li class="air-date"><a href="<?php echo base_url()?>index/airSet"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">气体阈值</a></li>
+            <li class="air-date"><a href="<?php echo base_url()?>index/lineSet"><img src="<?php echo STATIC_IMG?>dataIndex/line.png" alt="">航线</a></li>
         </ul>
     </div>
     <div class="air-center">
@@ -111,7 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         // }
     });
     //页面一开始获取当天负责人
-    var url="<?php echo base_url() ?>index/personSet";
+    var url="/index/personSet";
     var week = $('.week ul .active').data('date');
     console.log(week)
     var urlData={week1:week};
@@ -164,7 +165,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $(document).on('click','.close-btn',function () {
         var r = confirm("确认删除嘛?");
         if(r == true){
-            var url="<?php echo base_url() ?>index/delPerson";
+            var url="/index/delPerson";
             var id = $(this).attr('id');
             var urlData={id:id};
             $.post(url,urlData,function(result){

@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>空气质量监控平台-数据设置（气体阈值）</title>
+    <title>空气质量监控平台-数据设置（航线）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/bootstrap.min.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/bootstrap-select.min.css" rel="stylesheet" type="text/css" >
@@ -27,24 +27,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-left .active{color: #fff363;background:url(<?php echo STATIC_IMG?>dataIndex/date-active.png) left top no-repeat;background-size: 260px 60px;}
         .air-left .active a{color: #fff363}
         .air-center{width: 1442px;height: 930px;background:url(<?php echo STATIC_IMG?>dataIndex/center-border.png) left top no-repeat;background-size: 1442px 928px;top: 150px;position: absolute;right: 50px}
-        .air-table{width: 1218px;height: 526px;margin:70px auto 0;font-size: 20px;overflow-y: auto;}
-        .air-table table{width: 95%;text-align: center;border-spacing: 0;border-collapse: collapse;}
-        .air-table table th,td{text-align: center;padding: 8px}
-        .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
-        .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
-        .air-bottom {width: 1442px;position: absolute;top: 659px}
+        .air-center .date{width: 1442px;height: 653px;font-size: 24px;overflow-y: auto}
+        .air-center .date ul{width: 1256px;height: 595px;margin:52px auto 0 }
+        .air-center .date>ul>li{width: 177px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg.png) left top no-repeat;background-size:contain;float: left;margin-left: 60px;text-align: center;line-height: 45px;color: #b8c5c8;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;cursor: pointer}
+        .air-center .date>ul>li.active{width: 177px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg-active.png) left top no-repeat;background-size: cover;color: #fff363}
+        .air-center .date>ul>li:nth-child(1){margin-left: 0;}
+        .air-bottom {width: 1307px;position: absolute;top: 659px}
         .air-bottom .air-title{width: 699px;height: 37px;margin: 20px 0 0 30px;display: inline-block;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff }
         .air-bottom .plane-form{margin: 20px 0 0 90px;font-size: 22px;}
-        .air-bottom .plane-form p{margin: 30px;display: inline-block}
-        .air-bottom .plane-form .bootstrap-select{width: 280px !important;font-size: 20px !important;}
-        .air-bottom .plane-form .bootstrap-select button{font-size: 18px !important;}
-        .air-bottom .plane-form .bootstrap-select .dropdown-menu{font-size: 18px !important;}
-        .air-bottom .plane-form .btn-default{height: 48px!important;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;}
-        .air-bottom .plane-form .btn-default:focus{border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;}
-        .air-bottom .plane-form .btn-default:hover{border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;}
+        .air-bottom .plane-form p{margin: 12px;display: inline-block}
         .air-bottom .plane-form select,input{width: 280px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
         .form-error{color: red;font-size: 16px;display: table-cell;border-radius: 4px}
-        .air-bottom .plane-form .submit{width: 180px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 280px 48px;font-size: 24px;padding: 0;color: #d9d9d9;margin-left: 72px}
+        .air-bottom .plane-form .close-btn{width: 180px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 280px 48px;font-size: 24px;padding: 0;color: #d9d9d9;margin-left: 72px}
     </style>
 </head>
 <body>
@@ -55,56 +49,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <ul>
             <li class="air-date"><a href="<?php echo base_url()?>index/dataSet"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机</a></li>
             <li class="air-date"><a href="<?php echo base_url()?>index/personSet"><img src="<?php echo STATIC_IMG?>dataIndex/set-person.png" alt="">操作人员</a></li>
-            <li class="air-date active"><a href="<?php echo base_url()?>index/airSet"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">气体阈值</a></li>
-            <li class="air-date"><a href="<?php echo base_url()?>index/lineSet"><img src="<?php echo STATIC_IMG?>dataIndex/line.png" alt="">航线</a></li>
-
+            <li class="air-date"><a href="<?php echo base_url()?>index/airSet"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">气体阈值</a></li>
+            <li class="air-date active"><a href="<?php echo base_url()?>index/lineSet"><img src="<?php echo STATIC_IMG?>dataIndex/line.png" alt="">航线</a></li>
         </ul>
     </div>
     <div class="air-center">
-        <div class="air-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>序号</th>
-                        <th>气体名称</th>
-                        <th>气体阈值</th>
-                        <th>更新时间</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php if(isset($airList) && !empty($airList)) foreach ($airList as $k => $v){?>
-                    <tr>
-                        <td><?php echo $v['id']?></td>
-                        <td><?php echo $v['field']?></td>
-                        <td><?php echo $v['threshold']?></td>
-                        <td><?php echo $v['datetime']?></td>
-                    </tr>
+        <div class="date" >
+            <ul>
+                <?php  if(!empty($lineList) && isset($lineList))  foreach ($lineList as $k => $v){?>
+                    <li data-id="<?php echo $v['id']?>"><?php echo $v['lineName']?></li>
                 <?php }?>
-                </tbody>
-            </table>
+            </ul>
         </div>
         <div class="air-bottom">
             <p class="air-title">
-                气体阈值添加
+                航线详情
             </p>
-            <form action="" class="plane-form" method="post" id="userForm" >
-                <p>
-                    气体：
-                    <select  id="main_air" name="main_air" data-placeholder="请输入选择"
-                         class="selectpicker show-tick "  data-size="10"
-                         data-live-search="true" data-validation="selectRequire" title="请输入选择">
-                        <?php if(isset($airList) && !empty($airList)) foreach ($airList as $k => $v){?>
-                            <option value="<?php echo $v['id']?>"><?php echo $v['field']?></option>
-                        <?php }?>
-                    </select>
-                </p>
-                <p>阈值：
-                    <input type="text" id="tsh" data-validation="number" data-validation-allowing="float"  data-validation-error-msg="阈值须为数字">
-                </p>
-                <p>
-                    <input class="submit" id="submit" type="submit" value="更新">
-                </p>
-            </form>
+            <div class="plane-form"  >
+                <p>航线名称：<input type="text" id="lineName" readonly value="<?php echo $lineOne['lineName'] ;?>"></p>
+                <p>设备名称：<input type="text" id="planeName" readonly value="<?php echo $lineOne['name']?>"></p>
+                <p>开始时间：<input type="text" id="startTime" readonly value="<?php echo $lineOne['startTime']?>"></p>
+                <p>结束时间：<input type="text" id="endTime" readonly value="<?php echo $lineOne['endTime']?>"></p>
+                <p><button class="close-btn" id="submit">删除</button></p>
+            </div>
         </div>
     </div>
 </div>
@@ -115,16 +82,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/bootstrap-select.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <script>
-    $.validate({form: '#userForm'});
-    $('.selectpicker').selectpicker();
-    $('#submit').click(function () {
-        if ($('#userForm p').hasClass('has-error')){
-            alert('提交有误');
-        }else{
-            var url="<?php echo base_url() ?>index/airSet";
-            var air=$("#main_air").val();
-            var tsh=$("#tsh").val();
-            var urlData={air:air,tsh:tsh};
+    $('.date>ul>li:first-child').addClass('active');
+    //选择航线
+    $('.date>ul>li').click(function () {
+        $(this).addClass('active').siblings().removeClass('active');
+        var url="/index/lineSet";
+        var date = $('.date ul li.active').data('id');
+        var urlData={id:date};
+        $.post(url,urlData,function(result){
+            var res = result.data.lineOne;
+            if(result.status == 'true'){
+                $('#lineName').val('');
+                $('#planeName').val('');
+                $('#startTime').val('');
+                $('#endTime').val('');
+                $('#lineName').val(res.lineName);
+                $('#planeName').val(res.name);
+                $('#startTime').val(res.startTime);
+                $('#endTime').val(res.endTime);
+            }else if(result.status == 'false'){
+                alert(result.tips);
+            }
+        },"json");
+    });
+    $(document).on('click','#submit',function () {
+        var r = confirm("确认删除嘛?");
+        if(r == true){
+            var url="/index/delLine";
+            var id = $('.date ul li.active').data('id');
+            var urlData={id:id};
             $.post(url,urlData,function(result){
                 console.log(result.status);
                 if(result.status == 'true'){
@@ -135,6 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             },"json");
         }
+
     });
 </script>
 </body>

@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li class="air-date active"><a href="<?php echo base_url()?>index/dataSet"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机</a></li>
             <li class="air-date"><a href="<?php echo base_url()?>index/personSet"><img src="<?php echo STATIC_IMG?>dataIndex/set-person.png" alt="">操作人员</a></li>
             <li class="air-date"><a href="<?php echo base_url()?>index/airSet"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">气体阈值</a></li>
-
+            <li class="air-date"><a href="<?php echo base_url()?>index/lineSet"><img src="<?php echo STATIC_IMG?>dataIndex/line.png" alt="">航线</a></li>
         </ul>
     </div>
     <div class="air-center">

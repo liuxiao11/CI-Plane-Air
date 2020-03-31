@@ -177,7 +177,45 @@ class Index extends CI_Controller
             }
         }
     }
+    /**
+     * 数据设置(航线删除)
+     */
+    public function delLine()
+    {
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post('id')) {
 
+                $id = $this->input->post('id');
+                if ($this->dataIndex->delLine($id)) {
+                    $this->show_message('true', '数据删除成功');
+                } else {
+                    $this->show_message('false', '数据删除失败');
+                }
+            } else {
+                $this->show_message('false', '数据异常');
+            }
+        }
+    }
+    /**
+     * 数据设置(航线)
+     */
+    public function lineSet()
+    {
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post('id')) {
+                $id= $this->input->post('id');
+                if ($data = $this->dataIndex->lineList($id)) {
+                    $this->show_message('true', '数据更新成功',$data);
+                } else {
+                    $this->show_message('false', '数据更新失败');
+                }
+            } else {
+                $this->show_message('false', '数据不能留空');
+            }
+        }
+        $data = $this->dataIndex->lineList($id=0);
+        $this->load->view('set-planeLine',$data);
+    }
     /**
      * 数据设置(气体阈值设置)
      */

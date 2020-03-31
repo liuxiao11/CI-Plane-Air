@@ -37,15 +37,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .center-top .plane-form ul li button:focus{outline:none}
         .air-center .center-top .plane-form ul li .active{box-shadow: 0 0 8px #fcea00;color: #fff363;}
         .air-center .center-top .plane-form .submit{width: 120px;height: 40px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 22px;display: block;float: right;padding: 0;color: #d9d9d9}
-        .air-bottom{padding-left: 75px;height: 555px;overflow-y: auto;margin-right: 52px;margin-top: 10px;}
-        .air{width: 1290px;height: 500px;margin-top: 15px;display: inline-block; margin-right: 10px}
-        .air-chart{margin: 0 auto}
+        .air-bottom{height: 567px;overflow-y: auto;margin-top: 10px;}
         .air .air-title{margin: 11px 0 0 30px;display: inline-block;font-size: 12px}
-        .date-chose{margin-top: 15px;font-size: 18px;color: khaki;}
-        .air-list{height: 111px;overflow-y: auto;padding-top: 5px;}
 
-        .air-table{width: 1218px;height: 526px;margin:0px auto 0;font-size: 20px;overflow-y: auto;}
-        .air-table table{width: 95%;text-align: center;border-spacing: 0;border-collapse: collapse;}
+        .air-table{width: 1280px;height: 565px;margin:0px auto 0;font-size: 20px;overflow-y: auto;}
+        .air-table table{width: 100%;text-align: center;border-spacing: 0;border-collapse: collapse;}
         .air-table table th,td{text-align: center;padding: 8px}
         .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
         .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
@@ -58,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <a href="<?php echo base_url()?>index/indexPage" class="back">返回首页</a>
         <ul>
             <li class="air-date"><a href="<?php echo base_url()?>index/planeHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机数据查询分析</a></li>
-            <li class="air-date"><a href="<?php echo base_url()?>index/airHis"><img src="<?php echo STATIC_IMG?>dataIndex/carPlane.png" alt="">车载数据查询分析</a></li>
+            <li class="air-date"><a href="<?php echo base_url()?>index/airHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-car.png" alt="">车载数据查询分析</a></li>
             <li class="air-date active"><a href="<?php echo base_url()?>index/hisWarning"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">报警记录查询</a></li>
         </ul>
     </div>
