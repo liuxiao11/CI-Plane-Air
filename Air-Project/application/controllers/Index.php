@@ -336,17 +336,15 @@ class Index extends CI_Controller
     {
         if ($this->input->is_ajax_request()) {
             $startTime = $this->input->post('startTime');
-            $endTime = $this->input->post('endTime');
-            $planeId = $this->input->post('planeId');
             $lineId = $this->input->post('lineId');
-            if ($startTime && $endTime && $planeId) {
+            $planeId = $this->input->post('planeId');
+            if ($startTime) {
                 $where = array(
-                    "sDAY" => substr($startTime,0,10),
-                    "eDAY" => substr($endTime,0,10),
+                    "recDAY" => $startTime,
                     "productID" => $planeId,
                     "lineId" => $lineId,
                 );
-                $data = $this->dataIndex->hisAll($where,$startTime,$endTime);
+                $data = $this->dataIndex->hisAll($where);
                 if ($data) {
                     $this->show_message('true', '数据查询成功', $data);
                 } else {
@@ -356,8 +354,20 @@ class Index extends CI_Controller
                 $this->show_message('false', '搜索数据为空');
             }
         }
-        $data['planeList'] = $this->dataIndex->plane_Select();
-        $this->load->view('history-plane', $data);
+
+        $data['planeList'] = $this->dataIndex->planeSelect();
+        $this->load->view('history-all', $data);
+    }
+    public function findLine(){
+        if ($this->input->is_ajax_request()) {
+            $id = $this->input->post('id');
+            $data = $this->dataIndex->lineSelect($id);
+            if($data){
+                $this->show_message('true', '数据查询成功', $data);
+            }else{
+                $this->show_message('false', '未查到相应数据', '');
+            }
+        }
     }
     /**
      * 定义航线

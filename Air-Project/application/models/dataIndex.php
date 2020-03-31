@@ -857,33 +857,34 @@ class dataIndex extends CI_Model
      */
     public function hisAll($where)
     {
-        $joinField = "`" . join("`,`", $field) . "`";
-        $air = $this->db->query('select ' . $joinField . ',`recDAY` from ' . $this->airDataPack . ' where recDAY >=' . '"' . $where['startTime'] . '"' . ' and recDAY <= ' . '"' . $where['endTime'] . '"' . ' and uSO2 < 500 order by recTime DESC')->result_array();
-        if ($air) {
-            foreach ($air as $k => $v) {
-                $time[$k] = $v['recDAY'];
-            }
-            $time1 = array_flip($time);
-            $time = array_keys($time1);
-            foreach ($time as $key => $val) {
-                $data[$key]['time'] = $val;
-//                $air1 = $this->db->query('select ' . $joinField . ',recTime from ' . $this->airDataPack . '  where recDAY = ' . '"' . $val . '"' . ' and uSO2 < 500 order by serialNum DESC')->result_array();
-                $airHour = $this->db->query('select DATE_FORMAT( recTime, "%H" ) as time,
-	AVG(uSO2) as SO2,AVG(uNO2) as NO2,AVG(uCO) AS CO,AVG(uO3) AS O3,AVG(uPM10) AS PM10,AVG(uPM2_5) AS `PM2.5`,recTime from ' . $this->airDataPack . '  where recDAY =  ' . '"' . $val . '"' . ' and uSO2 <500   GROUP BY time order by time DESC ')->result_array();
-                if (!empty($airHour)) {
-                    foreach ($airHour as $kk => $vv) {
-                        $Time[$kk] = $vv['time'].':00';
-                        $air2[] = $vv;
-                    }
-                    $data[$key]['air']['Time'] = $Time;
-                    $data[$key]['air']['air'] = $air2;
-                }
-            }
-            return $data;
+
+        $dayS = $where['recDAY'];
+        $id = $where['productID'];
+        $lineId = $where['lineId'];
+        $line = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l where  l.id = '."'".$lineId."'")->row_array();
+        if ($line) {
+            $sTime = substr($line['startTime'],11);
+            $eTime = substr($line['endTime'],11);
+            $plane = $this->db->query("select DATE_FORMAT( recTime, '%i' ) as time,
+	AVG(uSO2) as SO2,AVG(uNO2) as NO2,AVG(uCO) AS CO,AVG(uO3) AS O3,AVG(uPM10) AS PM10,AVG(uPM2_5) AS `PM2.5`,recTime from $this->airDataPack   WHERE recDAY = '$dayS'  AND lGPS_lat != '0.000000' and productID = '$id' and recTime>='$sTime' and recTime <= '$eTime'   GROUP BY time order by time DESC")->result_array();
+            return $plane;
         } else {
             return false;
         }
 
+    }
+    /**
+     * 标签查询
+     * @return bool
+     */
+    public function lineSelect($id)
+    {
+        $planeStock = $this->db->select('*')->from($this->lineTable)->where('productID',$id)->get()->result_array();
+        if ($planeStock) {
+            return $planeStock;
+        } else {
+            return '';
+        }
     }
     /*所有气体名称*/
     public function airList()
