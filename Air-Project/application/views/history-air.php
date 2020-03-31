@@ -50,9 +50,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air{width: 460px;height: 460px;margin: 0 0 0 10px;}
         .air-chart{margin: 0 auto;display: block}
         /*定义航线*/
-        .plane-line{display: inline-block;font-size: 20px;margin-top: 15px}
-        .plane-line input{width: 210px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
-        .plane-line button{height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;text-align: center;vertical-align: top;}
+        .plane-line{display: block;font-size: 20px;margin-top: -38px;margin-right: 30px;float: right;position: relative;z-index: 10}
+        .plane-line input,select{width: 210px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
+        .plane-line button{height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;text-align: center;vertical-align: top;margin-left: 10px}
         .plane-line a{display: inline-block}
     </style>
 </head>
@@ -85,9 +85,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </li>
                 </ul>
             </form>
+            <div class="plane-line" id="planeLine">添加航线：<select type="text" name="lineName" id="lineName"></select><button id="lineSubmit">确定</button></div>
         </div>
         <div class="mapPlaneBox" id="mapPlaneBox"><div id="allmap" class="plane-map"></div></div>
-        <div class="plane-line" id="planeLine"></div>
         <!--气体详情弹窗-->
         <div class="airDesBox" id="alert">
             <div class="airBox">
@@ -474,10 +474,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         map.openInfoWindow(infoWindow, point); //开启信息窗口
                     }
                     if(res.data.line){
-                        $("#planeLine").html('航线标签：<a href="#" data-id="'+res.data.line.id+'">#'+res.data.line.lineName+'#</a>');
+                        $("#planeLine").html('此段航线标签：<a href="#" data-id="'+res.data.line.id+'">#'+res.data.line.lineName+'#</a>');
                     }else{
-                        $('#planeLine').html('定义此段航线：<input type="text" name="lineName" id="lineName">' +
-                            '<button id="lineSubmit">确定</button>');
+                        $('#planeLine').html('');
+                        $('#planeLine').html('添加航线：<select type="text" name="lineName" id="lineName"></select><button id="lineSubmit">确定</button>');
+                        for(var u=0;u<=res.data.lineList.length;u++) {
+                            var html = '<option value="'+res.data.lineList[u]['id']+'">'+res.data.lineList[u]['lineName']+'</option>';
+                            $('#planeLine select').append(html);
+                        }
                     }
                 }else{
                     $('#alert').hide();
@@ -491,10 +495,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var startTime=$("#startTime").val();
         var endTime=$("#endTime").val();
         var planeId=$('.plane-form .active').data('id');
-        var lineName=$("#lineName").val();
+        var id=$("#lineName").val();
         if(lineName)
         {
-            var urlData={startTime:startTime,endTime:endTime,planeId:planeId,lineName:lineName};
+            var urlData={startTime:startTime,endTime:endTime,planeId:planeId,id:id};
             $.ajax({
                 type : "post",
                 url :"/index/planeLine",
@@ -502,10 +506,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 async : false, //重点
                 dataType:'json',
                 success : function(res){
-                    console.log(res);
                     if(res.status === "true"){
                         $("#lineName").val('');
-                        $("#planeLine").html('航线标签：<a href="#" data-id="'+res.data.id+'">#'+res.data.lineName+'#</a>');
+                        $("#planeLine").html('此段航线标签：<a href="#" data-id="'+res.data.id+'">#'+res.data.lineName+'#</a>');
                         alert('此段航线自定义成功')
                     }else{
                         alert(res.tips)

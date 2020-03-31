@@ -752,6 +752,10 @@ class dataIndex extends CI_Model
         $plane = $this->db->query("select  DATE_FORMAT(recTime, '%i' ) as time,lGPS_lat,lGPS_lon,recDAY,recTime from  (select a.* from airdectectpack  as a   where `recTime` >= '$start' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayD' and recTime  <= '$end' AND lGPS_lat != '0.000000' and productID = '$id' group by time")->result_array();
         if ($plane) {
             $line = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l where l.startTime = '."'".$startTime."'".' and l.endTime = '."'".$endTime."'".' and productID = '."'".$id."'")->row_array();
+            $lineList = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l ')->result_array();
+            if($lineList){
+                $data['lineList'] = $lineList;
+            }
             if($line){
                 $data['line'] = $line;
             }else{
@@ -776,13 +780,11 @@ class dataIndex extends CI_Model
      * @param $data
      * @return bool
      */
-    public function planeLine($data){
-        $line = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l where l.startTime = '."'".$data['startTime']."'".' and l.endTime = '."'".$data['endTime']."'".' and productID = '."'".$data['productID']."'")->row_array();
-        if($line){
-            return 1;
-        }else{
-            if ($this->db->insert($this->lineTable, $data)) {
-                $id = $this->db->insert_id();
+    public function planeLine($data,$id){
+        $pId = $this->db->query('select l.productID,l.lineName from '.$this->lineTable.' as l  where l.id = '.$id)->row_array();
+        if($pId['productID'] == $data['productID']){
+            $this->db->where('id', $id);
+            if ($this->db->update($this->lineTable, $data)) {
                 $lineOne = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,p.name,l.productID from '.$this->lineTable.' as l INNER join '.$this->productStock.' as p on l.productID = p.productId where l.id = '.$id)->row_array();
                 if($lineOne){
                     return $lineOne;
@@ -792,7 +794,26 @@ class dataIndex extends CI_Model
             } else {
                 return false;
             }
+        }else{
+            $info = array(
+                'startTime' =>$data['startTime'],
+                'endTime' =>$data['endTime'],
+                "productID" => $data['productID'],
+                "lineName" => $pId['lineName'],
+            );
+            if ($this->db->insert($this->lineTable, $info)) {
+                $idInset = $this->db->insert_id();
+                $lineOne = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,p.name,l.productID from '.$this->lineTable.' as l INNER join '.$this->productStock.' as p on l.productID = p.productId where l.id = '.$idInset)->row_array();
+                if($lineOne){
+                    return $lineOne;
+                }else{
+                    return false;
+                }
+            } else {
+                return false;
+            }
         }
+
     }
     /**
      * 历史气体数据查询

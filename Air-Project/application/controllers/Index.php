@@ -364,24 +364,19 @@ class Index extends CI_Controller
      */
     public function planeLine(){
         if ($this->input->is_ajax_request()) {
-            $lineName = $this->input->post('lineName');
+            $id = $this->input->post('id');
             $startTime = $this->input->post('startTime');
             $endTime = $this->input->post('endTime');
             $planeId = $this->input->post('planeId');
-            if ($lineName) {
+            if ($id) {
                 $info = array(
-                    "lineName" => $lineName,
                     'startTime' =>$startTime,
                     'endTime' =>$endTime,
                     "productID" => $planeId,
                 );
-                $data = $this->dataIndex->planeLine($info);
+                $data = $this->dataIndex->planeLine($info,$id);
                 if ($data) {
-                    if($data == 1){
-                        $this->show_message('false', '该段航线已被定义');
-                    }else{
-                        $this->show_message('true', '数据更新成功', $data);
-                    }
+                    $this->show_message('true', '标签定义成功', $data);
                 } else {
                     $this->show_message('false', '数据更新失败', '');
                 }

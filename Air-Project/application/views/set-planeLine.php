@@ -12,6 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>空气质量监控平台-数据设置（航线）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
+    <link href="<?php echo STATIC_CSS?>dataIndex/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="<?php echo STATIC_CSS?>dataIndex/bootstrap.min.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/bootstrap-select.min.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
@@ -80,8 +81,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <option value="<?php echo $v['productID']?>"><?php echo $v['name']?></option>
                         <?php }?>
                     </select></p>
-                <p>开始时间：<input type="text" id="startTime"></p>
-                <p>结束时间：<input type="text" id="endTime" ></p>
+                <p>开始时间：<input type="text" id="startTime" readonly value="<?php echo date('Y-m-d 00:00')?>"></p>
+                <p>结束时间：<input type="text" id="endTime" readonly value="<?php echo date('Y-m-d 00:00')?>"></p>
                 <p id="btn"><button class="submit" id="submit">添加</button></p>
             </div>
         </div>
@@ -89,10 +90,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
+<script src="<?php echo STATIC_JS?>dataIndex/jquery.datetimepicker.full.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.form-validator.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/bootstrap-select.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
+<script>
+    /*日期选择*/
+    var modal = (function() {
+        var initDate = function(startDateTimeId,endDateTimeId) {
+            var startDate;
+            var endDate;
+            startDateTimeId="#"+startDateTimeId;
+            endDateTimeId="#"+endDateTimeId;
+            $(startDateTimeId).datetimepicker({
+                lang:'ch',
+                format: 'Y-m-d H:i',
+                timepicker:true,
+                onChangeDateTime: function(dp, $input) {
+                    startDate = $(startDateTimeId).val();
+                },
+                onClose: function(current_time, $input) {
+                    if (startDate > endDate) {
+                        $(startDateTimeId).val(endDate);
+                        startDate=endDate;
+                    }
+                }
+            });
+            $(endDateTimeId).datetimepicker({
+                lang:'ch',
+                format: 'Y-m-d H:i',
+                timepicker:true,
+                onClose: function(current_time, $input) {
+                    endDate = $(endDateTimeId).val();
+                    if (startDate > endDate) {
+                        $(endDateTimeId).val(startDate);
+                        endDate=startDate;
+                    }
+                }
+            });
+        };
+        return {
+            initDate: initDate
+        };
+    })();
+    modal.initDate("startTime","endTime");
+</script>
 <script>
     //选择航线
     $('.date>ul>li').click(function () {
