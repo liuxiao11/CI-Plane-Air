@@ -50,8 +50,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air{width: 460px;height: 460px;margin: 0 0 0 10px;}
         .air-chart{margin: 0 auto;display: block}
         /*定义航线*/
-        .plane-line{display: none;font-size: 20px;margin-top: 15px}
-        .plane-line input{width: auto;}
+        .plane-line{display: inline-block;font-size: 20px;margin-top: 15px}
+        .plane-line input{width: 210px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
+        .plane-line button{height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;text-align: center;vertical-align: top;}
+        .plane-line a{display: inline-block}
     </style>
 </head>
 <body>
@@ -84,8 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </form>
         </div>
         <div class="mapPlaneBox" id="mapPlaneBox"><div id="allmap" class="plane-map"></div></div>
-        <div class="plane-line" id="planeLine">定义该段航线名称：<input type="text" name="lineName" id="lineName">
-            <button id="lineSubmit">确定</button></div>
+        <div class="plane-line" id="planeLine"></div>
         <!--气体详情弹窗-->
         <div class="airDesBox" id="alert">
             <div class="airBox">
@@ -471,7 +472,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象
                         map.openInfoWindow(infoWindow, point); //开启信息窗口
                     }
-                    $('#planeLine').css('display','inline-block');
+                    if(res.data.line){
+                        $("#planeLine").html('航线标签：<a href="#" data-id="'+res.data.line.id+'">#'+res.data.line.lineName+'#</a>');
+                    }else{
+                        $('#planeLine').html('定义此段航线：<input type="text" name="lineName" id="lineName">' +
+                            '<button id="lineSubmit">确定</button>');
+                    }
                 }else{
                     $('#alert').hide();
                     $('#mapPlaneBox').html("<div id='allmap' class='plane-map'><p class='map-p'>没有相关数据...</p></div>");
@@ -480,7 +486,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     });
     //定义航线
-    $('#lineSubmit').click(function () {
+    $(document).on('click','#lineSubmit',function () {
         var startTime=$("#startTime").val();
         var endTime=$("#endTime").val();
         var planeId=$('.plane-form .active').data('id');
@@ -495,12 +501,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 async : false, //重点
                 dataType:'json',
                 success : function(res){
-                    console.log(res);
                     if(res.status === "true"){
                         $("#lineName").val('');
+                        $("#planeLine").html('航线标签：<a href="#" data-id="'+res.data.id+'">#'+res.data.lineName+'#</a>');
                         alert('此段航线自定义成功')
                     }else{
-                        alert('此段航线自定义失败')
+                        alert(res.tips)
                     }
                 }
             });

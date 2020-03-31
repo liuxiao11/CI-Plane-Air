@@ -29,9 +29,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center{width: 1442px;height: 930px;background:url(<?php echo STATIC_IMG?>dataIndex/center-border.png) left top no-repeat;background-size: 1442px 928px;top: 150px;position: absolute;right: 50px}
         .air-center .date{width: 1442px;height: 653px;font-size: 24px;overflow-y: auto}
         .air-center .date ul{width: 1256px;height: 595px;margin:52px auto 0 }
-        .air-center .date>ul>li{width: 177px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg.png) left top no-repeat;background-size:contain;float: left;margin-left: 60px;text-align: center;line-height: 45px;color: #b8c5c8;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;cursor: pointer}
+        .air-center .date>ul>li{width: 177px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg.png) left top no-repeat;background-size:contain;float: left;margin-left: 60px;text-align: center;line-height: 45px;color: #b8c5c8;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;cursor: pointer;margin-bottom: 50px;}
         .air-center .date>ul>li.active{width: 177px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/air-btn-bg-active.png) left top no-repeat;background-size: cover;color: #fff363}
-        .air-center .date>ul>li:nth-child(1){margin-left: 0;}
         .air-bottom {width: 1307px;position: absolute;top: 659px}
         .air-bottom .air-title{width: 699px;height: 37px;margin: 20px 0 0 30px;display: inline-block;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff }
         .air-bottom .plane-form{margin: 20px 0 0 90px;font-size: 22px;}

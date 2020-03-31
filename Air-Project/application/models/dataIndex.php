@@ -742,7 +742,7 @@ class dataIndex extends CI_Model
      * @param $where
      * @return string
      */
-    public function hisPlane($where,$dataTime)
+    public function hisPlane($where,$dataTime,$startTime,$endTime)
     {
         $start = $dataTime['startTime'];
         $dayS = $where['sDAY'];
@@ -751,6 +751,12 @@ class dataIndex extends CI_Model
         $dayD = $where['eDAY'];
         $plane = $this->db->query("select  DATE_FORMAT(recTime, '%i' ) as time,lGPS_lat,lGPS_lon,recDAY,recTime from  (select a.* from airdectectpack  as a   where `recTime` >= '$start' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayD' and recTime  <= '$end' AND lGPS_lat != '0.000000' and productID = '$id' group by time")->result_array();
         if ($plane) {
+            $line = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l where l.startTime = '."'".$startTime."'".' and l.endTime = '."'".$endTime."'".' and productID = '."'".$id."'")->row_array();
+            if($line){
+                $data['line'] = $line;
+            }else{
+                $data['line'] = 0;
+            }
             foreach ($plane as $k => $v) {
                 if($v['recTime'] >= $dataTime['startTime'] && $v['recTime'] <= $dataTime['endTime']){
                     $data['point'][$k]['BLng'] = $v['lGPS_lon'];
@@ -765,11 +771,27 @@ class dataIndex extends CI_Model
         }
 
     }
+    /**
+     * 定义航线
+     * @param $data
+     * @return bool
+     */
     public function planeLine($data){
-        if ($this->db->insert($this->lineTable, $data)) {
-            return true;
-        } else {
-            return false;
+        $line = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l where l.startTime = '."'".$data['startTime']."'".' and l.endTime = '."'".$data['endTime']."'".' and productID = '."'".$data['productID']."'")->row_array();
+        if($line){
+            return 1;
+        }else{
+            if ($this->db->insert($this->lineTable, $data)) {
+                $id = $this->db->insert_id();
+                $lineOne = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,p.name,l.productID from '.$this->lineTable.' as l INNER join '.$this->productStock.' as p on l.productID = p.productId where l.id = '.$id)->row_array();
+                if($lineOne){
+                    return $lineOne;
+                }else{
+                    return false;
+                }
+            } else {
+                return false;
+            }
         }
     }
     /**

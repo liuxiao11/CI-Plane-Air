@@ -292,7 +292,7 @@ class Index extends CI_Controller
                     'startTime' =>substr($startTime,11),
                     'endTime' =>substr($endTime,11),
                 );
-                $data = $this->dataIndex->hisPlane($where,$dateTime);
+                $data = $this->dataIndex->hisPlane($where,$dateTime,$startTime,$endTime);
                 if ($data) {
                     $this->show_message('true', '数据查询成功', $data);
                 } else {
@@ -305,6 +305,10 @@ class Index extends CI_Controller
         $data['planeList'] = $this->dataIndex->plane_Select();
         $this->load->view('history-plane', $data);
     }
+
+    /**
+     * 定义航线
+     */
     public function planeLine(){
         if ($this->input->is_ajax_request()) {
             $lineName = $this->input->post('lineName');
@@ -320,7 +324,11 @@ class Index extends CI_Controller
                 );
                 $data = $this->dataIndex->planeLine($info);
                 if ($data) {
-                    $this->show_message('true', '数据更新成功', $data);
+                    if($data == 1){
+                        $this->show_message('false', '该段航线已被定义');
+                    }else{
+                        $this->show_message('true', '数据更新成功', $data);
+                    }
                 } else {
                     $this->show_message('false', '数据更新失败', '');
                 }
