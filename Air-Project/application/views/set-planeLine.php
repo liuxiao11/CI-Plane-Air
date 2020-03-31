@@ -35,9 +35,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-bottom .air-title{width: 699px;height: 37px;margin: 20px 0 0 30px;display: inline-block;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff }
         .air-bottom .plane-form{margin: 20px 0 0 90px;font-size: 22px;}
         .air-bottom .plane-form p{margin: 12px;display: inline-block}
+        .air-bottom .plane-form .bootstrap-select{width: 280px !important;font-size: 20px !important;}
+        .air-bottom .plane-form .bootstrap-select button{font-size: 18px !important;}
+        .air-bottom .plane-form .bootstrap-select .dropdown-menu{font-size: 18px !important;}
+        .air-bottom .plane-form .btn-default{height: 48px!important;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;}
+        .air-bottom .plane-form .btn-default:focus{border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;}
+        .air-bottom .plane-form .btn-default:hover{border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;}
         .air-bottom .plane-form select,input{width: 280px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
         .form-error{color: red;font-size: 16px;display: table-cell;border-radius: 4px}
-        .air-bottom .plane-form .close-btn{width: 180px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 280px 48px;font-size: 24px;padding: 0;color: #d9d9d9;margin-left: 72px}
+        .air-bottom .plane-form .submit{width: 100px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 280px 48px;font-size: 24px;padding: 0;color: #d9d9d9;margin-left: 10px}
+        .air-bottom .plane-form .del{width: 100px;height: 48px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 280px 48px;font-size: 24px;padding: 0;color: #d9d9d9;margin-left: 10px}
     </style>
 </head>
 <body>
@@ -65,11 +72,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 航线详情
             </p>
             <div class="plane-form"  >
-                <p>航线名称：<input type="text" id="lineName" readonly value="<?php echo $lineOne['lineName'] ;?>"></p>
-                <p>设备名称：<input type="text" id="planeName" readonly value="<?php echo $lineOne['name']?>"></p>
-                <p>开始时间：<input type="text" id="startTime" readonly value="<?php echo $lineOne['startTime']?>"></p>
-                <p>结束时间：<input type="text" id="endTime" readonly value="<?php echo $lineOne['endTime']?>"></p>
-                <p><button class="close-btn" id="submit">删除</button></p>
+                <p>航线名称：<input type="text" id="lineName"  data-validation="length" data-validation-length="2-6" data-validation-error-msg="名称须为2至6个字符"></p>
+                <p>关联设备：<select  id="productID" name="productID"
+                                 class="selectpicker show-tick "  data-size="10"
+                                 data-live-search="true" data-validation="selectRequire" title="请输入选择">
+                        <?php if(isset($lineOne) && !empty($lineOne)) foreach ($lineOne as $k => $v){?>
+                            <option value="<?php echo $v['productID']?>"><?php echo $v['name']?></option>
+                        <?php }?>
+                    </select></p>
+                <p>开始时间：<input type="text" id="startTime"></p>
+                <p>结束时间：<input type="text" id="endTime" ></p>
+                <p id="btn"><button class="submit" id="submit">添加</button></p>
             </div>
         </div>
     </div>
@@ -81,7 +94,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/bootstrap-select.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <script>
-    $('.date>ul>li:first-child').addClass('active');
     //选择航线
     $('.date>ul>li').click(function () {
         $(this).addClass('active').siblings().removeClass('active');
@@ -91,20 +103,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $.post(url,urlData,function(result){
             var res = result.data.lineOne;
             if(result.status == 'true'){
+                $('#btn').html('');
                 $('#lineName').val('');
-                $('#planeName').val('');
+                $('#priductID').val('');
                 $('#startTime').val('');
                 $('#endTime').val('');
                 $('#lineName').val(res.lineName);
-                $('#planeName').val(res.name);
+                $('#productID').val(res.productID);
+                $('.filter-option-inner-inner').text(res.name);
                 $('#startTime').val(res.startTime);
                 $('#endTime').val(res.endTime);
+                $('#btn').append('<button class="submit" id="submit">修改</button><button class="del" id="del">删除</button>')
             }else if(result.status == 'false'){
                 alert(result.tips);
             }
         },"json");
     });
     $(document).on('click','#submit',function () {
+        if ($('#userForm p').hasClass('has-error')){
+            alert('提交有误');
+        }else{
+            var url="/index/lineAdd";
+            var id = $('.date ul li.active').data('id');
+            if(id){
+                id = id;
+            }else{
+                id = 0;
+            }
+            var lineName = $('#lineName').val();
+            var productID = $('#productID').val();
+            var startTime = $('#startTime').val();
+            var endTime = $('#endTime').val();
+            var urlData={lineName:lineName,productID:productID,startTime:startTime,endTime:endTime,id:id};
+            $.post(url,urlData,function(result){
+                console.log(result.status);
+                if(result.status == 'true'){
+                    alert(result.tips);
+                    window.location.reload();
+                }else if(result.status == 'false'){
+                    alert(result.tips);
+                }
+            },"json");
+        }
+    });
+    $(document).on('click','#del',function () {
         var r = confirm("确认删除嘛?");
         if(r == true){
             var url="/index/delLine";
@@ -120,7 +162,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             },"json");
         }
-
     });
 </script>
 </body>

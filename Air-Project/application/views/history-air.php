@@ -64,8 +64,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <ul>
             <li class="air-date"><a href="<?php echo base_url()?>index/planeHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机数据查询分析</a></li>
             <li class="air-date active"><a href="<?php echo base_url()?>index/airHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-car.png" alt="">车载数据查询分析</a></li>
+            <li class="air-date"><a href="<?php echo base_url()?>index/hisAll"><img src="<?php echo STATIC_IMG?>dataIndex/all.png" alt="">综合数据查询分析</a></li>
             <li class="air-date"><a href="<?php echo base_url()?>index/hisWarning"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">报警记录查询</a></li>
-
         </ul>
     </div>
     <div class="air-center">

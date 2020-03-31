@@ -10,12 +10,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>空气质量监控平台-历史数据（无人机）</title>
+    <title>空气质量监控平台-历史数据（综合）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/jquery.datetimepicker.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
-<!--    <script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/px2rem.js"></script>-->
+    <!--    <script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/px2rem.js"></script>-->
     <style>
         /*#container{position:relative;width:100%;height:100%;min-width:1200px;max-width:3840px;min-height:720px;max-height:2160px;}*/
         .air-top{position:absolute;width:100%;height:93px;background:url(<?php echo STATIC_IMG?>dataIndex/top.png) left top no-repeat;background-size: 100% 100%;font-size: 37px;line-height: 93px;text-align: center}
@@ -62,22 +62,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="air-left">
         <a href="<?php echo base_url()?>index/indexPage" class="back">返回首页</a>
         <ul>
-            <li class="air-date active"><a href="<?php echo base_url()?>index/planeHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机数据查询分析</a></li>
+            <li class="air-date"><a href="<?php echo base_url()?>index/planeHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机数据查询分析</a></li>
             <li class="air-date"><a href="<?php echo base_url()?>index/airHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-car.png" alt="">车载数据查询分析</a></li>
-            <li class="air-date"><a href="<?php echo base_url()?>index/hisAll"><img src="<?php echo STATIC_IMG?>dataIndex/all.png" alt="">综合数据查询分析</a></li>
+            <li class="air-date active"><a href="<?php echo base_url()?>index/hisAll"><img src="<?php echo STATIC_IMG?>dataIndex/all.png" alt="">综合数据查询分析</a></li>
             <li class="air-date"><a href="<?php echo base_url()?>index/hisWarning"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">报警记录查询</a></li>
         </ul>
     </div>
     <div class="air-center">
         <div class="center-top">
             <p class="air-title">
-                无人机历史数据查看
+                车载历史数据查看
             </p>
             <form class="plane-form">
                 <ul>
                     <li>开始时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="<?php echo date('Y-m-d 00:00')?>"></li>
                     <li>结束时间：<input type="text" class="plane-name" name="time" id="endTime" readonly value="<?php echo date('Y-m-d 00:00')?>"></li>
-                    <li class="plane-list">无人机：
+                    <li class="plane-list">车载：
                         <?php if(!empty($planeList) && isset($planeList)) foreach ($planeList as $k => $v){?>
                             <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['name']?></button>
                         <?php }?>
@@ -165,7 +165,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var endTime=$("#endTime").val();
         var planeId=$('.plane-form .active').data('id');
         if(!planeId){
-            alert('请选择无人机');
+            alert('请选择车载');
         }
         var urlData={startTime:startTime,endTime:endTime,planeId:planeId};
         var PointArr;
@@ -197,7 +197,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     var index = 0; //记录播放到第几个point
                     // var pointA={BLng:108.9531326294,BLat:34.2935302306};
                     var playBtn;
-                    var ic=cxt+'dataIndex/plane1.png';
+                    var ic=cxt+'dataIndex/carPlane.png';
                     var myIcon2 = new BMap.Icon(
                         ic, // 百度图片
                         new BMap.Size(40,40), // 视窗大小
@@ -455,7 +455,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     var opts = {
                         width: 260,     // 信息窗口宽度
                         height: 134,     // 信息窗口高度
-                        title: "<b>无人机信息</b>", // 信息窗口标题
+                        title: "<b>车载信息</b>", // 信息窗口标题
                         enableMessage: true //设置允许信息窗发送短息
                     };
 
@@ -502,6 +502,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 async : false, //重点
                 dataType:'json',
                 success : function(res){
+                    console.log(res);
                     if(res.status === "true"){
                         $("#lineName").val('');
                         $("#planeLine").html('航线标签：<a href="#" data-id="'+res.data.id+'">#'+res.data.lineName+'#</a>');

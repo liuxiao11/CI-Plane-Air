@@ -217,6 +217,30 @@ class Index extends CI_Controller
         $this->load->view('set-planeLine',$data);
     }
     /**
+     * 数据设置(航线添加)
+     */
+    public function lineAdd()
+    {
+        if ($this->input->is_ajax_request()) {
+            if ($this->input->post('lineName')) {
+                $data['lineName'] = $this->input->post('lineName');
+                $data['productID'] = $this->input->post('productID');
+                $data['startTime'] = $this->input->post('startTime');
+                $data['endTime'] = $this->input->post('endTime');
+                $id = $this->input->post('id');
+                if ($this->dataIndex->lineAdd($data,$id)) {
+                    $this->show_message('true', '数据更新成功');
+                } else {
+                    $this->show_message('false', '数据更新失败');
+                }
+            } else {
+                $this->show_message('false', '数据不能留空');
+            }
+        }
+        $data['airList'] = $this->dataIndex->airList();
+        $this->load->view('set-air',$data);
+    }
+    /**
      * 数据设置(气体阈值设置)
      */
     public function airSet()
@@ -305,7 +329,36 @@ class Index extends CI_Controller
         $data['planeList'] = $this->dataIndex->plane_Select();
         $this->load->view('history-plane', $data);
     }
-
+    /**
+     * 历史记录(综合数据)
+     */
+    public function hisAll()
+    {
+        if ($this->input->is_ajax_request()) {
+            $startTime = $this->input->post('startTime');
+            $endTime = $this->input->post('endTime');
+            $planeId = $this->input->post('planeId');
+            $lineId = $this->input->post('lineId');
+            if ($startTime && $endTime && $planeId) {
+                $where = array(
+                    "sDAY" => substr($startTime,0,10),
+                    "eDAY" => substr($endTime,0,10),
+                    "productID" => $planeId,
+                    "lineId" => $lineId,
+                );
+                $data = $this->dataIndex->hisAll($where,$startTime,$endTime);
+                if ($data) {
+                    $this->show_message('true', '数据查询成功', $data);
+                } else {
+                    $this->show_message('false', '未查到相应数据', '');
+                }
+            } else {
+                $this->show_message('false', '搜索数据为空');
+            }
+        }
+        $data['planeList'] = $this->dataIndex->plane_Select();
+        $this->load->view('history-plane', $data);
+    }
     /**
      * 定义航线
      */
