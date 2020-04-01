@@ -198,7 +198,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 magicType: {
                                     type: ['line', 'bar']
                                 },  //切换为折线图，切换为柱状图
-                                saveAsImage: {}   //保存为图片
+                                saveAsImage: {
+                                    name:"气体数据图",
+                                    type:"jpeg",
+                                    backgroundColor:"rgba(0,0,0,.5)",
+                                }   //保存为图片
                             },
                             right:"100px",
                         },
@@ -225,7 +229,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 },
                                 axisLine: {
                                     lineStyle: {
-                                        color:'rgba(225,225,225,.5)',
+                                        color:'#eee',
                                         width: 1,
                                     }
                                 }
@@ -237,7 +241,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 axisLine:{
                                     lineStyle:{
                                         width:1,
-                                        color:'rgba(225,225,225,.5)',//y轴的轴线的宽度和颜色
+                                        color:'#eee',//y轴的轴线的宽度和颜色
                                     }
                                 },
                                 splitLine: {
