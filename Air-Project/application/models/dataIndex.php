@@ -866,8 +866,22 @@ class dataIndex extends CI_Model
             $sTime = substr($line['startTime'],11);
             $eTime = substr($line['endTime'],11);
             $plane = $this->db->query("select DATE_FORMAT( recTime, '%i' ) as time,
-	AVG(uSO2) as SO2,AVG(uNO2) as NO2,AVG(uCO) AS CO,AVG(uO3) AS O3,AVG(uPM10) AS PM10,AVG(uPM2_5) AS `PM2.5`,recTime from $this->airDataPack   WHERE recDAY = '$dayS'  AND lGPS_lat != '0.000000' and productID = '$id' and recTime>='$sTime' and recTime <= '$eTime'   GROUP BY time order by time DESC")->result_array();
-            return $plane;
+	AVG(uSO2) as SO2,AVG(uNO2) as NO2,AVG(uCO) AS CO,AVG(uO3) AS O3,AVG(uPM10) AS PM10,AVG(uPM2_5) AS `PM2.5`,recTime from $this->airDataPack   WHERE recDAY = '$dayS'  AND lGPS_lat != '0.000000' and productID = '$id' and recTime>='$sTime' and recTime <= '$eTime'   GROUP BY time order by time asc ")->result_array();
+            foreach ($plane as $k => $v){
+                $data['SO2'][] = intval($v['SO2']);
+                $data['NO2'][] = intval($v['NO2']);
+                $data['CO'][] = intval($v['CO']);
+                $data['O3'][] = intval($v['O3']);
+                $data['PM10'][] = intval($v['PM10']);
+                $data['PM2.5'][] = intval($v['PM2.5']);
+                $data['recTime'][] = substr($v['recTime'],0,5);
+                $data['time'][] = $v['time'];
+            }
+            $airList = $this->airList();
+            foreach ($airList as $ak => $av){
+                $data['airList'][] = $av['field'];
+            }
+            return $data;
         } else {
             return false;
         }

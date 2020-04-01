@@ -44,11 +44,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .map-border{width: 1248px;height: 553px;position: absolute;z-index:1;background:url(<?php echo STATIC_IMG?>dataIndex/map-border.png) left top no-repeat;    background-size: 1248px 553px;left: 503px;}
         .plane-list{height: 50px;overflow-y: auto;padding-top: 5px;}
         .map-p{margin: 80px auto 0; font-size: 18px;text-align: center}
-        /*气体详情*/
-        .airDesBox{float: left;display: none}
-        .airBox{margin-left: 20px}
-        .air{width: 460px;height: 460px;margin: 0 0 0 10px;}
-        .air-chart{margin: 0 auto;display: block;width: 1260px;height: 550px;margin-top: 30px;}
+
+        .air-chart{margin: 0 auto;display: block;width: 100%;height: 550px;margin-top: 30px;}
         /*定义航线*/
         .plane-line{display: inline-block;font-size: 20px;margin-top: 15px}
         .plane-line input{width: 210px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
@@ -103,181 +100,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/planeMap.js"></script>-->
 <script>
-
-    //饼图
-    var myChartWarning = echarts.init(document.getElementById("air"));
-    var optionW = {
-
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'cross',
-                    label: {
-                        backgroundColor: '#283b56'
-                    }
-                }
-            },
-            legend: {
-                data:['最新成交价', '预购队列']
-            },
-
-            dataZoom: {
-                show: false,
-                start: 0,
-                end: 100
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    boundaryGap: true,
-                    axisTick:{
-                        show:false,
-                    },
-                    axisLabel:{
-                        color:'#fff'
-                    },
-                    axisLine:{
-                        lineStyle:{
-                            color:'rgba(12,102,173,.5)',
-                            width:2,
-                        }
-                    },
-                    data: (function (){
-                        var now = new Date();
-                        var res = [];
-                        var len = 10;
-                        while (len--) {
-                            res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
-                            now = new Date(now - 2000);
-                        }
-                        return res;
-                    })()
-                },
-                {
-                    type: 'category',
-                    boundaryGap:  true,
-                    axisTick:{
-                        show:false,
-                    },
-                    axisLabel:{
-                        color:'#fff'
-                    },
-                    axisLine:{
-                        lineStyle:{
-                            color:'rgba(12,102,173,.5)',
-                            width:2,
-                        }
-                    },
-                    data: (function (){
-                        var res = [];
-                        var len = 10;
-                        while (len--) {
-                            res.push(10 - len - 1);
-                        }
-                        return res;
-                    })()
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    scale: true,
-                    name: '价格',
-                    max: 30,
-                    min: 0,
-                    boundaryGap: [0.2, 0.2],
-                    axisTick:{
-                        show:true,//不显示刻度线
-                    },
-                    axisLabel:{
-                        color:'#fff'  //y轴上的字体颜色
-                    },
-                    axisLine:{
-                        lineStyle:{
-                            width:2,
-                            color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
-                        }
-                    },
-                    splitLine: {
-                        show: false
-                    }
-                },
-                {
-                    type: 'value',
-                    scale: true,
-                    name: '预购量',
-                    max: 1200,
-                    min: 0,
-                    boundaryGap: [0.2, 0.2],
-                    axisTick:{
-                        show:true,//不显示刻度线
-                    },
-                    axisLabel:{
-                        color:'#fff'  //y轴上的字体颜色
-                    },
-                    axisLine:{
-                        lineStyle:{
-                            width:2,
-                            color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
-                        }
-                    },
-                    splitLine: {
-                        show: false
-                    }
-                }
-            ],
-            series: [
-
-                {name: '预购队列',
-                    type: 'bar',
-                    xAxisIndex: 1,
-                    yAxisIndex: 1,
-                    data: [12,54,88,111],
-                },
-                {name: '预购ass列',
-                    type: 'bar',
-                    xAxisIndex: 1,
-                    yAxisIndex: 1,
-                    data:  [12,54,88,111],
-
-                },
-                {
-                    name: '最新成交价',
-                    type: 'line',
-                    data:  [12,54,88,111],
-                },
-                {
-                    name: '最新价',
-                    type: 'line',
-                    data:  [12,5344,843,1555],
-                },{
-                    name: '最新成交价',
-                    type: 'line',
-                    data:  [12,54,88,111],
-                },
-                {
-                    name: '最新dda价',
-                    type: 'bar',
-                    data:  [12,5344,843,1555],
-                },{
-                    name: '最新asdas成交价',
-                    type: 'bar',
-                    data:  [12,54,88,111],
-                },
-                {
-                    name: '最新dada价',
-                    type: 'bar',
-                    data:  [12,5344,843,1555],
-                }
-            ]
-        };
-
-
-    myChartWarning.setOption(optionW, true);
-    window.onresize = function () {
-        myChartWarning.resize();
-    };
-
 
     $('#closeBtn').click(function () {
         $('.alertPopBoxBg').hide();
@@ -347,7 +169,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var startTime=$("#startTime").val();
         var lineId=$('#line button.active').data('id');
         var planeId=$('#plane button.active').data('id');
-        console.log(planeId)
         if(!planeId){
             alert('请选择设备');
         }
@@ -362,7 +183,112 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             success : function(res){
                 console.log(res)
                 if(res.status === "true"){
+                    //综合图
+                    var myChartWarning = echarts.init(document.getElementById("air"));
+                    var optionW = {
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'cross',
+                                label: {
+                                    backgroundColor: '#283b56'
+                                }
+                            }
+                        },
+                        toolbox: {
+                            show: true,
+                            feature: {
+                                magicType: {
+                                    type: ['line', 'bar']
+                                },  //切换为折线图，切换为柱状图
+                                saveAsImage: {}   //保存为图片
+                            },
+                            right:"100px",
+                        },
+                        calculable: true,
+                        legend: {
+                            data:res.data.airList,
+                            textStyle: {
+                                fontSize: 10,
+                                color: '#ffffff'
+                            },
+                        },
 
+                        dataZoom: {
+                            show: true,
+                            start:0,
+                            end:20
+                        },
+                        xAxis: [
+                            {
+                                type: 'category',
+                                data: res.data.recTime,
+                                axisTick: {
+                                    alignWithLabel: true,
+                                },
+                                axisLine: {
+                                    lineStyle: {
+                                        color:'rgba(225,225,225,.5)',
+                                        width: 1,
+                                    }
+                                }
+                            }
+                        ],
+                        yAxis: [
+                            {
+                                type: 'value',
+                                axisLine:{
+                                    lineStyle:{
+                                        width:1,
+                                        color:'rgba(225,225,225,.5)',//y轴的轴线的宽度和颜色
+                                    }
+                                },
+                                splitLine: {
+                                    show: true,
+                                    lineStyle: {
+                                        color: ['#231e40'],
+                                        width: 1,
+                                        type: 'solid'
+                                    }
+                                }
+                            }
+
+                        ],
+                        series: [
+                            {name: 'CO',
+                                type: 'bar',
+                                data: res.data.CO,
+                            },
+                            {name: 'SO2',
+                                type: 'bar',
+                                data:  res.data.SO2,
+
+                            },
+                            {
+                                name: 'NO2',
+                                type: 'bar',
+                                data:  res.data.NO2,
+                            },
+                            {
+                                name: 'O3',
+                                type: 'bar',
+                                data:  res.data.O3,
+                            },{
+                                name: 'PM2.5',
+                                type: 'bar',
+                                data:  res.data['PM2.5'],
+                            },
+                            {
+                                name: 'PM10',
+                                type: 'bar',
+                                data:  res.data.PM10,
+                            }
+                        ]
+                    };
+                    myChartWarning.setOption(optionW);
+                    window.onresize = function () {
+                        myChartWarning.resize();
+                    };
                 }else{
                     $('#mapPlaneBox').html("<div id='allmap' class='plane-map'><p class='map-p'>没有相关数据...</p></div>");
                 }
