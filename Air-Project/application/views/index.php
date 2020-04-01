@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-date{width: 388px;height: 59px;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) left top no-repeat;background-size: contain;font-size: 22px;line-height: 59px;margin: 0 auto}
         .air-left .air-date .air-icon{width: 11px;height: 11px;background:url(<?php echo STATIC_IMG?>dataIndex/icon.png) left top no-repeat;background-size: contain;vertical-align:middle;margin-left: 11px}
         .air{width: 415px;height: 226px;background:url(<?php echo STATIC_IMG?>dataIndex/air-border1.png) left top no-repeat;background-size: contain;margin: 20px auto;overflow:hidden }
-        .air object{width: 430px;height: 243px;overflow:hidden;margin: 0 auto;display: block; }
+        .air object{width: 376px;height: 184px;overflow:hidden;margin: 0 auto;display: block;margin-top: 10px; }
         .air #allmap{width: 377px;height: 163px;margin: 17px 15px 0;}
         .air.air-CO #allmap{width: 377px;height: 163px;margin: 0 15px 0;}
         .air:last-child{margin-bottom: 0}
@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .info1 .air-title{margin: 8px 0 0 20px;display: inline-block;font-size: 14px}
         .info1 #choice_url{float: right;margin-right: 15px;margin-top: 21px;border: 1px solid #838383;background-color: #0d3154;color: #FFFFFF;height: 30px}
         .air-right .number{width: 318px;height: 50px;margin:20px auto 10px ;text-align: center;font-size: 16px;}
-        .air-right .plane-person{width: 380px;height: 259px;margin:30px auto 0 ;font-size: 14px;}
+        .info1 .plane-person{width: 380px;height: 259px;margin:30px auto 0 ;font-size: 14px;}
         .air-right .plane-map{width: 374px;height: 259px;margin: 0 auto;top: 22px;}
         /*弹窗*/
         .alertPopBoxBg{display:none;position: fixed;bottom: 0;left: 0;top: 0;right: 0;width: 100%;height: 1080px;background-color: rgba(0,0,0,0.6);z-index: 102;}
@@ -75,54 +75,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-table table thead tr{background-color: rgba(78,166,255,0.3)}
         .air-table table tbody tr:nth-child(even){background-color: rgba(78,166,255,0.1)}
 
-        .aqi i{
-            width: 38px;
-            height: 44px;
-            margin: 0px 3px;
-            text-align: center;
-            background: url(<?php echo STATIC_IMG?>dataIndex/num-bg.png) no-repeat left top;
-            background-size: contain;display: block;
-            font-size: 20px;line-height: 44px;margin: 5px auto 0}
-        .aqi table{margin-top: 12px;text-align: center;width: 97%}
-        .aqi table tr td span{display: block;margin: 15px 0 10px}
-
         .alertPopBoxBg-loader{display:none;position: fixed;bottom: 0;left: 0;top: 0;right: 0;width: 100%;height: 1080px;background-color: rgba(0,0,0,0.6);z-index: 102;}
-        .loader-17 {
-            position: relative;
-            background-color: currentcolor;
-            border-radius: 50%;
-            text-align: center;
-            left: 50%;
-            top: 50%;
-        }
+        .loader-17 {position: relative;background-color: currentcolor;border-radius: 50%;text-align: center;left: 50%;top: 50%;}
         .loader-17:after,
-        .loader-17:before {
-            content: "";
-            position: absolute;
-            width: 5.25em;
-            height: 5.25em;
-            border-radius: 50%;
-            opacity: .8;
-        }
-        .loader-17:after {
-            left: -.5em;
-            top: -.25em;
-            background-color: currentcolor;
-            -webkit-transform-origin: .75em 1em;
-            transform-origin: .75em 1em;
-            -webkit-animation: loader-17 1s linear infinite;
-            animation: loader-17 1s linear infinite;
-            opacity: .6;
-        }
-        .loader-17:before {
-            left: -1.25em;
-            top: -.75em;
-            background-color: currentcolor;
-            -webkit-transform-origin: 1.5em 1em;
-            transform-origin: 1.5em 1em;
-            -webkit-animation: loader-17 2s linear infinite;
-            animation: loader-17 2s linear infinite;
-        }
+        .loader-17:before {content: "";position: absolute;width: 5.25em;height: 5.25em;border-radius: 50%;opacity: .8;}
+        .loader-17:after {left: -.5em;top: -.25em;background-color: currentcolor;-webkit-transform-origin: .75em 1em;transform-origin: .75em 1em;-webkit-animation: loader-17 1s linear infinite;animation: loader-17 1s linear infinite;opacity: .6;}
+        .loader-17:before {left: -1.25em;top: -.75em;background-color: currentcolor;-webkit-transform-origin: 1.5em 1em;transform-origin: 1.5em 1em;-webkit-animation: loader-17 2s linear infinite;animation: loader-17 2s linear infinite;}
         @-webkit-keyframes loader-17 {
             0% {
                 -webkit-transform: rotateZ(0deg) translate3d(0, 0, 0);
@@ -143,6 +101,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 transform: rotateZ(360deg) translate3d(0, 0, 0);
             }
         }
+        .aqi i{width: 38px;height: 44px;margin: 0px 3px;text-align: center;display: block;font-size: 20px;line-height: 44px;margin: 5px auto 0}
+        .aqi table{margin-top: 12px;text-align: center;width: 97%}
+        .aqi .bborder{border-bottom: 1px solid rgba(225,225,225,0.5);}
+        .aqi .lborder{border-left: 1px solid rgba(225,225,225,0.5);}
+        .aqi table tr td span{display: block;margin: 10px 0 10px}
+        .aqi table tr td {}
+        .aqi table td em{width: 38px;height: 20px;background-color: #00aa7f;display: inline-block;border-radius: 5px;line-height: 20px;text-align: center}
+        .aqi table td em.liang{background-color: #f5c320;}
+        .aqi table td em.qing{background-color: #ff9c00;}
+        .aqi table td em.zhong{background-color: #cc5547;}
+        .aqi table td em.zhongzhong{background-color: #7c0258;}
+        .aqi table td em.bao{background-color: #340002;}
     </style>
     <script>
         WIDGET = {ID: '8RUMVsdyyt'};
@@ -166,15 +136,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="aqi" id="aqi">
                 <table>
                     <tr>
-                        <td rowspan="2">AQI<i><?php if (isset($aqiMax)) echo $aqiMax['value']?></i><span>首要污染物</span><p><?php if (isset($aqiMax)) echo $aqiMax['name']?></p></td>
-                        <td>PM2.5<i><?php if (isset($aqi)) echo $aqi['PM2.5']?></i></td>
-                        <td>PM10<i><?php if (isset($aqi)) echo $aqi['PM10']?></i></td>
-                        <td>CO<i><?php if (isset($aqi)) echo $aqi['CO']?></i></td>
+                        <td rowspan="2"><em>AQI</em><i><?php if (isset($aqiMax)) echo $aqiMax['value']?></i><span>首要污染物</span><p><?php if (isset($aqiMax)) echo $aqiMax['name']?></p></td>
+                        <td class="bborder"><em class="liang">PM2.5</em><i><?php if (isset($aqi)) echo $aqi['PM2.5']?></i></td>
+                        <td class="bborder"><em>PM10</em><i><?php if (isset($aqi)) echo $aqi['PM10']?></i></td>
+                        <td class="bborder"><em>CO</em><i><?php if (isset($aqi)) echo $aqi['CO']?></i></td>
                     </tr>
                     <tr>
-                        <td>O3<i><?php if (isset($aqi)) echo $aqi['O3']?></i></td>
-                        <td>NO2<i><?php if (isset($aqi)) echo $aqi['NO2']?></i></td>
-                        <td>SO2<i><?php if (isset($aqi)) echo $aqi['SO2']?></i></td>
+                        <td class="lborder"><em>O3</em><i><?php if (isset($aqi)) echo $aqi['O3']?></i></td>
+                        <td class="lborder"><em>NO2</em><i><?php if (isset($aqi)) echo $aqi['NO2']?></i></td>
+                        <td class="lborder"><em>SO2</em><i><?php if (isset($aqi)) echo $aqi['SO2']?></i></td>
                     </tr>
                 </table>
             </div>
@@ -365,6 +335,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 if (data.status == 'true') {
                     Time = data.data.time;
                     var dataAir = data.data.air;
+                    var aqi = data.data.aqi;
+                    var aqiMax = data.data.aqiMax;
+                    var aqiType = data.data.airType;
                     console.log(dataAir)
                     var PM2data = [];
                     var PM10data = [];
@@ -379,95 +352,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var myChartPM10 = echarts.init(document.getElementById("PM10"));
                         var myChartPM2_5 = echarts.init(document.getElementById("PM2_5"));
                         var myChartCO = echarts.init(document.getElementById("CO"));
-                        var myChartaqi = echarts.init(document.getElementById("aqi"));
-                        var optionaqi = {
-                            textStyle: {
-                                color: '#f9fbfb',
-                            },
-                            tooltip: {
-                                trigger: 'axis',
-                                axisPointer: {
-                                    type: 'cross',
-                                    label: {
-                                        backgroundColor: '#6a7985'
-                                    }
-                                }
-                            },
-                            legend: {
-                                itemWidth: 13,
-                                itemHeight: 10,
-                                top: 10,
-                                textStyle: {
-                                    fontSize: 10,
-                                    color: '#ffffff'
-                                },
-                                data: ['aqi']
-                            },
-                            grid: {
-                                left: '3%',
-                                right: '4%',
-                                bottom: '3%',
-                                containLabel: true
-                            },
-                            xAxis: {
-                                type: 'category',
-                                data: data.data.aqix,
-                                boundaryGap: false,
-                                axisTick:{
-                                    show:false,
-                                },
-                                axisLabel:{
-                                    color:'#fff'
-                                },
-                                axisLine:{
-                                    lineStyle:{
-                                        color:'rgba(12,102,173,.5)',
-                                        width:2,
-                                    }
-                                }
-                            },
-                            yAxis: {
-                                type: 'value',
-                                axisTick:{
-                                    show:true,//不显示刻度线
-                                },
-                                axisLabel:{
-                                    color:'#fff'  //y轴上的字体颜色
-                                },
-                                axisLine:{
-                                    lineStyle:{
-                                        width:2,
-                                        color:'rgba(12,102,173,.5)',//y轴的轴线的宽度和颜色
-                                    }
-                                },
-                                splitLine: {
-                                    show: false
-                                }
-                            },
-                            series: [
-                                {
-                                    name: 'PM10',
-                                    type:'line',
-                                    itemStyle: {
-                                        normal: {
-                                            color: '#ffdf81',
-                                        }
-                                    },
-                                    areaStyle: {
-                                        normal: {
-                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                                offset: 0,
-                                                color: '#ffdf81'
-                                            }, {
-                                                offset: 1,
-                                                color: 'rgba(255,223,129,0.1)'
-                                            }])
-                                        }
-                                    },
-                                    data: data.data.aqi
-                                }
-                            ]
-                        };
                         var optionPM10 = {
                             textStyle: {
                                 color: '#f9fbfb',
@@ -751,7 +635,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var myChartPM102 = dis('PM10',myChartPM10);
                         var myChartPM252 = dis('PM2_5',myChartPM2_5);
                         var myChartCO2 = dis('CO',myChartCO);
-                        var myChartaqi2 = dis('aqi',myChartaqi);
 
                         if (myChartPM252){
                             myChartPM252.setOption(optionPM2_5);
@@ -762,16 +645,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         if (myChartPM102){
                             myChartPM102.setOption(optionPM10);
                         }
-                        if (myChartaqi2){
-                            myChartaqi2.setOption(optionaqi);
-                        }
+
                         window.onresize = function () {
                             myChartPM102.resize();
                             myChartPM252.resize();
                             myChartCO2.resize();
-                            myChartaqi2.resize();
                         };
-
+                        $('#aqi').html('');
+                        var htmlAqi = '<table>' +
+                            '<tr>' +
+                            '<td rowspan="2"><em class="'+aqiMax["type"]+'">AQI</em><i>'+aqiMax["value"]+'</i><span>首要污染物</span><p>'+aqiMax["name"]+'</p></td>' +
+                            '<td class="bborder lborder"><em class="'+aqiType['PM2.5']+'">PM2.5</em><i>'+aqi["PM2.5"]+'</i></td>' +
+                            '<td class="bborder lborder"><em class="'+aqiType['PM10']+'">PM10</em><i>'+aqi["PM10"]+'</i></td>' +
+                            '<td class="bborder lborder"><em class="'+aqiType['CO']+'">CO</em><i>'+aqi["CO"]+'</i></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td class="lborder"><em class="'+aqiType['O3']+'">O3</em><i>'+aqi["O3"]+'</i></td>' +
+                            '<td class="lborder"><em class="'+aqiType['NO2']+'">NO2</em><i>'+aqi["NO2"]+'</i></td>' +
+                            '<td class="lborder"><em  class="'+aqiType['SO2']+'">SO2</em><i>'+aqi["SO2"]+'</i></td>' +
+                            '</tr>' +
+                            '</table>';
+                        $('#aqi').append(htmlAqi);
                     }
                 } else if (data.status == 'false') {
                     console.log('暂无数据');

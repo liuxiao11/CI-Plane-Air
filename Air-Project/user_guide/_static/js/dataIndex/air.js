@@ -9,6 +9,7 @@ var plane;
 var dataAir;
 var aqi;
 var aqiMax;
+var aqiType;
 
 echartsData();
 //定时两秒刷新一条echart数据
@@ -793,6 +794,7 @@ $('#plane-data ul li').on('click',function () {
                 var dataAir = data.data.air;
                 aqi = data.data.aqi;
                 aqiMax = data.data.aqiMax;
+                aqiType = data.data.airType;
                 var NO2data = [];
                 var PM2data = [];
                 var PM10data = [];
@@ -1132,15 +1134,15 @@ $('#plane-data ul li').on('click',function () {
                     $('#aqi').html('');
                     var htmlAqi = '<table>' +
                         '<tr>' +
-                        '<td rowspan="2">AQI<i>'+aqiMax["value"]+'</i><span>首要污染物</span><p>'+aqiMax["name"]+'</p></td>' +
-                        '<td>PM2.5<i>'+aqi["PM2.5"]+'</i></td>' +
-                        '<td>PM10<i>'+aqi["PM10"]+'</i></td>' +
-                        '<td>CO<i>'+aqi["CO"]+'</i></td>' +
+                        '<td rowspan="2"><em class="'+aqiMax["type"]+'">AQI</em><i>'+aqiMax["value"]+'</i><span>首要污染物</span><p>'+aqiMax["name"]+'</p></td>' +
+                        '<td class="bborder lborder"><em class="'+aqiType['PM2.5']+'">PM2.5</em><i>'+aqi["PM2.5"]+'</i></td>' +
+                        '<td class="bborder lborder"><em class="'+aqiType['PM10']+'">PM10</em><i>'+aqi["PM10"]+'</i></td>' +
+                        '<td class="bborder lborder"><em class="'+aqiType['CO']+'">CO</em><i>'+aqi["CO"]+'</i></td>' +
                         '</tr>' +
                         '<tr>' +
-                        '<td>O3<i>'+aqi["O3"]+'</i></td>' +
-                        '<td>NO2<i>'+aqi["NO2"]+'</i></td>' +
-                        '<td>SO2<i>'+aqi["SO2"]+'</i></td>' +
+                        '<td class="lborder"><em class="'+aqiType['O3']+'">O3</em><i>'+aqi["O3"]+'</i></td>' +
+                        '<td class="lborder"><em class="'+aqiType['NO2']+'">NO2</em><i>'+aqi["NO2"]+'</i></td>' +
+                        '<td class="lborder"><em  class="'+aqiType['SO2']+'">SO2</em><i>'+aqi["SO2"]+'</i></td>' +
                         '</tr>' +
                         '</table>';
                     $('#aqi').append(htmlAqi);
@@ -1473,7 +1475,7 @@ $('#plane-data ul li').on('click',function () {
 });
 //首页饼图、aqi指数10秒刷新一次
 dataIndex();
-var IndexData = setInterval(dataIndex, 10000);
+// var IndexData = setInterval(dataIndex, 10000);
 function dataIndex() {
     $.post('/index/indexPage', function (data) {
         if (data.status == 'true') {
@@ -1485,6 +1487,7 @@ function dataIndex() {
             total = data.data.total;
             aqi = data.data.aqi;
             aqiMax = data.data.aqiMax;
+            aqiType = data.data.airType;
             if (dataAir ) {
                 //饼图
                 var myChartWarning = echarts.init(document.getElementById("warning"));
@@ -1533,18 +1536,19 @@ function dataIndex() {
                 $("#dataNums").rollNum({
                     deVal:total
                 });
+
                 $('#aqi').html('');
                 var htmlAqi = '<table>' +
                     '<tr>' +
-                    '<td rowspan="2">AQI<i>'+aqiMax["value"]+'</i><span>首要污染物</span><p>'+aqiMax["name"]+'</p></td>' +
-                    '<td>PM2.5<i>'+aqi["PM2.5"]+'</i></td>' +
-                    '<td>PM10<i>'+aqi["PM10"]+'</i></td>' +
-                    '<td>CO<i>'+aqi["CO"]+'</i></td>' +
+                    '<td rowspan="2"><em class="'+aqiMax["type"]+'">AQI</em><i>'+aqiMax["value"]+'</i><span>首要污染物</span><p>'+aqiMax["name"]+'</p></td>' +
+                    '<td class="bborder lborder"><em class="'+aqiType['PM2.5']+'">PM2.5</em><i>'+aqi["PM2.5"]+'</i></td>' +
+                    '<td class="bborder lborder"><em class="'+aqiType['PM10']+'">PM10</em><i>'+aqi["PM10"]+'</i></td>' +
+                    '<td class="bborder lborder"><em class="'+aqiType['CO']+'">CO</em><i>'+aqi["CO"]+'</i></td>' +
                     '</tr>' +
                     '<tr>' +
-                    '<td>O3<i>'+aqi["O3"]+'</i></td>' +
-                    '<td>NO2<i>'+aqi["NO2"]+'</i></td>' +
-                    '<td>SO2<i>'+aqi["SO2"]+'</i></td>' +
+                    '<td class="lborder"><em class="'+aqiType['O3']+'">O3</em><i>'+aqi["O3"]+'</i></td>' +
+                    '<td class="lborder"><em class="'+aqiType['NO2']+'">NO2</em><i>'+aqi["NO2"]+'</i></td>' +
+                    '<td class="lborder"><em  class="'+aqiType['SO2']+'">SO2</em><i>'+aqi["SO2"]+'</i></td>' +
                     '</tr>' +
                     '</table>';
                 $('#aqi').append(htmlAqi);

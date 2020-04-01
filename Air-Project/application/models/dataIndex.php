@@ -75,19 +75,27 @@ class dataIndex extends CI_Model
             $PM10aqi = $this->PM10aqi($PM10i);
             $PM2_5aqi = $this->PM2_5aqi($PM2_5i);
             $aqi = array(
-                'PM2.5'=>$PM2_5aqi,
-                'PM10'=>$PM10aqi,
-                'CO'=>$COaqi,
-                'O3'=>$O3aqi,
-                'NO2'=>$NO2aqi,
-                'SO2'=>$SO2aqi,
+                'PM2.5'=>$PM2_5aqi['PM2_5aqi'],
+                'PM10'=>$PM10aqi['PM10aqi'],
+                'CO'=>$COaqi['COaqi'],
+                'O3'=>$O3aqi['O3aqi'],
+                'NO2'=>$NO2aqi['NO2aqi'],
+                'SO2'=>$SO2aqi['SO2aqi'],
             );
+
             $data['aqiMax']['value'] = max($aqi);
             $data['aqiMax']['name'] = array_search(max($aqi),$aqi);
             $data['aqi'] = $aqi;
             $data['time'] = $Time;
             $data['air'] = $air1;
-
+            $data['airType'] = array(
+                'PM2.5'=>$PM2_5aqi['type'],
+                'PM10'=>$PM10aqi['type'],
+                'CO'=>$COaqi['type'],
+                'O3'=>$O3aqi['type'],
+                'NO2'=>$NO2aqi['type'],
+                'SO2'=>$SO2aqi['type'],
+            );
             foreach ($airlist as $key => $val) {
                 $airList[] = $val['field'];
                 $airdataList[$val['field']] = $val['threshold'];
@@ -258,19 +266,39 @@ class dataIndex extends CI_Model
             $PM10aqi = $this->PM10aqi($PM10i);
             $PM2_5aqi = $this->PM2_5aqi($PM2_5i);
             $aqi = array(
-                'PM2.5'=>$PM2_5aqi,
-                'PM10'=>$PM10aqi,
-                'CO'=>$COaqi,
-                'O3'=>$O3aqi,
-                'NO2'=>$NO2aqi,
-                'SO2'=>$SO2aqi,
+                'PM2.5'=>$PM2_5aqi['PM2_5aqi'],
+                'PM10'=>$PM10aqi['PM10aqi'],
+                'CO'=>$COaqi['COaqi'],
+                'O3'=>$O3aqi['O3aqi'],
+                'NO2'=>$NO2aqi['NO2aqi'],
+                'SO2'=>$SO2aqi['SO2aqi'],
             );
-
             $data['aqiMax']['value'] = max($aqi);
             $data['aqiMax']['name'] = array_search(max($aqi),$aqi);
+            if($data['aqiMax']['value'] > 0 && $data['aqiMax']['value'] <= 50){
+                $data['aqiMax']['type'] = '';
+            }elseif ($data['aqiMax']['value'] > 50 && $data['aqiMax']['value'] <= 100){
+                $data['aqiMax']['type'] = 'liang';
+            }elseif ($data['aqiMax']['value'] > 100 && $data['aqiMax']['value'] <= 150){
+                $data['aqiMax']['type'] = 'qing';
+            }elseif ($data['aqiMax']['value'] > 150 && $data['aqiMax']['value'] <= 200){
+                $data['aqiMax']['type'] = 'zhong';
+            }elseif ($data['aqiMax']['value'] > 200 && $data['aqiMax']['value'] <= 300){
+                $data['aqiMax']['type'] = 'zhongzhong';
+            }elseif ($data['aqiMax']['value']>300){
+                $data['aqiMax']['type'] = 'bao';
+            }
             $data['aqi'] = $aqi;
             $data['time'] = $Time;
             $data['air'] = $air1;
+            $data['airType'] = array(
+                'PM2.5'=>$PM2_5aqi['type'],
+                'PM10'=>$PM10aqi['type'],
+                'CO'=>$COaqi['type'],
+                'O3'=>$O3aqi['type'],
+                'NO2'=>$NO2aqi['type'],
+                'SO2'=>$SO2aqi['type'],
+            );
 
             foreach ($airlist as $key => $val) {
                 $airList[] = $val['field'];
@@ -356,117 +384,129 @@ class dataIndex extends CI_Model
     }
     public function SO2aqi($SO2i){
         if($SO2i >= 0 && $SO2i < 50){
-            $Cl = 0 ;$Ch = 50; $Il = 0; $Ih=50;
+            $Cl = 0 ;$Ch = 50; $Il = 0; $Ih=50;$type = '';
         }elseif($SO2i >= 50 && $SO2i < 150){
-            $Cl = 50 ;$Ch = 150; $Il = 50; $Ih=100;
+            $Cl = 50 ;$Ch = 150; $Il = 50; $Ih=100;$type = 'liang';
         }elseif($SO2i >= 150 && $SO2i < 475){
-            $Cl = 150 ;$Ch = 475; $Il = 100; $Ih=150;
+            $Cl = 150 ;$Ch = 475; $Il = 100; $Ih=150;$type = 'qing';
         }elseif($SO2i >= 475 && $SO2i < 800){
-            $Cl = 475 ;$Ch = 800; $Il = 150; $Ih=200;
+            $Cl = 475 ;$Ch = 800; $Il = 150; $Ih=200;$type = 'zhong';
         }elseif($SO2i >= 800 && $SO2i < 1600){
-            $Cl = 800 ;$Ch = 1600; $Il = 200; $Ih=300;
+            $Cl = 800 ;$Ch = 1600; $Il = 200; $Ih=300;$type = 'zhongzhong';
         }elseif($SO2i >= 1600 && $SO2i < 2100){
-            $Cl = 1600 ;$Ch = 2100; $Il = 300; $Ih=400;
+            $Cl = 1600 ;$Ch = 2100; $Il = 300; $Ih=400;$type = 'bao';
         }else{
-            $Cl = 2100 ;$Ch = 2620; $Il = 400; $Ih=500;
+            $Cl = 2100 ;$Ch = 2620; $Il = 400; $Ih=500;$type = '';
         }
         $SO2aqi = round((($Ih-$Il)/($Ch-$Cl)*($SO2i-$Cl))+$Il);
-        return $SO2aqi;
+        $aqiData['SO2aqi'] = $SO2aqi;
+        $aqiData['type'] = $type;
+        return $aqiData;
     }
     public function NO2aqi($NO2i){
         if($NO2i >= 0 && $NO2i < 40){
-            $Cl = 0 ;$Ch = 40; $Il = 0; $Ih=50;
+            $Cl = 0 ;$Ch = 40; $Il = 0; $Ih=50;$type = '';
         }elseif($NO2i >= 40 && $NO2i < 80){
-            $Cl = 40 ;$Ch = 80; $Il = 50; $Ih=100;
+            $Cl = 40 ;$Ch = 80; $Il = 50; $Ih=100;$type = 'liang';
         }elseif($NO2i >= 80 && $NO2i < 180){
-            $Cl = 80 ;$Ch = 180; $Il = 100; $Ih=150;
+            $Cl = 80 ;$Ch = 180; $Il = 100; $Ih=150;$type = 'qing';
         }elseif($NO2i >= 180 && $NO2i < 280){
-            $Cl = 180 ;$Ch = 280; $Il = 150; $Ih=200;
+            $Cl = 180 ;$Ch = 280; $Il = 150; $Ih=200;$type = 'zhong';
         }elseif($NO2i >= 280 && $NO2i < 565){
-            $Cl = 280 ;$Ch = 565; $Il = 200; $Ih=300;
+            $Cl = 280 ;$Ch = 565; $Il = 200; $Ih=300;$type = 'zhongzhong';
         }elseif($NO2i >= 565 && $NO2i < 750){
-            $Cl = 565 ;$Ch = 750; $Il = 300; $Ih=400;
+            $Cl = 565 ;$Ch = 750; $Il = 300; $Ih=400;$type = 'bao';
         }else{
-            $Cl = 750 ;$Ch = 940; $Il = 400; $Ih=500;
+            $Cl = 750 ;$Ch = 940; $Il = 400; $Ih=500;$type = '';
         }
         $NO2aqi = round((($Ih-$Il)/($Ch-$Cl)*($NO2i-$Cl))+$Il);
-        return $NO2aqi;
+        $aqiData['NO2aqi'] = $NO2aqi;
+        $aqiData['type'] = $type;
+        return $aqiData;
     }
     public function COaqi($COi){
         if($COi >= 0 && $COi < 2){
-            $Cl = 0 ;$Ch = 2; $Il = 0; $Ih=50;
+            $Cl = 0 ;$Ch = 2; $Il = 0; $Ih=50;$type = '';
         }elseif($COi >= 2 && $COi < 4){
-            $Cl = 2 ;$Ch = 4; $Il = 50; $Ih=100;
+            $Cl = 2 ;$Ch = 4; $Il = 50; $Ih=100;$type = 'liang';
         }elseif($COi >= 4 && $COi < 14){
-            $Cl = 4 ;$Ch = 14; $Il = 100; $Ih=150;
+            $Cl = 4 ;$Ch = 14; $Il = 100; $Ih=150;$type = 'qing';
         }elseif($COi >= 14 && $COi < 24){
-            $Cl = 14 ;$Ch = 24; $Il = 150; $Ih=200;
+            $Cl = 14 ;$Ch = 24; $Il = 150; $Ih=200;$type = 'zhong';
         }elseif($COi >= 24 && $COi < 36){
-            $Cl = 24 ;$Ch = 36; $Il = 200; $Ih=300;
+            $Cl = 24 ;$Ch = 36; $Il = 200; $Ih=300;$type = 'zhongzhong';
         }elseif($COi >= 36 && $COi < 48){
-            $Cl = 36 ;$Ch = 48; $Il = 300; $Ih=400;
+            $Cl = 36 ;$Ch = 48; $Il = 300; $Ih=400;$type = 'bao';
         }else{
-            $Cl = 48 ;$Ch = 60; $Il = 400; $Ih=500;
+            $Cl = 48 ;$Ch = 60; $Il = 400; $Ih=500;$type = '';
         }
         $COaqi = round((($Ih-$Il)/($Ch-$Cl)*($COi-$Cl))+$Il);
-        return $COaqi;
+        $aqiData['COaqi'] = $COaqi;
+        $aqiData['type'] = $type;
+        return $aqiData;
     }
     public function O3aqi($O3i){
         if($O3i >= 0 && $O3i < 100){
-            $Cl = 0 ;$Ch = 100; $Il = 0; $Ih=50;
+            $Cl = 0 ;$Ch = 100; $Il = 0; $Ih=50;$type = '';
         }elseif($O3i >= 100 && $O3i < 160){
-            $Cl = 100 ;$Ch = 160; $Il = 50; $Ih=100;
+            $Cl = 100 ;$Ch = 160; $Il = 50; $Ih=100;$type = 'liang';
         }elseif($O3i >= 160 && $O3i < 215){
-            $Cl = 160 ;$Ch = 215; $Il = 100; $Ih=150;
+            $Cl = 160 ;$Ch = 215; $Il = 100; $Ih=150;$type = 'qing';
         }elseif($O3i >= 215 && $O3i < 265){
-            $Cl = 215 ;$Ch = 265; $Il = 150; $Ih=200;
+            $Cl = 215 ;$Ch = 265; $Il = 150; $Ih=200;$type = 'zhong';
         }elseif($O3i >= 265 && $O3i < 800){
-            $Cl = 265 ;$Ch = 800; $Il = 200; $Ih=300;
+            $Cl = 265 ;$Ch = 800; $Il = 200; $Ih=300;$type = 'zhongzhong';
         }elseif($O3i >= 800 && $O3i < 1000){
-            $Cl = 800 ;$Ch = 1000; $Il = 300; $Ih=400;
+            $Cl = 800 ;$Ch = 1000; $Il = 300; $Ih=400;$type = 'bao';
         }else{
-            $Cl = 1000 ;$Ch = 1200; $Il = 400; $Ih=500;
+            $Cl = 1000 ;$Ch = 1200; $Il = 400; $Ih=500;$type = '';
         }
         $O3aqi = round((($Ih-$Il)/($Ch-$Cl)*($O3i-$Cl))+$Il);
-        return $O3aqi;
+        $aqiData['O3aqi'] = $O3aqi;
+        $aqiData['type'] = $type;
+        return $aqiData;
     }
     public function PM10aqi($PM10i){
         if($PM10i >= 0 && $PM10i < 50){
-            $Cl = 0 ;$Ch = 50; $Il = 0; $Ih=50;
+            $Cl = 0 ;$Ch = 50; $Il = 0; $Ih=50;$type = '';
         }elseif($PM10i >= 50 && $PM10i < 150){
-            $Cl = 50 ;$Ch = 150; $Il = 50; $Ih=100;
+            $Cl = 50 ;$Ch = 150; $Il = 50; $Ih=100;$type = 'liang';
         }elseif($PM10i >= 150 && $PM10i < 250){
-            $Cl = 150 ;$Ch = 250; $Il = 100; $Ih=150;
+            $Cl = 150 ;$Ch = 250; $Il = 100; $Ih=150;$type = 'qing';
         }elseif($PM10i >= 250 && $PM10i < 350){
-            $Cl = 250 ;$Ch = 350; $Il = 150; $Ih=200;
+            $Cl = 250 ;$Ch = 350; $Il = 150; $Ih=200;$type = 'zhong';
         }elseif($PM10i >= 350 && $PM10i < 420){
-            $Cl = 350 ;$Ch = 420; $Il = 200; $Ih=300;
+            $Cl = 350 ;$Ch = 420; $Il = 200; $Ih=300;$type = 'zhongzhong';
         }elseif($PM10i >= 420 && $PM10i < 500){
-            $Cl = 420 ;$Ch = 500; $Il = 300; $Ih=400;
+            $Cl = 420 ;$Ch = 500; $Il = 300; $Ih=400;$type = 'bao';
         }else{
-            $Cl = 500 ;$Ch = 600; $Il = 400; $Ih=500;
+            $Cl = 500 ;$Ch = 600; $Il = 400; $Ih=500;$type = '';
         }
         $PM10aqi = round((($Ih-$Il)/($Ch-$Cl)*($PM10i-$Cl))+$Il);
-        return $PM10aqi;
+        $aqiData['PM10aqi'] = $PM10aqi;
+        $aqiData['type'] = $type;
+        return $aqiData;
     }
     public function PM2_5aqi($PM2_5i){
         if($PM2_5i >= 0 && $PM2_5i < 35){
-            $Cl = 0 ;$Ch = 35; $Il = 0; $Ih=50;
+            $Cl = 0 ;$Ch = 35; $Il = 0; $Ih=50;$type = '';
         }elseif($PM2_5i >= 35 && $PM2_5i < 75){
-            $Cl = 35 ;$Ch = 75; $Il = 50; $Ih=100;
+            $Cl = 35 ;$Ch = 75; $Il = 50; $Ih=100;$type = 'liang';
         }elseif($PM2_5i >= 75 && $PM2_5i < 115){
-            $Cl = 75 ;$Ch = 115; $Il = 100; $Ih=150;
+            $Cl = 75 ;$Ch = 115; $Il = 100; $Ih=150;$type = 'qing';
         }elseif($PM2_5i >= 115 && $PM2_5i < 150){
-            $Cl = 115 ;$Ch = 150; $Il = 150; $Ih=200;
+            $Cl = 115 ;$Ch = 150; $Il = 150; $Ih=200;$type = 'zhong';
         }elseif($PM2_5i >= 150 && $PM2_5i < 250){
-            $Cl = 150 ;$Ch = 250; $Il = 200; $Ih=300;
+            $Cl = 150 ;$Ch = 250; $Il = 200; $Ih=300;$type = 'zhongzhong';
         }elseif($PM2_5i >= 250 && $PM2_5i < 350){
-            $Cl = 250 ;$Ch = 350; $Il = 300; $Ih=400;
+            $Cl = 250 ;$Ch = 350; $Il = 300; $Ih=400;$type = 'bao';
         }else{
-            $Cl = 350 ;$Ch = 500; $Il = 400; $Ih=500;
+            $Cl = 350 ;$Ch = 500; $Il = 400; $Ih=500;$type = '';
         }
         $PM2_5aqi = round((($Ih-$Il)/($Ch-$Cl)*($PM2_5i-$Cl))+$Il);
-        return $PM2_5aqi;
+        $aqiData['PM2_5aqi'] = $PM2_5aqi;
+        $aqiData['type'] = $type;
+        return $aqiData;
     }
     /*每次获取一条新数据*/
     public function airOne()
@@ -782,8 +822,9 @@ class dataIndex extends CI_Model
      * @return bool
      */
     public function planeLine($data,$id){
-        $pId = $this->db->query('select l.id,l.productID,c.id as cID,c.lineName,l.startTime,l.endTime from '.$this->lineTable.' as l INNER join '.$this->lineCateTable.' as c on l.lineID = c.id ')->row_array();
-        if($pId['productID'] == $data['productID'] && $pId['startTime'] == $data['startTime'] && $pId['endTime'] == $data['endTime']){
+        $pId = $this->db->query('select l.id,l.productID,c.id as cID,c.lineName,l.startTime,l.endTime from '.$this->lineTable.' as l INNER join '.$this->lineCateTable.' as c on l.lineID = c.id where l.productID = '.$data['productID'])->row_array();
+
+        if($pId['startTime'] == $data['startTime'] && $pId['endTime'] == $data['endTime']){
             $this->db->where('id', $pId['id']);
             if ($this->db->update($this->lineTable, $data)) {
                 return true;
@@ -849,12 +890,59 @@ class dataIndex extends CI_Model
     {
 
         $dayS = $where['recDAY'];
+        $dayE = $where['endDAY'];
         $id = $where['productID'];
         $lineId = $where['lineId'];
-        $line = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l where  l.id = '."'".$lineId."'")->row_array();
+        $line = $this->db->query('select l.id,c.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l INNER join '.$this->lineCateTable.' as c on l.lineID = c.id where  l.id = '."'".$lineId."'")->row_array();
         if ($line) {
-            $sTime = substr($line['startTime'],11);
-            $eTime = substr($line['endTime'],11);
+            $sTime = $line['startTime'];
+            $eTime = $line['endTime'];
+            $count = $this->db->query("select COUNT(*) as count from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and productID = '$id' ")->row_array();
+            if($count['count'] > 0 && $count['count'] <= 1800){
+                $plane = $this->db->query("select DATE_FORMAT( recTime,'%H:%i:00') as time,AVG(uSO2) as SO2,AVG(uNO2) as NO2,AVG(uCO) AS CO,AVG(uO3) AS O3,AVG(uPM10) AS PM10,AVG(uPM2_5) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and productID = '$id'  GROUP BY time order by time asc ")->result_array();
+            }else if($count['count'] > 1800 && $count['count'] <= 3600){
+                $plane = $this->db->query("select DATE_FORMAT( concat( date( recTime ), ' ', HOUR ( recTime ), ':', floor( MINUTE ( recTime ) / 10 ) * 10 ),'%H:%i') as time,AVG(uSO2) as SO2,AVG(uNO2) as NO2,AVG(uCO) AS CO,AVG(uO3) AS O3,AVG(uPM10) AS PM10,AVG(uPM2_5) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and productID = '$id'  GROUP BY time order by time asc ")->result_array();
+            }else if($count['count'] > 3600 && $count['count'] <= 6000){
+                $plane = $this->db->query("select DATE_FORMAT( concat( date( recTime ), ' ', HOUR ( recTime ), ':', floor( MINUTE ( recTime ) / 30 ) * 30 ),'%H:%i') as time,AVG(uSO2) as SO2,AVG(uNO2) as NO2,AVG(uCO) AS CO,AVG(uO3) AS O3,AVG(uPM10) AS PM10,AVG(uPM2_5) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and productID = '$id'  GROUP BY time order by time asc ")->result_array();
+            }else if($count['count'] > 6000){
+                $plane = $this->db->query("select DATE_FORMAT( recTime ,'%H:00:00') as time,AVG(uSO2) as SO2,AVG(uNO2) as NO2,AVG(uCO) AS CO,AVG(uO3) AS O3,AVG(uPM10) AS PM10,AVG(uPM2_5) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and productID = '$id'  GROUP BY time order by time asc ")->result_array();
+            }
+
+            foreach ($plane as $k => $v){
+                $data['SO2'][] = intval($v['SO2']);
+                $data['NO2'][] = intval($v['NO2']);
+                $data['CO'][] = intval($v['CO']);
+                $data['O3'][] = intval($v['O3']);
+                $data['PM10'][] = intval($v['PM10']);
+                $data['PM2.5'][] = intval($v['PM2.5']);
+                $data['recTime'][] = $v['recDAY'].' '.substr($v['recTime'],0,5);
+                $data['time'][] = $v['time'];
+            }
+            $airList = $this->airList();
+            foreach ($airList as $ak => $av){
+                $data['airList'][] = $av['field'];
+            }
+            return $data;
+        } else {
+            return false;
+        }
+
+    }
+    /**
+     * 当日数据查询
+     * @param $where
+     * @return string
+     */
+    public function hisToday($where)
+    {
+
+        $dayS = $where['recDAY'];
+        $id = $where['productID'];
+        $lineId = $where['lineId'];
+        $line = $this->db->query('select l.id,c.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l INNER join '.$this->lineCateTable.' as c on l.lineID = c.id  where  l.id = '."'".$lineId."'")->row_array();
+        if ($line) {
+            $sTime = $line['startTime'];
+            $eTime = $line['endTime'];
             $plane = $this->db->query("select DATE_FORMAT( recTime, '%H:%i:00' ) as time,
 	AVG(uSO2) as SO2,AVG(uNO2) as NO2,AVG(uCO) AS CO,AVG(uO3) AS O3,AVG(uPM10) AS PM10,AVG(uPM2_5) AS `PM2.5`,recTime from $this->airDataPack   WHERE recDAY = '$dayS'  AND lGPS_lat != '0.000000' and productID = '$id' and recTime>='$sTime' and recTime <= '$eTime'   GROUP BY time order by time asc ")->result_array();
             foreach ($plane as $k => $v){
@@ -883,7 +971,7 @@ class dataIndex extends CI_Model
      */
     public function lineSelect($id)
     {
-        $planeStock = $this->db->select('*')->from($this->lineTable)->where('productID',$id)->get()->result_array();
+        $planeStock = $this->db->query('select l.id,c.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l INNER join '.$this->lineCateTable.' as c on l.lineID = c.id  where  l.productID = '.$id)->result_array();
         if ($planeStock) {
             return $planeStock;
         } else {

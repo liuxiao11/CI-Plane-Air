@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>空气质量监控平台-历史数据（综合）</title>
+    <title>空气质量监控平台-历史数据（当日）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/jquery.datetimepicker.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
@@ -53,24 +53,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div id="container">
     <div class="air-top">空气质量监控平台-历史数据</div>
     <div class="air-left">
-        <a href="<?php echo base_url()?>index/indexPage" class="back">返回首页</a>
+        <a href="/index/indexPage" class="back">返回首页</a>
         <ul>
             <li class="air-date"><a href="/index/planeHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机数据查询分析</a></li>
             <li class="air-date"><a href="/index/airHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-car.png" alt="">车载数据查询分析</a></li>
-            <li class="air-date active"><a href="/index/hisAll"><img src="<?php echo STATIC_IMG?>dataIndex/all.png" alt="">综合数据查询分析</a></li>
-            <li class="air-date"><a href="/index/hisToday"><img src="<?php echo STATIC_IMG?>dataIndex/today.png" alt="">当日数据查询分析</a></li>
+            <li class="air-date"><a href="/index/hisAll"><img src="<?php echo STATIC_IMG?>dataIndex/all.png" alt="">综合数据查询分析</a></li>
+            <li class="air-date active"><a href="/index/hisToday"><img src="<?php echo STATIC_IMG?>dataIndex/today.png" alt="">当日数据查询分析</a></li>
             <li class="air-date"><a href="/index/hisWarning"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">报警记录查询</a></li>
         </ul>
     </div>
     <div class="air-center">
         <div class="center-top">
             <p class="air-title">
-                综合历史数据查看
+                当日历史数据查看
             </p>
             <form class="plane-form">
                 <ul>
-                    <li style="display: inline-block;margin-top: 10px">开始时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="<?php echo date('Y-m-d')?>"></li>
-                    <li style="display: inline-block;margin-top: 10px">结束时间：<input type="text" class="plane-name" name="time" id="endTime" readonly value="<?php echo date('Y-m-d')?>"></li>
+                    <li>时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="<?php echo date('Y-m-d')?>"></li>
                     <li class="plane-list" id="plane">设备：
                         <?php if(!empty($planeList) && isset($planeList)) foreach ($planeList as $k => $v){?>
                             <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['name']?></button>
@@ -126,66 +125,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var html = '<option value="'+res.data[i]['id']+'">'+res.data[i]['lineName']+'</option>';
                         $('#line').append(html);
                     }
+                }else{
+                    $('#line').html('');
                 }
             }
         })
     });
 </script>
-<script>
-    /*日期选择*/
-    var modal = (function() {
-        var initDate = function(startDateTimeId,endDateTimeId) {
-            var startDate;
-            var endDate;
-            startDateTimeId="#"+startDateTimeId;
-            endDateTimeId="#"+endDateTimeId;
-            $(startDateTimeId).datetimepicker({
-                lang:'ch',
-                format: 'Y-m-d',
-                timepicker:false,
-                onChangeDateTime: function(dp, $input) {
-                    startDate = $(startDateTimeId).val();
-                },
-                onClose: function(current_time, $input) {
-                    if (startDate > endDate) {
-                        $(startDateTimeId).val(endDate);
-                        startDate=endDate;
-                    }
-                }
-            });
-            $(endDateTimeId).datetimepicker({
-                lang:'ch',
-                format: 'Y-m-d',
-                timepicker:false,
-                onClose: function(current_time, $input) {
-                    endDate = $(endDateTimeId).val();
-                    if (startDate > endDate) {
-                        $(endDateTimeId).val(startDate);
-                        endDate=startDate;
-                    }
-                }
-            });
-        };
-        return {
-            initDate: initDate
-        };
-    })();
-    modal.initDate("startTime","endTime");
-</script>
 <script type="text/javascript">
     //搜索
     $('#submit').click(function () {
-        var url="/index/hisAll";
+        var url="/index/hisToday";
         var startTime=$("#startTime").val();
-        var endTime=$("#endTime").val();
         var lineId=$('#line').val();
         console.log(lineId);
         var planeId=$('#plane button.active').data('id');
         if(!planeId){
             alert('请选择设备');
         }
-        var urlData={startTime:startTime,endTime:endTime,lineId:lineId,planeId:planeId};
-        // option.dataZoom.start
+        var urlData={startTime:startTime,lineId:lineId,planeId:planeId};
+
         $.ajax({
             type : "post",
             url :url,

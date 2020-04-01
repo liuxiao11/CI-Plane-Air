@@ -62,10 +62,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="air-left">
         <a href="<?php echo base_url()?>index/indexPage" class="back">返回首页</a>
         <ul>
-            <li class="air-date"><a href="<?php echo base_url()?>index/planeHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机数据查询分析</a></li>
-            <li class="air-date active"><a href="<?php echo base_url()?>index/airHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-car.png" alt="">车载数据查询分析</a></li>
-            <li class="air-date"><a href="<?php echo base_url()?>index/hisAll"><img src="<?php echo STATIC_IMG?>dataIndex/all.png" alt="">综合数据查询分析</a></li>
-            <li class="air-date"><a href="<?php echo base_url()?>index/hisWarning"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">报警记录查询</a></li>
+            <li class="air-date"><a href="/index/planeHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-plane.png" alt="">无人机数据查询分析</a></li>
+            <li class="air-date active"><a href="/index/airHis"><img src="<?php echo STATIC_IMG?>dataIndex/set-car.png" alt="">车载数据查询分析</a></li>
+            <li class="air-date"><a href="/index/hisAll"><img src="<?php echo STATIC_IMG?>dataIndex/all.png" alt="">综合数据查询分析</a></li>
+            <li class="air-date"><a href="/index/hisToday"><img src="<?php echo STATIC_IMG?>dataIndex/today.png" alt="">当日数据查询分析</a></li>
+            <li class="air-date"><a href="/index/hisWarning"><img src="<?php echo STATIC_IMG?>dataIndex/air.png" alt="">报警记录查询</a></li>
         </ul>
     </div>
     <div class="air-center">
@@ -493,6 +494,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     }
                 }else{
+                    $('#planeLine select').html('');
                     $('#alert').hide();
                     $('#mapPlaneBox').html("<div id='allmap' class='plane-map'><p class='map-p'>没有相关数据...</p></div>");
                 }

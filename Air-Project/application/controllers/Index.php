@@ -333,11 +333,13 @@ class Index extends CI_Controller
     {
         if ($this->input->is_ajax_request()) {
             $startTime = $this->input->post('startTime');
+            $endTime = $this->input->post('endTime');
             $lineId = $this->input->post('lineId');
             $planeId = $this->input->post('planeId');
             if ($startTime) {
                 $where = array(
                     "recDAY" => $startTime,
+                    "endDAY" => $endTime,
                     "productID" => $planeId,
                     "lineId" => $lineId,
                 );
@@ -354,6 +356,34 @@ class Index extends CI_Controller
 
         $data['planeList'] = $this->dataIndex->planeSelect();
         $this->load->view('history-all', $data);
+    }
+    /**
+     * 历史记录(当日数据)
+     */
+    public function hisToday()
+    {
+        if ($this->input->is_ajax_request()) {
+            $lineId = $this->input->post('lineId');
+            $planeId = $this->input->post('planeId');
+            if ($lineId) {
+                $where = array(
+                    "recDAY" => date('Y-m-d'),
+                    "productID" => $planeId,
+                    "lineId" => $lineId,
+                );
+                $data = $this->dataIndex->hisToday($where);
+                if ($data) {
+                    $this->show_message('true', '数据查询成功', $data);
+                } else {
+                    $this->show_message('false', '未查到相应数据', '');
+                }
+            } else {
+                $this->show_message('false', '搜索数据为空');
+            }
+        }
+
+        $data['planeList'] = $this->dataIndex->planeSelect();
+        $this->load->view('history-today', $data);
     }
     public function findLine(){
         if ($this->input->is_ajax_request()) {
