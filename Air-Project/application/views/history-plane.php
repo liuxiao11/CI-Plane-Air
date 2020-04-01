@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </li>
                 </ul>
             </form>
-            <div class="plane-line" id="planeLine">添加航线：<select type="text" name="lineName" id="lineName"></select><button id="lineSubmit">确定</button></div>
+            <div class="plane-line" id="planeLine">标记航线：<select type="text" name="lineName" id="lineName"></select></div>
         </div>
         <div class="mapPlaneBox" id="mapPlaneBox"><div id="allmap" class="plane-map"></div></div>
 
@@ -474,13 +474,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象
                         map.openInfoWindow(infoWindow, point); //开启信息窗口
                     }
+                    var html;
+                    $('#planeLine select').html('');
                     if(res.data.line){
-                        $("#planeLine").html('此段航线标签：<a href="#" data-id="'+res.data.line.id+'">#'+res.data.line.lineName+'#</a>');
-                    }else{
-                        $('#planeLine').html('');
-                        $('#planeLine').html('添加航线：<select type="text" name="lineName" id="lineName"></select><button id="lineSubmit">确定</button>');
                         for(var u=0;u<=res.data.lineList.length;u++) {
-                            var html = '<option value="'+res.data.lineList[u]['id']+'">'+res.data.lineList[u]['lineName']+'</option>';
+                            if(res.data.lineList[u]['id'] === res.data.line.lineID){
+                                html = '<option value="'+res.data.lineList[u]['id']+'" selected>'+res.data.lineList[u]['lineName']+'</option>';
+                            }else{
+                                html = '<option value="'+res.data.lineList[u]['id']+'">'+res.data.lineList[u]['lineName']+'</option>';
+                            }
+                            $('#planeLine select').append(html);
+                        }
+                    }else{
+                        var empty = '<option value="">请选择</option>';
+                        $('#planeLine select').append(empty);
+                        for(var u=0;u<=res.data.lineList.length;u++) {
+                            html = '<option value="'+res.data.lineList[u]['id']+'">'+res.data.lineList[u]['lineName']+'</option>';
                             $('#planeLine select').append(html);
                         }
                     }
@@ -492,9 +501,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     });
     //定义航线
-    $(document).on('click','#lineSubmit',function () {
-        var startTime=$("#startTime").val();
-        var endTime=$("#endTime").val();
+    $(document).on('change','#lineName',function () {
+        var startTime=$("#startTime").val().substr($("#startTime").val().length-5);
+        var endTime=$("#endTime").val().substr($("#endTime").val().length-5);
         var planeId=$('.plane-form .active').data('id');
         var id=$("#lineName").val();
         if(lineName)
@@ -508,8 +517,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 dataType:'json',
                 success : function(res){
                     if(res.status === "true"){
-                        $("#lineName").val('');
-                        $("#planeLine").html('此段航线标签：<a href="#" data-id="'+res.data.id+'">#'+res.data.lineName+'#</a>');
                         alert('此段航线自定义成功')
                     }else{
                         alert(res.tips)

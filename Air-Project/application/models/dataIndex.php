@@ -14,6 +14,7 @@ class dataIndex extends CI_Model
     public $userTable = 'user';
     public $tshTable = 'air_threshold';
     public $lineTable = 'planeLine';
+    public $lineCateTable = 'line_category';
     public $field = '`CO`,`SO2`,`NO2`,`O3`,`PM2.5`,`PM10`';
     public $airDataPack = 'airdectectpack';
 
@@ -751,8 +752,8 @@ class dataIndex extends CI_Model
         $dayD = $where['eDAY'];
         $plane = $this->db->query("select  DATE_FORMAT(recTime, '%H:%i:00' ) as time,lGPS_lat,lGPS_lon,recDAY,recTime from  (select a.* from airdectectpack  as a  where `recTime` >= '$start' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayD' and recTime  <= '$end' AND lGPS_lat != '0.000000' and productID = '$id' group by time")->result_array();
         if ($plane) {
-            $line = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l where l.startTime = '."'".$startTime."'".' and l.endTime = '."'".$endTime."'".' and productID = '."'".$id."'")->row_array();
-            $lineList = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l ')->result_array();
+            $line = $this->db->query('select l.id,l.lineID,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l INNER JOIN '.$this->lineCateTable.' as c on l.lineID = c.id where l.startTime = '."'".$startTime."'".' and l.endTime = '."'".$endTime."'".' and l.productID = '."'".$id."'")->row_array();
+            $lineList = $this->db->query('select l.id,l.lineName from '.$this->lineCateTable.' as l ')->result_array();
             if($lineList){
                 $data['lineList'] = $lineList;
             }
@@ -781,16 +782,11 @@ class dataIndex extends CI_Model
      * @return bool
      */
     public function planeLine($data,$id){
-        $pId = $this->db->query('select l.productID,l.lineName from '.$this->lineTable.' as l  where l.id = '.$id)->row_array();
-        if($pId['productID'] == $data['productID']){
-            $this->db->where('id', $id);
+        $pId = $this->db->query('select l.id,l.productID,c.id as cID,c.lineName,l.startTime,l.endTime from '.$this->lineTable.' as l INNER join '.$this->lineCateTable.' as c on l.lineID = c.id ')->row_array();
+        if($pId['productID'] == $data['productID'] && $pId['startTime'] == $data['startTime'] && $pId['endTime'] == $data['endTime']){
+            $this->db->where('id', $pId['id']);
             if ($this->db->update($this->lineTable, $data)) {
-                $lineOne = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,p.name,l.productID from '.$this->lineTable.' as l INNER join '.$this->productStock.' as p on l.productID = p.productId where l.id = '.$id)->row_array();
-                if($lineOne){
-                    return $lineOne;
-                }else{
-                    return false;
-                }
+                return true;
             } else {
                 return false;
             }
@@ -799,16 +795,10 @@ class dataIndex extends CI_Model
                 'startTime' =>$data['startTime'],
                 'endTime' =>$data['endTime'],
                 "productID" => $data['productID'],
-                "lineName" => $pId['lineName'],
+                "lineID" => $id,
             );
             if ($this->db->insert($this->lineTable, $info)) {
-                $idInset = $this->db->insert_id();
-                $lineOne = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,p.name,l.productID from '.$this->lineTable.' as l INNER join '.$this->productStock.' as p on l.productID = p.productId where l.id = '.$idInset)->row_array();
-                if($lineOne){
-                    return $lineOne;
-                }else{
-                    return false;
-                }
+                return true;
             } else {
                 return false;
             }
@@ -913,10 +903,10 @@ class dataIndex extends CI_Model
     public function lineList($id)
     {
         if($id){
-            $lineOne = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,p.name,l.productID from '.$this->lineTable.' as l INNER join '.$this->productStock.' as p on l.productID = p.productId where l.id = '.$id)->row_array();
+            $lineOne = $this->db->query('select l.id,l.lineName from '.$this->lineCateTable.' as l where l.id = '.$id)->row_array();
             $data['lineOne'] = $lineOne;
         }else{
-            $air_querylist = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,p.name,l.productID from '.$this->lineTable.' as l INNER join '.$this->productStock.' as p on l.productID = p.productId');
+            $air_querylist = $this->db->query('select l.id,l.lineName from '.$this->lineCateTable.' as l ');
             $lineOne = $this->db->query('select p.name,p.productID from '.$this->productStock.' as p ')->result_array();
             $airlist = $air_querylist->result_array();
             $data['lineList'] = $airlist;
@@ -934,14 +924,14 @@ class dataIndex extends CI_Model
     public function lineAdd($data,$id)
     {
         if($id == 0){
-            if ($this->db->insert($this->lineTable, $data)) {
+            if ($this->db->insert($this->lineCateTable, $data)) {
                 return true;
             } else {
                 return false;
             }
         }else{
             $this->db->where('id', $id);
-            if ($this->db->update($this->lineTable, $data)) {
+            if ($this->db->update($this->lineCateTable, $data)) {
                 return true;
             } else {
                 return false;
@@ -957,7 +947,7 @@ class dataIndex extends CI_Model
      */
     public function delLine($id)
     {
-        if ($this->db->where('id', $id)->delete($this->lineTable)) {
+        if ($this->db->where('id', $id)->delete($this->lineCateTable)) {
             return true;
         } else {
             return false;

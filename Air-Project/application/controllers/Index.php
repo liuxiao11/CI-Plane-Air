@@ -224,9 +224,6 @@ class Index extends CI_Controller
         if ($this->input->is_ajax_request()) {
             if ($this->input->post('lineName')) {
                 $data['lineName'] = $this->input->post('lineName');
-                $data['productID'] = $this->input->post('productID');
-                $data['startTime'] = $this->input->post('startTime');
-                $data['endTime'] = $this->input->post('endTime');
                 $id = $this->input->post('id');
                 if ($this->dataIndex->lineAdd($data,$id)) {
                     $this->show_message('true', '数据更新成功');
@@ -380,9 +377,10 @@ class Index extends CI_Controller
             $planeId = $this->input->post('planeId');
             if ($id) {
                 $info = array(
-                    'startTime' =>$startTime,
-                    'endTime' =>$endTime,
+                    'startTime' =>$startTime.":00",
+                    'endTime' =>$endTime.":00",
                     "productID" => $planeId,
+                    'lineId'=>$id,
                 );
                 $data = $this->dataIndex->planeLine($info,$id);
                 if ($data) {

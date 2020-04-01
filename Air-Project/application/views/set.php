@@ -26,11 +26,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-left .active a{color: #fff363}
         .air-center{width: 1442px;height: 930px;background:url(<?php echo STATIC_IMG?>dataIndex/center-border.png) left top no-repeat;background-size: 1442px 928px;top: 150px;position: absolute;right: 50px}
         .air-center .plane-data{width: 1442px;overflow: hidden;position: relative;font-size: 16px;}
-        .air-center .plane-data ul{width: 1218px;height: 526px;margin:70px auto 0;overflow-y: auto}
-        .air-center .plane-data>ul>li{width: 360px;height: 178px;background:url(<?php echo STATIC_IMG?>dataIndex/plane-border.png) left top no-repeat;background-size: 360px 178px;float: left;margin-right: 40px;margin-top: 50px}
-        .air-center .plane-data>ul>li:nth-child(1){margin-top: 0}
-        .air-center .plane-data>ul>li:nth-child(2){margin-top: 0}
-        .air-center .plane-data>ul>li:nth-child(3){margin-top: 0}
+        .air-center .plane-data ul{width: 1230px;height: 526px;margin:40px auto 0;overflow-y: auto;padding:0 10px;}
+        .air-center .plane-data>ul>li{width: 360px;height: 178px;background:url(<?php echo STATIC_IMG?>dataIndex/plane-border.png) left top no-repeat;background-size: 360px 178px;float: left;margin-right: 40px;margin-top: 30px;cursor: pointer}
+        .air-center .plane-data>ul>li.active{box-shadow: 0 0 8px #fcea00;}
         .air-center .plane-data>ul>li img{width: 63px;height: 29px;margin-left: 35px;vertical-align: top;margin-top: 20px;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
         .air-center .plane-data>ul>li .carPlane{width: 63px;height: 63px;vertical-align: top;margin-top: 5px;animation:pulse 1s infinite;-moz-animation:pulse 1s infinite;-webkit-animation:pulse 1s infinite;-o-animation:pulse 1s infinite;}
         .air-center .plane-data>ul>li .close-btn{width: 20px;height: 20px;background:url(<?php echo STATIC_IMG?>dataIndex/close-btn.png) center no-repeat;background-size: 20px 20px;float: right;margin-top: 15px;margin-right: 10px}
@@ -146,6 +144,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     });
     $(document).on('click','.planeDes',function () {
+        $(this).addClass('active').siblings().removeClass('active');
         var name = $(this).find('.plane-title').text();
         var speed = $(this).find('.speed').text();
         var alt = $(this).find('.alt').text();

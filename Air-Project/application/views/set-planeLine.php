@@ -74,68 +74,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </p>
             <div class="plane-form"  >
                 <p>航线名称：<input type="text" id="lineName"  data-validation="length" data-validation-length="2-6" data-validation-error-msg="名称须为2至6个字符"></p>
-                <p>关联设备：<select  id="productID" name="productID"
-                                 class="selectpicker show-tick "  data-size="10"
-                                 data-live-search="true" data-validation="selectRequire" title="请输入选择">
-                        <?php if(isset($lineOne) && !empty($lineOne)) foreach ($lineOne as $k => $v){?>
-                            <option value="<?php echo $v['productID']?>"><?php echo $v['name']?></option>
-                        <?php }?>
-                    </select></p>
-                <p>开始时间：<input type="text" id="startTime" readonly value="<?php echo date('Y-m-d 00:00')?>"></p>
-                <p>结束时间：<input type="text" id="endTime" readonly value="<?php echo date('Y-m-d 00:00')?>"></p>
                 <p id="btn"><button class="submit" id="submit">添加</button></p>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo STATIC_?>jquery.js"></script>
-<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/rollSlide.js"></script>
-<script src="<?php echo STATIC_JS?>dataIndex/jquery.datetimepicker.full.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.form-validator.min.js"></script>
-<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/bootstrap-select.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
-<script>
-    /*日期选择*/
-    var modal = (function() {
-        var initDate = function(startDateTimeId,endDateTimeId) {
-            var startDate;
-            var endDate;
-            startDateTimeId="#"+startDateTimeId;
-            endDateTimeId="#"+endDateTimeId;
-            $(startDateTimeId).datetimepicker({
-                lang:'ch',
-                format: 'Y-m-d H:i',
-                timepicker:true,
-                onChangeDateTime: function(dp, $input) {
-                    startDate = $(startDateTimeId).val();
-                },
-                onClose: function(current_time, $input) {
-                    if (startDate > endDate) {
-                        $(startDateTimeId).val(endDate);
-                        startDate=endDate;
-                    }
-                }
-            });
-            $(endDateTimeId).datetimepicker({
-                lang:'ch',
-                format: 'Y-m-d H:i',
-                timepicker:true,
-                onClose: function(current_time, $input) {
-                    endDate = $(endDateTimeId).val();
-                    if (startDate > endDate) {
-                        $(endDateTimeId).val(startDate);
-                        endDate=startDate;
-                    }
-                }
-            });
-        };
-        return {
-            initDate: initDate
-        };
-    })();
-    modal.initDate("startTime","endTime");
-</script>
+
 <script>
     //选择航线
     $('.date>ul>li').click(function () {
@@ -146,16 +93,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $.post(url,urlData,function(result){
             var res = result.data.lineOne;
             if(result.status == 'true'){
-                $('#btn').html('');
                 $('#lineName').val('');
-                $('#priductID').val('');
-                $('#startTime').val('');
-                $('#endTime').val('');
                 $('#lineName').val(res.lineName);
-                $('#productID').val(res.productID);
-                $('.filter-option-inner-inner').text(res.name);
-                $('#startTime').val(res.startTime);
-                $('#endTime').val(res.endTime);
+                $('#btn').html('');
                 $('#btn').append('<button class="submit" id="submit">修改</button><button class="del" id="del">删除</button>')
             }else if(result.status == 'false'){
                 alert(result.tips);
@@ -174,10 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 id = 0;
             }
             var lineName = $('#lineName').val();
-            var productID = $('#productID').val();
-            var startTime = $('#startTime').val();
-            var endTime = $('#endTime').val();
-            var urlData={lineName:lineName,productID:productID,startTime:startTime,endTime:endTime,id:id};
+            var urlData={lineName:lineName,id:id};
             $.post(url,urlData,function(result){
                 console.log(result.status);
                 if(result.status == 'true'){
