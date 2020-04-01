@@ -33,23 +33,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .center-top .plane-form{width: 1250px;height: 230px;margin-left:110px;display: inline-block;font-size: 22px; }
         .air-center .center-top .plane-form ul li{margin-right: 80px;margin-top: 30px}
         .air-center .center-top .plane-form input{width: 250px !important;height: 40px!important;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding:0 0 0 20px !important;font-size: 20px;border-radius: 40px}
-        .air-center .center-top .plane-form ul li button{width: 113px;height: 40px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;font-size: 16px;border-radius: 40px;margin-right: 20px;margin-bottom: 5px}
-        .air-center .center-top .plane-form ul li button:focus{outline:none}
+        .air-center .center-top .plane-form ul li .button{width: 113px;height: 40px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;font-size: 16px;border-radius: 40px;margin-right: 20px;margin-bottom: 5px}
+        .air-center .center-top .plane-form ul li .button:focus{outline:none}
         .air-center .center-top .plane-form ul li .active{box-shadow: 0 0 8px #fcea00;color: #fff363;}
         .air-center .center-top .plane-form .submit{width: 120px !important;height: 40px !important;background:url(<?php echo STATIC_IMG?>dataIndex/date.png) center no-repeat;background-size: 180px 48px;font-size: 22px;display: block;float: right;padding: 0 !important;color: #d9d9d9;margin-top: -25px;position: relative;z-index: 10;}
         .air-center .mapPlaneBox{float: left;width: 100%;}
-        .air-center .plane-map{width: 790px;height: 515px;margin:40px 20px 0 90px;border-radius: 25px;}
-        .air-center .plane-map .fleft{color: #13227a;font-size: 14px;font-weight: bold}
-        .air-center .plane-map .playcss{width: 32px;height: 32px;background:url(<?php echo STATIC_IMG?>dataIndex/action.png) left top no-repeat;background-size: contain}
-        .air-center .map-border{width: 1248px;height: 553px;position: absolute;z-index:1;background:url(<?php echo STATIC_IMG?>dataIndex/map-border.png) left top no-repeat;    background-size: 1248px 553px;left: 503px;}
         .plane-list{height: 50px;overflow-y: auto;padding-top: 5px;}
         .map-p{margin: 80px auto 0; font-size: 18px;text-align: center}
 
         .air-chart{margin: 0 auto;display: block;width: 100%;height: 550px;margin-top: 30px;}
         /*定义航线*/
-        .plane-line{display: inline-block;font-size: 20px;margin-top: 15px}
-        .plane-line input{width: 210px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
-        .plane-line button{height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;text-align: center;vertical-align: top;}
+        .plane-line{font-size: 20px;margin-top: 15px}
+        .plane-line .button{height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;text-align: center;vertical-align: top;}
+        .plane-line input,select{width: 210px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
         .plane-line a{display: inline-block}
     </style>
 </head>
@@ -77,7 +73,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php if(!empty($planeList) && isset($planeList)) foreach ($planeList as $k => $v){?>
                             <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['name']?></button>
                         <?php }?>
-                    <li class="plane-list" >标签：<div id="line" style="display: inline-block"></div>
+                    <li class="plane-line" >航线：<select id="line" name="line" class="selectpicker show-tick " >
+                        </select>
                         </li>
                     <button class="submit" id="submit" type="button" >搜索</button>
                     </li>
@@ -96,7 +93,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/echarts-wordcloud.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/china.js"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nVzaOG4nXU266Xgw2HZZvEyvfHIGlsmm"></script>
 <script type="text/javascript" src="<?php echo STATIC_JS?>dataIndex/common.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/planeMap.js"></script>-->
 <script>
@@ -125,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 if(res.status == 'true'){
                     $('#line').html('');
                     for (var i=0;i<=res.data.length;i++){
-                        var html = '<button class="button" type="button" data-id="'+res.data[i]['id']+'">'+res.data[i]['lineName']+'</button>';
+                        var html = '<option value="'+res.data[i]['id']+'">'+res.data[i]['lineName']+'</option>';
                         $('#line').append(html);
                     }
                 }
@@ -167,7 +163,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $('#submit').click(function () {
         var url="/index/hisAll";
         var startTime=$("#startTime").val();
-        var lineId=$('#line button.active').data('id');
+        var lineId=$('#line').val();
+        console.log(lineId);
         var planeId=$('#plane button.active').data('id');
         if(!planeId){
             alert('请选择设备');

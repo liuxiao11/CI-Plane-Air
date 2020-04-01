@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .plane-list{height: 111px;overflow-y: auto;padding-top: 5px;}
         .map-p{margin: 80px auto 0; font-size: 18px;text-align: center}
         /*气体详情*/
-        .airDesBox{float: left;display: none}
+        .airDesBox{float: left;display: none;margin-top: 85px}
         .airBox{margin-left: 20px}
         .air{width: 460px;height: 460px;margin: 0 0 0 10px;}
         .air-chart{margin: 0 auto;display: block}

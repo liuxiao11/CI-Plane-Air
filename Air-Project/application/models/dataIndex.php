@@ -749,7 +749,7 @@ class dataIndex extends CI_Model
         $id = $where['productID'];
         $end = $dataTime['endTime'];
         $dayD = $where['eDAY'];
-        $plane = $this->db->query("select  DATE_FORMAT(recTime, '%i' ) as time,lGPS_lat,lGPS_lon,recDAY,recTime from  (select a.* from airdectectpack  as a   where `recTime` >= '$start' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayD' and recTime  <= '$end' AND lGPS_lat != '0.000000' and productID = '$id' group by time")->result_array();
+        $plane = $this->db->query("select  DATE_FORMAT(recTime, '%H:%i:00' ) as time,lGPS_lat,lGPS_lon,recDAY,recTime from  (select a.* from airdectectpack  as a  where `recTime` >= '$start' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayD' and recTime  <= '$end' AND lGPS_lat != '0.000000' and productID = '$id' group by time")->result_array();
         if ($plane) {
             $line = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l where l.startTime = '."'".$startTime."'".' and l.endTime = '."'".$endTime."'".' and productID = '."'".$id."'")->row_array();
             $lineList = $this->db->query('select l.id,l.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l ')->result_array();
@@ -833,7 +833,7 @@ class dataIndex extends CI_Model
             foreach ($time as $key => $val) {
                 $data[$key]['time'] = $val;
 //                $air1 = $this->db->query('select ' . $joinField . ',recTime from ' . $this->airDataPack . '  where recDAY = ' . '"' . $val . '"' . ' and uSO2 < 500 order by serialNum DESC')->result_array();
-                $airHour = $this->db->query('select DATE_FORMAT( recTime, "%H" ) as time,
+                $airHour = $this->db->query('select DATE_FORMAT( recTime, "%H:00:00") as time,
 	AVG(uSO2) as SO2,AVG(uNO2) as NO2,AVG(uCO) AS CO,AVG(uO3) AS O3,AVG(uPM10) AS PM10,AVG(uPM2_5) AS `PM2.5`,recTime from ' . $this->airDataPack . '  where recDAY =  ' . '"' . $val . '"' . ' and uSO2 <500   GROUP BY time order by time DESC ')->result_array();
                 if (!empty($airHour)) {
                     foreach ($airHour as $kk => $vv) {
@@ -865,7 +865,7 @@ class dataIndex extends CI_Model
         if ($line) {
             $sTime = substr($line['startTime'],11);
             $eTime = substr($line['endTime'],11);
-            $plane = $this->db->query("select DATE_FORMAT( recTime, '%i' ) as time,
+            $plane = $this->db->query("select DATE_FORMAT( recTime, '%H:%i:00' ) as time,
 	AVG(uSO2) as SO2,AVG(uNO2) as NO2,AVG(uCO) AS CO,AVG(uO3) AS O3,AVG(uPM10) AS PM10,AVG(uPM2_5) AS `PM2.5`,recTime from $this->airDataPack   WHERE recDAY = '$dayS'  AND lGPS_lat != '0.000000' and productID = '$id' and recTime>='$sTime' and recTime <= '$eTime'   GROUP BY time order by time asc ")->result_array();
             foreach ($plane as $k => $v){
                 $data['SO2'][] = intval($v['SO2']);
