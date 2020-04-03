@@ -137,9 +137,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <table>
                     <tr>
                         <td rowspan="2"><em>AQI</em><i><?php if (isset($aqiMax)) echo $aqiMax['value']?></i><span>首要污染物</span><p><?php if (isset($aqiMax)) echo $aqiMax['name']?></p></td>
-                        <td class="bborder"><em class="liang">PM2.5</em><i><?php if (isset($aqi)) echo $aqi['PM2.5']?></i></td>
-                        <td class="bborder"><em>PM10</em><i><?php if (isset($aqi)) echo $aqi['PM10']?></i></td>
-                        <td class="bborder"><em>CO</em><i><?php if (isset($aqi)) echo $aqi['CO']?></i></td>
+                        <td class="bborder lborder"><em class="liang">PM2.5</em><i><?php if (isset($aqi)) echo $aqi['PM2.5']?></i></td>
+                        <td class="bborder lborder"><em>PM10</em><i><?php if (isset($aqi)) echo $aqi['PM10']?></i></td>
+                        <td class="bborder lborder"><em>CO</em><i><?php if (isset($aqi)) echo $aqi['CO']?></i></td>
                     </tr>
                     <tr>
                         <td class="lborder"><em>O3</em><i><?php if (isset($aqi)) echo $aqi['O3']?></i></td>
