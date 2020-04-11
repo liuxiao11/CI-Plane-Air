@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </li>
                 </ul>
             </form>
-            <div class="plane-line" id="planeLine">添加航线：<select type="text" name="lineName" id="lineName"></select></div>
+            <div class="plane-line" id="planeLine">标记航线：<select type="text" name="lineName" id="lineName"></select></div>
         </div>
         <div class="mapPlaneBox" id="mapPlaneBox"><div id="allmap" class="plane-map"></div></div>
         <!--气体详情弹窗-->

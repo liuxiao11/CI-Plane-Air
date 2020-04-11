@@ -71,15 +71,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <ul>
                     <li style="display: inline-block;margin-top: 10px">开始时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="<?php echo date('Y-m-d')?>"></li>
                     <li style="display: inline-block;margin-top: 10px">结束时间：<input type="text" class="plane-name" name="time" id="endTime" readonly value="<?php echo date('Y-m-d')?>"></li>
-                    <li class="plane-list" id="plane">设备：
-                        <?php if(!empty($planeList) && isset($planeList)) foreach ($planeList as $k => $v){?>
-                            <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['name']?></button>
-                        <?php }?>
-                    <li class="plane-line" >航线：<select id="line" name="line" class="selectpicker show-tick " >
-                        </select>
-                        </li>
+                    <li class="plane-line" >航线选择：
+                        <select id="line" name="line" class="selectpicker show-tick " >
+                            <?php if(isset($lineList) && !empty($lineList)) foreach ($lineList as $k => $v){?>
+                            <option value="<?php echo $v['id']?>"><?php echo $v['lineName']?></option>
+                            <?php }?>
+                        </select></li>
                     <button class="submit" id="submit" type="button" >搜索</button>
-                    </li>
                 </ul>
             </form>
         </div>
@@ -179,12 +177,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var startTime=$("#startTime").val();
         var endTime=$("#endTime").val();
         var lineId=$('#line').val();
-        console.log(lineId);
-        var planeId=$('#plane button.active').data('id');
-        if(!planeId){
-            alert('请选择设备');
-        }
-        var urlData={startTime:startTime,endTime:endTime,lineId:lineId,planeId:planeId};
+        var urlData={startTime:startTime,endTime:endTime,lineId:lineId};
         // option.dataZoom.start
         $.ajax({
             type : "post",
@@ -238,7 +231,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         xAxis: [
                             {
                                 type: 'category',
-                                data: res.data.recTime,
+                                data: res.data[0].recTime,
                                 axisTick: {
                                     alignWithLabel: true,
                                 },
@@ -273,31 +266,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         series: [
                             {name: 'CO',
                                 type: 'bar',
-                                data: res.data.CO,
+                                stack:res.data['name'][0]
+                                data: res.data[0].CO,
                             },
                             {name: 'SO2',
                                 type: 'bar',
-                                data:  res.data.SO2,
+                                stack:res.data['name'][0]
+                                data:  res.data[0].SO2,
 
                             },
                             {
                                 name: 'NO2',
                                 type: 'bar',
-                                data:  res.data.NO2,
+                                stack:res.data['name'][0]
+                                data:  res.data[0].NO2,
                             },
                             {
                                 name: 'O3',
                                 type: 'bar',
-                                data:  res.data.O3,
+                                stack:res.data['name'][0]
+                                data:  res.data[0].O3,
                             },{
                                 name: 'PM2.5',
                                 type: 'bar',
-                                data:  res.data['PM2.5'],
+                                stack:res.data['name'][0]
+                                data:  res.data[0]['PM2.5'],
                             },
                             {
                                 name: 'PM10',
                                 type: 'bar',
-                                data:  res.data.PM10,
+                                stack:res.data['name'][0]
+                                data:  res.data[0].PM10,
                             }
                         ]
                     };

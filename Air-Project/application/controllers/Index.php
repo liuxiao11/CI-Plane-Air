@@ -335,12 +335,10 @@ class Index extends CI_Controller
             $startTime = $this->input->post('startTime');
             $endTime = $this->input->post('endTime');
             $lineId = $this->input->post('lineId');
-            $planeId = $this->input->post('planeId');
             if ($startTime) {
                 $where = array(
                     "recDAY" => $startTime,
                     "endDAY" => $endTime,
-                    "productID" => $planeId,
                     "lineId" => $lineId,
                 );
                 $data = $this->dataIndex->hisAll($where);
@@ -354,7 +352,8 @@ class Index extends CI_Controller
             }
         }
 
-        $data['planeList'] = $this->dataIndex->planeSelect();
+        $planeLine = $this->dataIndex->lineList(0);
+        $data['lineList'] = $planeLine['lineList'];
         $this->load->view('history-all', $data);
     }
     /**
