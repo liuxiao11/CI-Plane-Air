@@ -862,7 +862,6 @@ class dataIndex extends CI_Model
             $time = array_keys($time1);
             foreach ($time as $key => $val) {
                 $data[$key]['time'] = $val;
-//                $air1 = $this->db->query('select ' . $joinField . ',recTime from ' . $this->airDataPack . '  where recDAY = ' . '"' . $val . '"' . ' and uSO2 < 500 order by serialNum DESC')->result_array();
                 $airHour = $this->db->query('select DATE_FORMAT( recTime, "%H:00:00") as time,
 	FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime from ' . $this->airDataPack . '  where recDAY =  ' . '"' . $val . '"' . ' and uSO2 <500   GROUP BY time order by time DESC ')->result_array();
                 if (!empty($airHour)) {
@@ -900,11 +899,11 @@ class dataIndex extends CI_Model
                     $eTime = $line['endTime'];
                     $count = $this->db->query("select COUNT(*) as count from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and uPM10 < 500")->row_array();
                     if($count['count'] > 0 && $count['count'] <= 1800){
-                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT( recTime,'%H:%i:00') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and  productID = ".$v['productID']." and uPM10 < 500 GROUP BY time order by time asc ")->result_array();
+                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT(recDay,'%Y-%m-%d') as day1,DATE_FORMAT(recTime,'%H:%i:00') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and  productID = ".$v['productID']." and uPM10 < 500 and uSO2 < 500 GROUP BY day1,time order by time asc ")->result_array();
                     }else if($count['count'] > 1800 && $count['count'] <= 6000){
-                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT( concat( date( recTime ), ' ', HOUR ( recTime ), ':', floor( MINUTE ( recTime ) / 10 ) * 10 ),'%H:%i') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000'  and uPM10 < 500  and  productID = ".$v['productID']."  GROUP BY time order by time asc ")->result_array();
+                        $plane[$v['productID']] = $this->db->query("select  DATE_FORMAT(recDay,'%Y-%m-%d') as day1,DATE_FORMAT( concat( date( recTime ), ' ', HOUR ( recTime ), ':', floor( MINUTE ( recTime ) / 5 ) * 5 ),'%H:%i') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000'  and uPM10 < 500  and uSO2 < 500 and  productID = ".$v['productID']."  GROUP BY day1,time order by time asc ")->result_array();
                     }else if($count['count'] > 6000){
-                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT( recTime ,'%H:00:00') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000'  and  productID = ".$v['productID']."   and uPM10 < 500 GROUP BY time order by time asc ")->result_array();
+                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT(recDay,'%Y-%m-%d') as day1,DATE_FORMAT( concat( date( recTime ), ' ', HOUR ( recTime ), ':', floor( MINUTE ( recTime ) / 20 ) * 20 ),'%H:%i') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000'  and  productID = ".$v['productID']."   and uPM10 < 500 and uSO2 < 500 GROUP BY day1,time order by time asc ")->result_array();
                     }
                     foreach ($plane[$v['productID']] as $kk => $vv){
                         $data['air'][$k]['SO2'][] = intval($vv['SO2']);
@@ -913,7 +912,7 @@ class dataIndex extends CI_Model
                         $data['air'][$k]['O3'][] = intval($vv['O3']);
                         $data['air'][$k]['PM10'][] = intval($vv['PM10']);
                         $data['air'][$k]['PM2.5'][] = intval($vv['PM2.5']);
-                        $data['air'][$k]['recTime'][] = $vv['recDAY'].' '.substr($vv['recTime'],0,5);
+                        $data['air'][$k]['recTime'][] = $vv['day1'].$vv['time'];
                         $data['air'][$k]['time'][] = $vv['time'];
                     }
                     $data['name'][] = $v['name'];
@@ -947,7 +946,7 @@ class dataIndex extends CI_Model
                 $sTime = $line['startTime'];
                 $eTime = $line['endTime'];
                 $plane[$v['productID']] = $this->db->query("select DATE_FORMAT( recTime, '%H:%i:00' ) as time,
-	FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime from $this->airDataPack   WHERE recDAY = '$dayS'  AND lGPS_lat != '0.000000' and  productID = ".$v['productID']."  and uPM10 < 500 and recTime>='$sTime' and recTime <= '$eTime'   GROUP BY time order by time asc ")->result_array();
+	FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime from $this->airDataPack   WHERE recDAY = '$dayS'  AND lGPS_lat != '0.000000' and  productID = ".$v['productID']."  and uPM10 < 500 and uSO2 < 500 and recTime>='$sTime' and recTime <= '$eTime'   GROUP BY time order by time asc ")->result_array();
                 foreach ($plane[$v['productID']] as $kk => $vv){
                     $data['air'][$k]['SO2'][] = intval($vv['SO2']);
                     $data['air'][$k]['NO2'][] = intval($vv['NO2']);
@@ -955,7 +954,7 @@ class dataIndex extends CI_Model
                     $data['air'][$k]['O3'][] = intval($vv['O3']);
                     $data['air'][$k]['PM10'][] = intval($vv['PM10']);
                     $data['air'][$k]['PM2.5'][] = intval($vv['PM2.5']);
-                    $data['air'][$k]['recTime'][] = substr($vv['recTime'],0,5);
+                    $data['air'][$k]['recTime'][] = $vv['time'];
                     $data['air'][$k]['time'][] = $vv['time'];
                 }
                 $data['name'][] = $v['name'];
