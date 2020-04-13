@@ -912,7 +912,7 @@ class dataIndex extends CI_Model
                         $data['air'][$k]['O3'][] = intval($vv['O3']);
                         $data['air'][$k]['PM10'][] = intval($vv['PM10']);
                         $data['air'][$k]['PM2.5'][] = intval($vv['PM2.5']);
-                        $data['air'][$k]['recTime'][] = $vv['day1'].$vv['time'];
+                        $data['air'][$k]['recTime'][] = $vv['day1'].' '.$vv['time'];
                         $data['air'][$k]['time'][] = $vv['time'];
                     }
                     $data['name'][] = $v['name'];
