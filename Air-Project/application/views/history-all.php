@@ -313,7 +313,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 }
                             },
                             right:"100px",
-                            top:"30px"
+                            top:"10px"
                         },
                         calculable: true,
                         legend: {
