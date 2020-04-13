@@ -363,11 +363,9 @@ class Index extends CI_Controller
     {
         if ($this->input->is_ajax_request()) {
             $lineId = $this->input->post('lineId');
-            $planeId = $this->input->post('planeId');
             if ($lineId) {
                 $where = array(
                     "recDAY" => date('Y-m-d'),
-                    "productID" => $planeId,
                     "lineId" => $lineId,
                 );
                 $data = $this->dataIndex->hisToday($where);
@@ -381,7 +379,8 @@ class Index extends CI_Controller
             }
         }
 
-        $data['planeList'] = $this->dataIndex->planeSelect();
+        $planeLine = $this->dataIndex->lineList(0);
+        $data['lineList'] = $planeLine['lineList'];
         $this->load->view('history-today', $data);
     }
     public function findLine(){

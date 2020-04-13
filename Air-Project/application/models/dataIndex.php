@@ -887,43 +887,46 @@ class dataIndex extends CI_Model
      */
     public function hisAll($where)
     {
-        $data = [];
         $dayS = $where['recDAY'];
         $dayE = $where['endDAY'];
         $lineId = $where['lineId'];
-        $productID = $this->db->query("select l.productID,p.name from $this->lineTable as l INNER join $this->productStock as p ON p.productId = l.productID GROUP BY productID")->result_array();
-        foreach ($productID as $k => $v){
-            $line = $this->db->query('select l.id,c.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l INNER join '.$this->lineCateTable.' as c on l.lineID = c.id where l.productID = '.$v["productID"].' and l.lineID = '."'".$lineId."'")->row_array();
-            if ($line) {
-                $sTime = $line['startTime'];
-                $eTime = $line['endTime'];
-            $count = $this->db->query("select COUNT(*) as count from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and uPM10 < 500")->row_array();
-            if($count['count'] > 0 && $count['count'] <= 1800){
-                $plane[$v['productID']] = $this->db->query("select DATE_FORMAT( recTime,'%H:%i:00') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000'  and uPM10 < 500 GROUP BY time order by time asc ")->result_array();
-            }else if($count['count'] > 1800 && $count['count'] <= 6000){
-                $plane[$v['productID']] = $this->db->query("select DATE_FORMAT( concat( date( recTime ), ' ', HOUR ( recTime ), ':', floor( MINUTE ( recTime ) / 10 ) * 10 ),'%H:%i') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000'  and uPM10 < 500 GROUP BY time order by time asc ")->result_array();
-            }else if($count['count'] > 6000){
-                $plane[$v['productID']] = $this->db->query("select DATE_FORMAT( recTime ,'%H:00:00') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000'  and uPM10 < 500 GROUP BY time order by time asc ")->result_array();
+        $productID = $this->db->query("select l.productID,p.name from $this->lineTable as l INNER join $this->productStock as p ON p.productId = l.productID where l.lineID = $lineId GROUP BY productID")->result_array();
+        $data = array();
+        if ($productID){
+            foreach ($productID as $k => $v){
+                $line = $this->db->query('select l.id,c.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l INNER join '.$this->lineCateTable.' as c on l.lineID = c.id where l.productID = '.$v["productID"].' and l.lineID = '."'".$lineId."'")->row_array();
+                if ($line) {
+                    $sTime = $line['startTime'];
+                    $eTime = $line['endTime'];
+                    $count = $this->db->query("select COUNT(*) as count from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and uPM10 < 500")->row_array();
+                    if($count['count'] > 0 && $count['count'] <= 1800){
+                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT( recTime,'%H:%i:00') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and  productID = ".$v['productID']." and uPM10 < 500 GROUP BY time order by time asc ")->result_array();
+                    }else if($count['count'] > 1800 && $count['count'] <= 6000){
+                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT( concat( date( recTime ), ' ', HOUR ( recTime ), ':', floor( MINUTE ( recTime ) / 10 ) * 10 ),'%H:%i') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000'  and uPM10 < 500  and  productID = ".$v['productID']."  GROUP BY time order by time asc ")->result_array();
+                    }else if($count['count'] > 6000){
+                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT( recTime ,'%H:00:00') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000'  and  productID = ".$v['productID']."   and uPM10 < 500 GROUP BY time order by time asc ")->result_array();
+                    }
+                    foreach ($plane[$v['productID']] as $kk => $vv){
+                        $data['air'][$k]['SO2'][] = intval($vv['SO2']);
+                        $data['air'][$k]['NO2'][] = intval($vv['NO2']);
+                        $data['air'][$k]['CO'][] = intval($vv['CO']);
+                        $data['air'][$k]['O3'][] = intval($vv['O3']);
+                        $data['air'][$k]['PM10'][] = intval($vv['PM10']);
+                        $data['air'][$k]['PM2.5'][] = intval($vv['PM2.5']);
+                        $data['air'][$k]['recTime'][] = $vv['recDAY'].' '.substr($vv['recTime'],0,5);
+                        $data['air'][$k]['time'][] = $vv['time'];
+                    }
+                    $data['name'][] = $v['name'];
+                }
             }
-                foreach ($plane[$v['productID']] as $kk => $vv){
-                    $data[$k]['SO2'][] = intval($vv['SO2']);
-                    $data[$k]['NO2'][] = intval($vv['NO2']);
-                    $data[$k]['CO'][] = intval($vv['CO']);
-                    $data[$k]['O3'][] = intval($vv['O3']);
-                    $data[$k]['PM10'][] = intval($vv['PM10']);
-                    $data[$k]['PM2.5'][] = intval($vv['PM2.5']);
-                    $data[$k]['recTime'][] = $vv['recDAY'].' '.substr($vv['recTime'],0,5);
-                    $data[$k]['time'][] = $vv['time'];
-                }
-                $airList = $this->airList();
-                foreach ($airList as $ak => $av){
-                    $data['airList'][] = $av['field'];
-                }
-                $data['name'][] = $v['name'];
+            $airList = $this->airList();
+            foreach ($airList as $ak => $av){
+                $data['airList'][] = $av['field'];
             }
         }
-
         return $data;
+
+
 
     }
     /**
@@ -935,32 +938,36 @@ class dataIndex extends CI_Model
     {
 
         $dayS = $where['recDAY'];
-        $id = $where['productID'];
         $lineId = $where['lineId'];
-        $line = $this->db->query('select l.id,c.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l INNER join '.$this->lineCateTable.' as c on l.lineID = c.id  where  l.id = '."'".$lineId."'")->row_array();
-        if ($line) {
-            $sTime = $line['startTime'];
-            $eTime = $line['endTime'];
-            $plane = $this->db->query("select DATE_FORMAT( recTime, '%H:%i:00' ) as time,
-	FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime from $this->airDataPack   WHERE recDAY = '$dayS'  AND lGPS_lat != '0.000000' and productID = '$id' and recTime>='$sTime' and recTime <= '$eTime'   GROUP BY time order by time asc ")->result_array();
-            foreach ($plane as $k => $v){
-                $data['SO2'][] = intval($v['SO2']);
-                $data['NO2'][] = intval($v['NO2']);
-                $data['CO'][] = intval($v['CO']);
-                $data['O3'][] = intval($v['O3']);
-                $data['PM10'][] = intval($v['PM10']);
-                $data['PM2.5'][] = intval($v['PM2.5']);
-                $data['recTime'][] = substr($v['recTime'],0,5);
-                $data['time'][] = $v['time'];
+        $productID = $this->db->query("select l.productID,p.name from $this->lineTable as l INNER join $this->productStock as p ON p.productId = l.productID where l.lineID = $lineId GROUP BY productID")->result_array();
+        $data = array();
+        if($productID){
+            foreach ($productID as $k => $v){
+                $line = $this->db->query('select l.id,c.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l INNER join '.$this->lineCateTable.' as c on l.lineID = c.id where l.productID = '.$v["productID"].' and l.lineID = '."'".$lineId."'")->row_array();
+                $sTime = $line['startTime'];
+                $eTime = $line['endTime'];
+                $plane[$v['productID']] = $this->db->query("select DATE_FORMAT( recTime, '%H:%i:00' ) as time,
+	FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime from $this->airDataPack   WHERE recDAY = '$dayS'  AND lGPS_lat != '0.000000' and  productID = ".$v['productID']."  and uPM10 < 500 and recTime>='$sTime' and recTime <= '$eTime'   GROUP BY time order by time asc ")->result_array();
+                foreach ($plane[$v['productID']] as $kk => $vv){
+                    $data['air'][$k]['SO2'][] = intval($vv['SO2']);
+                    $data['air'][$k]['NO2'][] = intval($vv['NO2']);
+                    $data['air'][$k]['CO'][] = intval($vv['CO']);
+                    $data['air'][$k]['O3'][] = intval($vv['O3']);
+                    $data['air'][$k]['PM10'][] = intval($vv['PM10']);
+                    $data['air'][$k]['PM2.5'][] = intval($vv['PM2.5']);
+                    $data['air'][$k]['recTime'][] = substr($vv['recTime'],0,5);
+                    $data['air'][$k]['time'][] = $vv['time'];
+                }
+                $data['name'][] = $v['name'];
             }
             $airList = $this->airList();
             foreach ($airList as $ak => $av){
                 $data['airList'][] = $av['field'];
             }
-            return $data;
-        } else {
-            return false;
         }
+
+        return $data;
+
 
     }
     /**

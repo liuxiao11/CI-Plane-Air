@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .air-center .center-top .air-title{width: 699px;height: 37px;margin: 30px 0 0 40px;font-size: 18px;background: url(<?php echo STATIC_IMG?>dataIndex/set-bottom-title.png) left top no-repeat;background-size: contain;padding-left: 50px;color: #cff7ff; }
         .air-center .center-top .plane-form{width: 1250px;height: 230px;margin-left:110px;display: inline-block;font-size: 22px; }
         .air-center .center-top .plane-form ul li{margin-right: 80px;margin-top: 30px}
-        .air-center .center-top .plane-form input{width: 250px !important;height: 40px!important;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding:0 0 0 20px !important;font-size: 20px;border-radius: 40px}
+        .air-center .center-top .plane-form input{width: 250px !important;height: 48px!important;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding:0 0 0 20px !important;font-size: 20px;border-radius: 40px}
         .air-center .center-top .plane-form ul li .button{width: 113px;height: 40px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;font-size: 16px;border-radius: 40px;margin-right: 20px;margin-bottom: 5px}
         .air-center .center-top .plane-form ul li .button:focus{outline:none}
         .air-center .center-top .plane-form ul li .active{box-shadow: 0 0 8px #fcea00;color: #fff363;}
@@ -41,12 +41,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .plane-list{height: 50px;overflow-y: auto;padding-top: 5px;}
         .map-p{margin: 80px auto 0; font-size: 18px;text-align: center}
 
-        .air-chart{margin: 0 auto;display: block;width: 100%;height: 550px;margin-top: 30px;}
+        .air-chart{margin:30px auto 0;display: block;width: 90%;height: 550px;}
         /*定义航线*/
         .plane-line{font-size: 20px;margin-top: 15px}
         .plane-line .button{height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;text-align: center;vertical-align: top;}
-        .plane-line input,select{width: 210px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;}
+        .plane-line input,select{width: 250px;height: 48px;border: 1px solid #838383;background-color: #0d3154;color: #d9d9d9;padding-left: 20px;font-size: 20px;border-radius: 40px;}
         .plane-line a{display: inline-block}
+        table{border-right:1px solid #000000;border-bottom:1px solid #000000}
+        table td{border-left:1px solid #000000;border-top:1px solid #000000;padding: 5px}
     </style>
 </head>
 <body>
@@ -70,15 +72,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <form class="plane-form">
                 <ul>
                     <li>时间：<input type="text" class="plane-name" name="time" id="startTime" readonly value="<?php echo date('Y-m-d')?>"></li>
-                    <li class="plane-list" id="plane">设备：
-                        <?php if(!empty($planeList) && isset($planeList)) foreach ($planeList as $k => $v){?>
-                            <button class="button" type="button" data-id="<?php echo $v['productId']?>"><?php echo $v['name']?></button>
-                        <?php }?>
+
                     <li class="plane-line" >航线：<select id="line" name="line" class="selectpicker show-tick " >
+                            <?php if(isset($lineList) && !empty($lineList)) foreach ($lineList as $k => $v){?>
+                                <option value="<?php echo $v['id']?>"><?php echo $v['lineName']?></option>
+                            <?php }?>
                         </select>
                         </li>
                     <button class="submit" id="submit" type="button" >搜索</button>
-                    </li>
                 </ul>
             </form>
         </div>
@@ -101,36 +102,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $('#closeBtn').click(function () {
         $('.alertPopBoxBg').hide();
     });
-    //选择
-    $(document).on('click','.plane-form .button',function () {
-        $(this).addClass('active').siblings().removeClass('active');
-    });
-    //选择
-    $('#plane button').click(function () {
-        var url="/index/findLine";
-        var id = $(this).data('id');
-        var urlData={id:id};
-
-        $.ajax({
-            type : "post",
-            url :url,
-            data : urlData,
-            async : false, //重点
-            dataType:'json',
-            success : function(res){
-                console.log(res);
-                if(res.status == 'true'){
-                    $('#line').html('');
-                    for (var i=0;i<=res.data.length;i++){
-                        var html = '<option value="'+res.data[i]['id']+'">'+res.data[i]['lineName']+'</option>';
-                        $('#line').append(html);
-                    }
-                }else{
-                    $('#line').html('');
-                }
-            }
-        })
-    });
 </script>
 <script type="text/javascript">
     //搜索
@@ -139,11 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var startTime=$("#startTime").val();
         var lineId=$('#line').val();
         console.log(lineId);
-        var planeId=$('#plane button.active').data('id');
-        if(!planeId){
-            alert('请选择设备');
-        }
-        var urlData={startTime:startTime,lineId:lineId,planeId:planeId};
+        var urlData={startTime:startTime,lineId:lineId};
 
         $.ajax({
             type : "post",
@@ -154,6 +121,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             success : function(res){
                 console.log(res)
                 if(res.status === "true"){
+                    var result = [];
+                    var nameData = [];
+                    for (var a = 0;a<res.data['air'].length;a++){
+                        nameData.push(res.data['name'][a]+' CO', res.data['name'][a]+' SO2', res.data['name'][a]+' NO2', res.data['name'][a]+' O3', res.data['name'][a]+' PM2.5', res.data['name'][a]+' PM10')
+                        result.push({
+                                name: 'CO',
+                                type: 'bar',
+                                stack:res.data['name'][a],
+                                data: res.data['air'][a].CO,
+                            },
+                            {
+                                name: 'SO2',
+                                type: 'bar',
+                                stack:res.data['name'][a],
+                                data:  res.data['air'][a].SO2,
+
+                            },
+                            {
+                                name: 'NO2',
+                                type: 'bar',
+                                stack:res.data['name'][a],
+                                data:  res.data['air'][a].NO2,
+                            },
+                            {
+                                name: 'O3',
+                                type: 'bar',
+                                stack:res.data['name'][a],
+                                data:  res.data['air'][a].O3,
+                            },{
+                                name: 'PM2.5',
+                                type: 'bar',
+                                stack:res.data['name'][a],
+                                data:  res.data['air'][a]['PM2.5'],
+                            },
+                            {
+                                name: 'PM10',
+                                type: 'bar',
+                                itemStyle: {
+                                    normal: {
+                                        label: {
+                                            formatter: res.data['name'][a],
+                                            show: true,
+                                            position: "top",
+                                            textStyle: {
+                                                fontWeight: "bolder",
+                                                fontSize: "12",
+                                                color: "#fff"
+                                            }
+                                        },
+                                        opacity: 1
+                                    }
+                                },
+                                stack:res.data['name'][a],
+                                data:  res.data['air'][0].PM10,
+                            })
+
+                    }
                     //综合图
                     var myChartWarning = echarts.init(document.getElementById("air"));
                     var optionW = {
@@ -176,13 +200,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     name:"气体数据图",
                                     type:"jpeg",
                                     backgroundColor:"rgba(0,0,0,.5)",
-                                }   //保存为图片
+                                },   //保存为图片
+                                dataView : {                            //数据视图工具，可以展现当前图表所用的数据，编辑后可以动态更新
+                                    width:'80%',
+                                    show: true,                         //是否显示该工具。
+                                    title:"数据视图",
+                                    readOnly: true,                    //是否不可编辑（只读）
+                                    lang: ['数据视图', '关闭', '刷新'],  //数据视图上有三个话术，默认是['数据视图', '关闭', '刷新']
+                                    backgroundColor:"#fff",             //数据视图浮层背景色。
+                                    textColor:"#000",                    //文本颜色。
+                                    buttonColor:"#c23531",              //按钮颜色。
+                                    buttonTextColor:"#fff",             //按钮文本颜色。
+                                    optionToContent: function(opt) {
+                                        // console.log(opt);
+
+                                        var axisData = opt.xAxis[0].data; //坐标数据
+                                        var series = opt.series; //折线图数据
+                                        var tdHeads = '<td  style="padding: 5px 10px;font-weight: bold">时间</td>'; //表头第一列
+                                        var tdBodys = ''; //表数据
+                                        //组装表头
+                                        for (var i = 0; i < nameData.length; i++) {
+                                            tdHeads += '<td style="padding: 5px 10px;font-weight: bold">' + nameData[i] + '</td>';
+                                        }
+                                        var table = '<table id="tableExcel_Day" border="0" cellspacing="0" cellpadding="0" class="table-bordered table-striped" style="width:90%;text-align:center;color: #000000;margin: 0 auto" ><tbody><tr>' + tdHeads + ' </tr>';
+                                        //组装表数据
+                                        for (var i = 0; i< axisData.length; i++) {
+                                            for (var j = 0; j < series.length ; j++) {
+                                                var temp = series[j].data[i];
+                                                if (temp != null && temp != undefined) {
+                                                    tdBodys += '<td>' + temp + '</td>';
+                                                } else {
+                                                    tdBodys += '<td></td>';
+                                                }
+                                            }
+                                            table += '<tr><td style="padding: 5px 10px;font-weight: bold">' + axisData[i] + '</td>' + tdBodys + '</tr>';
+                                            tdBodys = '';
+                                        }
+                                        table += '</tbody></table>';
+                                        return table;
+                                    }
+
+                                }
                             },
                             right:"100px",
+                            top:"30px"
                         },
                         calculable: true,
                         legend: {
-                            data:res.data.airList,
+                            data:['CO', 'SO2', 'NO2', 'O3', 'PM2.5', 'PM10'],
                             textStyle: {
                                 fontSize: 10,
                                 color: '#ffffff'
@@ -192,12 +257,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         dataZoom: {
                             show: true,
                             start:0,
-                            end:20
+                            end:100
                         },
                         xAxis: [
                             {
                                 type: 'category',
-                                data: res.data.recTime,
+                                data: res.data['air'][0].recTime,
                                 axisTick: {
                                     alignWithLabel: true,
                                 },
@@ -229,36 +294,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             }
 
                         ],
-                        series: [
-                            {name: 'CO',
-                                type: 'bar',
-                                data: res.data.CO,
-                            },
-                            {name: 'SO2',
-                                type: 'bar',
-                                data:  res.data.SO2,
-
-                            },
-                            {
-                                name: 'NO2',
-                                type: 'bar',
-                                data:  res.data.NO2,
-                            },
-                            {
-                                name: 'O3',
-                                type: 'bar',
-                                data:  res.data.O3,
-                            },{
-                                name: 'PM2.5',
-                                type: 'bar',
-                                data:  res.data['PM2.5'],
-                            },
-                            {
-                                name: 'PM10',
-                                type: 'bar',
-                                data:  res.data.PM10,
-                            }
-                        ]
+                        series: result
                     };
                     myChartWarning.setOption(optionW);
                     window.onresize = function () {
