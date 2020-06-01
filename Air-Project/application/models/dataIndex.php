@@ -783,14 +783,10 @@ class dataIndex extends CI_Model
      * @param $where
      * @return string
      */
-    public function hisPlane($where,$dataTime,$startTime,$endTime)
+    public function hisPlane($where,$dataTime,$startTime,$endTime,$sTime,$eTime)
     {
-        $start = $dataTime['startTime'];
-        $dayS = $where['sDAY'];
         $id = $where['productID'];
-        $end = $dataTime['endTime'];
-        $dayD = $where['eDAY'];
-        $plane = $this->db->query("select  DATE_FORMAT(recTime, '%H:%i:00' ) as time,lGPS_lat,lGPS_lon,recDAY,recTime from  (select a.* from airdectectpack  as a  where `recTime` >= '$start' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayD' and recTime  <= '$end' AND lGPS_lat != '0.000000' and productID = '$id' group by time")->result_array();
+        $plane = $this->db->query("select DATE_FORMAT(recTime, '%H:%i:00' ) as time,lGPS_lat,lGPS_lon,recDAY,recTime, CONCAT_WS(' ',recDAY,recTime) as `date`   from airdectectpack WHERE CONCAT_WS(' ',recDAY,recTime) >= '$sTime' and CONCAT_WS(' ',recDAY,recTime) <= '$eTime'  AND lGPS_lat != '0.000000' and productID = '$id' group by time")->result_array();
         if ($plane) {
             $line = $this->db->query('select l.id,l.lineID,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l INNER JOIN '.$this->lineCateTable.' as c on l.lineID = c.id where l.startTime = '."'".$startTime."'".' and l.endTime = '."'".$endTime."'".' and l.productID = '."'".$id."'")->row_array();
             $lineList = $this->db->query('select l.id,l.lineName from '.$this->lineCateTable.' as l ')->result_array();
@@ -803,11 +799,9 @@ class dataIndex extends CI_Model
                 $data['line'] = 0;
             }
             foreach ($plane as $k => $v) {
-                if($v['recTime'] >= $dataTime['startTime'] && $v['recTime'] <= $dataTime['endTime']){
-                    $data['point'][$k]['BLng'] = $v['lGPS_lon'];
-                    $data['point'][$k]['BLat'] = $v['lGPS_lat'];
-                    $data['point'][$k]['time'] = $v['recDAY'].' '.$v['recTime'];
-                }
+                $data['point'][$k]['BLng'] = $v['lGPS_lon'];
+                $data['point'][$k]['BLat'] = $v['lGPS_lat'];
+                $data['point'][$k]['time'] = $v['recDAY'].' '.$v['recTime'];
             }
 
             return $data;
@@ -895,15 +889,16 @@ class dataIndex extends CI_Model
             foreach ($productID as $k => $v){
                 $line = $this->db->query('select l.id,c.lineName,l.startTime,l.endTime,l.productID from '.$this->lineTable.' as l INNER join '.$this->lineCateTable.' as c on l.lineID = c.id where l.productID = '.$v["productID"].' and l.lineID = '."'".$lineId."'")->row_array();
                 if ($line) {
-                    $sTime = $line['startTime'];
-                    $eTime = $line['endTime'];
-                    $count = $this->db->query("select COUNT(*) as count from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and uPM10 < 500")->row_array();
+                    $sTime = $dayS.' '.$line['startTime'];
+                    $eTime = $dayE.' '.$line['endTime'];
+
+                    $count = $this->db->query("select COUNT(*) as count from airdectectpack  WHERE  CONCAT_WS(' ',recDAY,recTime) >= '$sTime' and CONCAT_WS(' ',recDAY,recTime) <= '$eTime'  AND lGPS_lat != '0.000000' and uPM10 < 500")->row_array();
                     if($count['count'] > 0 && $count['count'] <= 1800){
-                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT(recDay,'%Y-%m-%d') as day1,DATE_FORMAT(recTime,'%H:%i:00') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000' and  productID = ".$v['productID']." and uPM10 < 500 and uSO2 < 500 GROUP BY day1,time order by time asc ")->result_array();
+                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT(recDay,'%Y-%m-%d') as day1,DATE_FORMAT(recTime,'%H:%i:00') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from  airdectectpack  WHERE CONCAT_WS(' ',recDAY,recTime) >= '$sTime' and CONCAT_WS(' ',recDAY,recTime) <= '$eTime' AND lGPS_lat != '0.000000' and  productID = ".$v['productID']." and uPM10 < 500 and uSO2 < 500 GROUP BY day1,time order by time asc ")->result_array();
                     }else if($count['count'] > 1800 && $count['count'] <= 6000){
-                        $plane[$v['productID']] = $this->db->query("select  DATE_FORMAT(recDay,'%Y-%m-%d') as day1,DATE_FORMAT( concat( date( recTime ), ' ', HOUR ( recTime ), ':', floor( MINUTE ( recTime ) / 5 ) * 5 ),'%H:%i') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000'  and uPM10 < 500  and uSO2 < 500 and  productID = ".$v['productID']."  GROUP BY day1,time order by time asc ")->result_array();
-                    }else if($count['count'] > 6000){
-                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT(recDay,'%Y-%m-%d') as day1,DATE_FORMAT( concat( date( recTime ), ' ', HOUR ( recTime ), ':', floor( MINUTE ( recTime ) / 20 ) * 20 ),'%H:%i') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from (select a.* from airdectectpack  as a  where `recTime` >= '$sTime' and recDAY >= '$dayS' )  as p  WHERE recDAY <= '$dayE' and recTime  <= '$eTime' AND lGPS_lat != '0.000000'  and  productID = ".$v['productID']."   and uPM10 < 500 and uSO2 < 500 GROUP BY day1,time order by time asc ")->result_array();
+                        $plane[$v['productID']] = $this->db->query("select  DATE_FORMAT(recDay,'%Y-%m-%d') as day1,DATE_FORMAT( concat( date( recTime ), ' ', HOUR ( recTime ), ':', floor( MINUTE ( recTime ) / 5 ) * 5 ),'%H:%i') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from airdectectpack  WHERE  CONCAT_WS(' ',recDAY,recTime) >= '$sTime' and CONCAT_WS(' ',recDAY,recTime) <= '$eTime'  AND lGPS_lat != '0.000000'  and uPM10 < 500  and uSO2 < 500 and  productID = ".$v['productID']."  GROUP BY day1,time order by time asc ")->result_array();
+                    }else{
+                        $plane[$v['productID']] = $this->db->query("select DATE_FORMAT(recDay,'%Y-%m-%d') as day1,DATE_FORMAT( concat( date( recTime ), ' ', HOUR ( recTime ), ':', floor( MINUTE ( recTime ) / 20 ) * 20 ),'%H:%i') as time,FLOOR(AVG(uSO2)) as SO2,FLOOR(AVG(uNO2)) as NO2,FLOOR(AVG(uCO)) AS CO,FLOOR(AVG(uO3)) AS O3,FLOOR(AVG(uPM10)) AS PM10,FLOOR(AVG(uPM2_5)) AS `PM2.5`,recTime,recDAY from  airdectectpack   WHERE  CONCAT_WS(' ',recDAY,recTime) >= '$sTime' and CONCAT_WS(' ',recDAY,recTime) <= '$eTime'  AND lGPS_lat != '0.000000'  and  productID = ".$v['productID']."   and uPM10 < 500 and uSO2 < 500 GROUP BY day1,time order by time asc ")->result_array();
                     }
                     foreach ($plane[$v['productID']] as $kk => $vv){
                         $data['air'][$k]['SO2'][] = intval($vv['SO2']);
@@ -912,16 +907,18 @@ class dataIndex extends CI_Model
                         $data['air'][$k]['O3'][] = intval($vv['O3']);
                         $data['air'][$k]['PM10'][] = intval($vv['PM10']);
                         $data['air'][$k]['PM2.5'][] = intval($vv['PM2.5']);
-                        $data['air'][$k]['recTime'][] = $vv['day1'].' '.$vv['time'];
+                        $data['air'][$k]['recTime'][]= $vv['day1'].' '.$vv['time'];
                         $data['air'][$k]['time'][] = $vv['time'];
                     }
                     $data['name'][] = $v['name'];
                 }
             }
+
             $airList = $this->airList();
             foreach ($airList as $ak => $av){
                 $data['airList'][] = $av['field'];
             }
+            $data['air'] = array_values($data['air']);
         }
         return $data;
 

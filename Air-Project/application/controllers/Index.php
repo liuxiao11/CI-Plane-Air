@@ -313,7 +313,9 @@ class Index extends CI_Controller
                     'startTime' =>substr($startTime,11),
                     'endTime' =>substr($endTime,11),
                 );
-                $data = $this->dataIndex->hisPlane($where,$dateTime,$startTime,$endTime);
+                $sTime = $startTime.':00';
+                $eTime = $endTime.':00';
+                $data = $this->dataIndex->hisPlane($where,$dateTime,$startTime,$endTime,$sTime,$eTime);
                 if ($data) {
                     $this->show_message('true', '数据查询成功', $data);
                 } else {
@@ -440,7 +442,9 @@ class Index extends CI_Controller
                     'startTime' =>substr($startTime,11),
                     'endTime' =>substr($endTime,11),
                 );
-                $data = $this->dataIndex->hisPlane($where,$dateTime);
+                $sTime = $startTime.':00';
+                $eTime = $endTime.':00';
+                $data = $this->dataIndex->hisPlane($where,$dateTime,$startTime,$endTime,$sTime,$eTime);
                 if ($data) {
                     $this->show_message('true', '数据查询成功', $data);
                 } else {

@@ -174,6 +174,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     modal.initDate("startTime","endTime");
 </script>
 <script type="text/javascript">
+    function MergeArray(arr1,arr2){
+        var _arr = new Array();
+        for(var i=0;i<arr1.length;i++){
+            _arr.push(arr1[i]);
+        }
+        for(var i=0;i<arr2.length;i++){
+            var flag = true;
+            for(var j=0;j<arr1.length;j++){
+                if(arr2[i]==arr1[j]){
+                    flag=false;
+                    break;
+                }
+            }
+            if(flag){
+                _arr.push(arr2[i]);
+            }
+        }
+        return _arr;
+    }
     //搜索
     $('#submit').click(function () {
         var url="/index/hisAll";
@@ -192,184 +211,190 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 console.log(res)
                 if(res.status === "true"){
                     var result = [];
+                    var recTime = [];
                     var nameData = [];
-                    for (var a = 0;a<res.data['air'].length;a++){
-                        nameData.push(res.data['name'][a]+' CO', res.data['name'][a]+' SO2', res.data['name'][a]+' NO2', res.data['name'][a]+' O3', res.data['name'][a]+' PM2.5', res.data['name'][a]+' PM10')
-                        result.push({
-                            name: 'CO',
-                            type: 'bar',
-                            stack:res.data['name'][a],
-                            data: res.data['air'][a].CO,
-                        },
-                            {
-                                name: 'SO2',
-                                type: 'bar',
-                                stack:res.data['name'][a],
-                                data:  res.data['air'][a].SO2,
-
-                            },
-                            {
-                                name: 'NO2',
-                                type: 'bar',
-                                stack:res.data['name'][a],
-                                data:  res.data['air'][a].NO2,
-                            },
-                            {
-                                name: 'O3',
-                                type: 'bar',
-                                stack:res.data['name'][a],
-                                data:  res.data['air'][a].O3,
-                            },{
-                                name: 'PM2.5',
-                                type: 'bar',
-                                stack:res.data['name'][a],
-                                data:  res.data['air'][a]['PM2.5'],
-                            },
-                            {
-                                name: 'PM10',
-                                type: 'bar',
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                            formatter: res.data['name'][a],
-                                            show: true,
-                                            position: "top",
-                                            textStyle: {
-                                                fontWeight: "bolder",
-                                                fontSize: "12",
-                                                color: "#fff"
-                                            }
-                                        },
-                                        opacity: 1
-                                    }
+                    if(res.data['air']){
+                        for (var a = 0;a<res.data['air'].length;a++){
+                            nameData.push(res.data['name'][a]+' CO', res.data['name'][a]+' SO2', res.data['name'][a]+' NO2', res.data['name'][a]+' O3', res.data['name'][a]+' PM2.5', res.data['name'][a]+' PM10')
+                            result.push({
+                                    name: 'CO',
+                                    type: 'bar',
+                                    stack:res.data['name'][a],
+                                    data: res.data['air'][a].CO,
                                 },
-                                stack:res.data['name'][a],
-                                data:  res.data['air'][0].PM10,
-                            })
+                                {
+                                    name: 'SO2',
+                                    type: 'bar',
+                                    stack:res.data['name'][a],
+                                    data:  res.data['air'][a].SO2,
 
-                    }
-                    //综合图
-                    var myChartWarning = echarts.init(document.getElementById("air"));
-                    var optionW = {
-                        tooltip: {
-                            trigger: 'axis',
-                            axisPointer: {
-                                type: 'cross',
-                                label: {
-                                    backgroundColor: '#283b56'
-                                }
-                            }
-                        },
-                        toolbox: {
-                            show: true,
-                            feature: {
-                                magicType: {
-                                    type: ['line', 'bar']
-                                },  //切换为折线图，切换为柱状图
-                                saveAsImage: {
-                                    name:"气体数据图",
-                                    type:"jpeg",
-                                    backgroundColor:"rgba(0,0,0,.5)",
-                                },   //保存为图片
-                                dataView : {                            //数据视图工具，可以展现当前图表所用的数据，编辑后可以动态更新
-                                    width:'80%',
-                                    show: true,                         //是否显示该工具。
-                                    title:"数据视图",
-                                    readOnly: true,                    //是否不可编辑（只读）
-                                    lang: ['数据视图', '关闭', '刷新'],  //数据视图上有三个话术，默认是['数据视图', '关闭', '刷新']
-                                    backgroundColor:"#fff",             //数据视图浮层背景色。
-                                    textColor:"#000",                    //文本颜色。
-                                    buttonColor:"#c23531",              //按钮颜色。
-                                    buttonTextColor:"#fff",             //按钮文本颜色。
-                                    optionToContent: function(opt) {
-                                        // console.log(opt);
-
-                                        var axisData = opt.xAxis[0].data; //坐标数据
-                                        var series = opt.series; //折线图数据
-                                        var tdHeads = '<td  style="padding: 5px 10px;font-weight: bold">时间</td>'; //表头第一列
-                                        var tdBodys = ''; //表数据
-                                        //组装表头
-                                        for (var i = 0; i < nameData.length; i++) {
-                                            tdHeads += '<td style="padding: 5px 10px;font-weight: bold">' + nameData[i] + '</td>';
-                                        }
-                                        var table = '<table id="tableExcel_Day" border="0" cellspacing="0" cellpadding="0" class="table-bordered table-striped" style="width:90%;text-align:center;color: #000000;margin: 0 auto" ><tbody><tr>' + tdHeads + ' </tr>';
-                                        //组装表数据
-                                        for (var i = 0; i< axisData.length; i++) {
-                                            for (var j = 0; j < series.length ; j++) {
-                                                var temp = series[j].data[i];
-                                                if (temp != null && temp != undefined) {
-                                                    tdBodys += '<td>' + temp + '</td>';
-                                                } else {
-                                                    tdBodys += '<td></td>';
+                                },
+                                {
+                                    name: 'NO2',
+                                    type: 'bar',
+                                    stack:res.data['name'][a],
+                                    data:  res.data['air'][a].NO2,
+                                },
+                                {
+                                    name: 'O3',
+                                    type: 'bar',
+                                    stack:res.data['name'][a],
+                                    data:  res.data['air'][a].O3,
+                                },{
+                                    name: 'PM2.5',
+                                    type: 'bar',
+                                    stack:res.data['name'][a],
+                                    data:  res.data['air'][a]['PM2.5'],
+                                },
+                                {
+                                    name: 'PM10',
+                                    type: 'bar',
+                                    itemStyle: {
+                                        normal: {
+                                            label: {
+                                                formatter: res.data['name'][a],
+                                                show: true,
+                                                position: "top",
+                                                textStyle: {
+                                                    fontWeight: "bolder",
+                                                    fontSize: "12",
+                                                    color: "#fff"
                                                 }
-                                            }
-                                            table += '<tr><td style="padding: 5px 10px;font-weight: bold">' + axisData[i] + '</td>' + tdBodys + '</tr>';
-                                            tdBodys = '';
+                                            },
+                                            opacity: 1
                                         }
-                                        table += '</tbody></table>';
-                                        return table;
-                                    }
+                                    },
+                                    stack:res.data['name'][a],
+                                    data:  res.data['air'][a].PM10,
+                                });
 
+                        }
+
+                        //综合图
+                        var myChartWarning = echarts.init(document.getElementById("air"));
+                        var optionW = {
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross',
+                                    label: {
+                                        backgroundColor: '#283b56'
+                                    }
                                 }
                             },
-                            right:"100px",
-                            top:"10px"
-                        },
-                        calculable: true,
-                        legend: {
-                            data:['CO', 'SO2', 'NO2', 'O3', 'PM2.5', 'PM10'],
-                            textStyle: {
-                                fontSize: 10,
-                                color: '#ffffff'
+                            toolbox: {
+                                show: true,
+                                feature: {
+                                    magicType: {
+                                        type: ['line', 'bar']
+                                    },  //切换为折线图，切换为柱状图
+                                    saveAsImage: {
+                                        name:"气体数据图",
+                                        type:"jpeg",
+                                        backgroundColor:"rgba(0,0,0,.5)",
+                                    },   //保存为图片
+                                    dataView : {                            //数据视图工具，可以展现当前图表所用的数据，编辑后可以动态更新
+                                        width:'80%',
+                                        show: true,                         //是否显示该工具。
+                                        title:"数据视图",
+                                        readOnly: true,                    //是否不可编辑（只读）
+                                        lang: ['数据视图', '关闭', '刷新'],  //数据视图上有三个话术，默认是['数据视图', '关闭', '刷新']
+                                        backgroundColor:"#fff",             //数据视图浮层背景色。
+                                        textColor:"#000",                    //文本颜色。
+                                        buttonColor:"#c23531",              //按钮颜色。
+                                        buttonTextColor:"#fff",             //按钮文本颜色。
+                                        optionToContent: function(opt) {
+                                            // console.log(opt);
+
+                                            var axisData = opt.xAxis[0].data; //坐标数据
+                                            var series = opt.series; //折线图数据
+                                            var tdHeads = '<td  style="padding: 5px 10px;font-weight: bold">时间</td>'; //表头第一列
+                                            var tdBodys = ''; //表数据
+                                            //组装表头
+                                            for (var i = 0; i < nameData.length; i++) {
+                                                tdHeads += '<td style="padding: 5px 10px;font-weight: bold">' + nameData[i] + '</td>';
+                                            }
+                                            var table = '<table id="tableExcel_Day" border="0" cellspacing="0" cellpadding="0" class="table-bordered table-striped" style="width:90%;text-align:center;color: #000000;margin: 0 auto" ><tbody><tr>' + tdHeads + ' </tr>';
+                                            //组装表数据
+                                            for (var i = 0; i< axisData.length; i++) {
+                                                for (var j = 0; j < series.length ; j++) {
+                                                    var temp = series[j].data[i];
+                                                    if (temp != null && temp != undefined) {
+                                                        tdBodys += '<td>' + temp + '</td>';
+                                                    } else {
+                                                        tdBodys += '<td></td>';
+                                                    }
+                                                }
+                                                table += '<tr><td style="padding: 5px 10px;font-weight: bold">' + axisData[i] + '</td>' + tdBodys + '</tr>';
+                                                tdBodys = '';
+                                            }
+                                            table += '</tbody></table>';
+                                            return table;
+                                        }
+
+                                    }
+                                },
+                                right:"100px",
+                                top:"10px"
                             },
-                        },
-
-                        dataZoom: {
-                            show: true,
-                            start:0,
-                            end:100
-                        },
-                        xAxis: [
-                            {
-                                type: 'category',
-                                data: res.data['air'][0].recTime,
-                                axisTick: {
-                                    alignWithLabel: true,
+                            calculable: true,
+                            legend: {
+                                data:['CO', 'SO2', 'NO2', 'O3', 'PM2.5', 'PM10'],
+                                textStyle: {
+                                    fontSize: 10,
+                                    color: '#ffffff'
                                 },
-                                axisLine: {
-                                    lineStyle: {
-                                        color:'#eee',
-                                        width: 1,
+                            },
+
+                            dataZoom: {
+                                show: true,
+                                start:0,
+                                end:100
+                            },
+                            xAxis: [
+                                {
+                                    type: 'category',
+                                    data: res.data['air'][0].recTime,
+                                    axisTick: {
+                                        alignWithLabel: true,
+                                    },
+                                    axisLine: {
+                                        lineStyle: {
+                                            color:'#eee',
+                                            width: 1,
+                                        }
                                     }
                                 }
-                            }
-                        ],
-                        yAxis: [
-                            {
-                                type: 'value',
-                                axisLine:{
-                                    lineStyle:{
-                                        width:1,
-                                        color:'#eee',//y轴的轴线的宽度和颜色
-                                    }
-                                },
-                                splitLine: {
-                                    show: true,
-                                    lineStyle: {
-                                        color: ['#231e40'],
-                                        width: 1,
-                                        type: 'solid'
+                            ],
+                            yAxis: [
+                                {
+                                    type: 'value',
+                                    axisLine:{
+                                        lineStyle:{
+                                            width:1,
+                                            color:'#eee',//y轴的轴线的宽度和颜色
+                                        }
+                                    },
+                                    splitLine: {
+                                        show: true,
+                                        lineStyle: {
+                                            color: ['#231e40'],
+                                            width: 1,
+                                            type: 'solid'
+                                        }
                                     }
                                 }
-                            }
 
-                        ],
-                        series: result
-                    };
-                    myChartWarning.setOption(optionW);
-                    window.onresize = function () {
-                        myChartWarning.resize();
-                    };
+                            ],
+                            series: result
+                        };
+                        myChartWarning.setOption(optionW);
+                        window.onresize = function () {
+                            myChartWarning.resize();
+                        };
+                    }
+
+
                 }else{
                     $('#mapPlaneBox').html("<div id='allmap' class='plane-map'><p class='map-p'>没有相关数据...</p></div>");
                 }
