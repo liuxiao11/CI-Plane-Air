@@ -1579,7 +1579,7 @@ function dataMap() {
             if (point != undefined && point.length > 0) {
                 // 百度地图API功能
                 var map = new BMap.Map("allmap");// 创建Map实例
-                map.centerAndZoom(new BMap.Point('西安市'), 18);// 初始化地图,设置中心点坐标和地图级别
+                map.centerAndZoom(new BMap.Point('西安市'), 19);// 初始化地图,设置中心点坐标和地图级别
                 map.enableScrollWheelZoom(true);//开启鼠标滚轮缩放
                 var mapStyle ={
                     features: ["road","building","water","land"],//隐藏地图上的"poi",
@@ -1719,7 +1719,7 @@ function dataMap() {
                         if(typeof t != "undefined"){
                             clearTimeout(t);
                         }
-                        window.location.reload()
+                        dataMap();
                     };
 
                     function getFormatDate() {
