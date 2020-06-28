@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>空气质量监控平台-数据设置（航线）</title>
+    <title>大气环境综合监测平台-数据设置（航线）</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="<?php echo STATIC_CSS?>dataIndex/bootstrap.min.css" rel="stylesheet" type="text/css" >
@@ -18,7 +18,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="<?php echo STATIC_CSS?>dataIndex/common.css" rel="stylesheet" type="text/css" >
 <!--    <script type="text/javascript" src="--><?php //echo STATIC_JS?><!--dataIndex/px2rem.js"></script>-->
     <style>
-        .air-top{position:absolute;width:100%;height:93px;background:url(<?php echo STATIC_IMG?>dataIndex/top.png) left top no-repeat;background-size: 100% 100%;font-size: 37px;line-height: 93px;text-align: center}
+        .top{position:absolute;width:100%;height:93px;font-size: 37px;line-height: 93px;text-align: center;letter-spacing: 10px}
+        .air-top{position:absolute;width:100%;height:93px;background:url(<?php echo STATIC_IMG?>dataIndex/top22.png) left top no-repeat;background-size: 100% 100%;}
         .air-left{display: inline-block;width:384px;position: absolute;left: 30px;top: 64px;}
         .air-left .back{padding-left: 60px;line-height: 40px;background:url(<?php echo STATIC_IMG?>dataIndex/back.png) left top no-repeat;background-size: 40px 40px;font-size: 30px;color: #29c4fd}
         .air-left ul li:nth-child(1){margin-top: 60px}
@@ -50,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <div id="container">
-    <div class="air-top">空气质量监控平台-数据设置</div>
+        <div class="top"><div class="air-top" id="upload-img"></div>大气环境综合监测平台</div>
     <div class="air-left">
         <a href="<?php echo base_url()?>index/indexPage" class="back">返回首页</a>
         <ul>

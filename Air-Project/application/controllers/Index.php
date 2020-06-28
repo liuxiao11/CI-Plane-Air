@@ -526,4 +526,12 @@ class Index extends CI_Controller
         $json = json_encode($res, JSON_UNESCAPED_UNICODE);
         exit($json);
     }
+    /*相关数据链接*/
+    public function xgData(){
+        $this->load->view('history-xgData');
+    }
+    /*历史视频查看*/
+    public function video(){
+        $this->load->view('history-video');
+    }
 }

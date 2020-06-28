@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta http-equiv="Content-Type" content="te xt/html; charset=UTF-8"/>
-    <title>空气质量监控平台-首页</title>
+    <title>大气环境综合监测平台-首页</title>
     <link rel="icon" href="<?php echo STATIC_IMG?>/favicon.ico"/>
     <link href="<?php echo STATIC_CSS?>dataIndex/easyui.css" rel="stylesheet" type="text/css" >
     <link href="<?php echo STATIC_CSS?>dataIndex/globle.css" rel="stylesheet" type="text/css" >
@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <div id="container">
-    <div class="top"><div class="air-top" id="upload-img"></div>空气质量监控平台</div>
+    <div class="top"><div class="air-top" id="upload-img"></div>大气环境综合监测平台</div>
     <div class="air-left">
         <div class="air-date">
             <i class="air-icon"></i>

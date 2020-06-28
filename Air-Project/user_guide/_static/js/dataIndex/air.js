@@ -1475,7 +1475,7 @@ $('#plane-data ul li').on('click',function () {
 });
 //首页饼图、aqi指数10秒刷新一次
 dataIndex();
-// var IndexData = setInterval(dataIndex, 10000);
+var IndexData = setInterval(dataIndex, 10000);
 function dataIndex() {
     $.post('/index/indexPage', function (data) {
         if (data.status == 'true') {
